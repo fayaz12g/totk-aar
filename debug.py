@@ -6,6 +6,10 @@ import ctypes
 from pathlib import Path
 import subprocess
 import tkinter as tk
+import ratiotohex
+import extract
+import decompress
+import patch
 from tkinter import filedialog
 from tkinter import Tk, Button, Label, OptionMenu, StringVar, Entry, Frame
 

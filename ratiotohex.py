@@ -17,12 +17,12 @@ def install_keystone_engine():
 
 def convert_asm_to_arm64_hex(asm_code):
     try:
-        import keystone
+        from dependencies.keystone import keystone
     except ImportError:
         print("Keystone Engine not found. Installing...")
         install_keystone_engine()
         try:
-            import keystone
+            import keystone_engine
         except ImportError:
             print("Failed to install Keystone Engine. Please install it manually.")
             sys.exit(1)
