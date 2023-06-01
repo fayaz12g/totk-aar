@@ -4,7 +4,7 @@ import subprocess
 
 def install_zstandard():
     try:
-        import zstandard
+        from dependencies import zstandard
     except ImportError:
         print("Installing zstandard library...")
         try:

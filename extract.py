@@ -1,8 +1,8 @@
 import os
 import sys
 import time
-import SarcLib
-import libyaz0
+from dependencies import SarcLib
+from dependencies import libyaz0
 
 def extract(file, output_folder):
     """
