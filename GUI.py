@@ -103,9 +103,12 @@ def create_patch():
         blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
         blarc_script_path = os.path.join(script_dir, "extract.py")
         subprocess.run(["python", blarc_script_path, blarc_file_path, output_folder])
-        scaling_factor = str(scaling_factor)  # Convert scaling_factor to string
         centered_HUD = str(centered_HUD)      # Convert centered_HUD to string
-        fruithapje21_script_path = os.path.join(script_dir, "script.py")
+        if scaling_factor < 1:
+            fruithapje21_script_path = os.path.join(script_dir, "scriptdeck.py")
+        else:
+            fruithapje21_script_path = os.path.join(script_dir, "script.py")
+        scaling_factor = str(scaling_factor)  # Convert scaling_factor to string
         blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
         subprocess.run(["python", fruithapje21_script_path, scaling_factor, centered_HUD, blyt_folder])
         repack_script_path = os.path.join(script_dir, "repack.py")

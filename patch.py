@@ -23,13 +23,13 @@ def create_patch_files(patch_folder, ratio_value):
             inventory_value = "019C2260"
         elif version_variable == "1.1.1":
             replacement_value = "00CE3410"
-            inventory_value = "019C2260"
+            inventory_value = "019C013C"
         elif version_variable == "1.1.2":
             replacement_value = "00CCB094"
-            inventory_value = "019C2260"
+            inventory_value = "019B5480"
         else:
             replacement_value = "00CCB094"  # Default value if version_variable is not recognized
-            inventory_value = "019C2260"
+            inventory_value = "019B5480"
 
         # Calculate the rounded ratio
         rounded_ratio = ratiotohex.calculate_rounded_ratio(ratio_value)
