@@ -201,7 +201,7 @@ root = Tk()
 root.geometry("500x350")
 root.title("Any Aspect Ratio for Tears of the Kingdom")
 
-ratio_label = Label(root, text="Enter Aspect Ratio:")
+ratio_label = Label(root, text="Enter Aspect Ratio (ex: 21:9 or 3440:1440)")
 ratio_label.pack()
 
 frame = Frame(root)

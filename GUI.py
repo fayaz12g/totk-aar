@@ -52,31 +52,6 @@ def create_ratio():
 
     return str(ratio)
 
-def float_to_hex(f):
-    """
-    Converts float values into hex, strips the 0x prefix and prepends zeroes to
-    always have length 8
-    """
-    return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0')
-
-
-def select_blyt_folder():
-    global blyt_folder
-    blyt_folder = askdirectory()
-    if blyt_folder:
-        status_label.config(text=f"BLYT folder selected: {blyt_folder}")
-    else:
-        status_label.config(text="No BLYT folder selected.")
-
-
-def select_blarc_file():
-    global blarc_file_path
-    blarc_file_path = filedialog.askopenfilename(filetypes=[("BLARC Files", "*.blarc")])
-
-
-def select_zs_file():
-    global zs_file_path
-    zs_file_path = filedialog.askopenfilename(filetypes=[("ZSTD Files", "*.zs")])
 
 
 def select_output_folder():
@@ -90,101 +65,6 @@ def select_output_folder():
             Path(patch_folder).mkdir(parents=True, exist_ok=True)  # Create the exefs folder
         except Exception as e:
             return
-
-def generate_mod():
-    if not output_folder:
-        return
-
-    if blarc_file_path:
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        extract_script_path = os.path.join(script_dir, "extract.py")
-
-        try:
-            subprocess.run(["python", extract_script_path, blarc_file_path, output_folder], check=True)
-            print("Extraction completed successfully.")
-        except subprocess.CalledProcessError as e:
-            print("Extraction failed:", e)
-    else:
-        print("No BLARC file selected.")
-
-    scaling_factor = calculate_ratio()  # Get the scaling factor from calculate_ratio()
-
-    if not blyt_folder:
-        return
-
-    ratio = calculate_ratio()
-
-    if not os.path.isdir(blyt_folder):
-        return
-
-    destination_blyt_folder = os.path.join(output_folder, "blyt")
-    os.makedirs(destination_blyt_folder, exist_ok=True)
-
-    for root, _, files in os.walk(blyt_folder):
-        for file in files:
-            source_path = os.path.join(root, file)
-            destination_path = os.path.join(destination_blyt_folder, file)
-            copy2(source_path, destination_path)
-
-    
-
-
-def convert_mod():
-    scaling_factor = calculate_ratio()
-
-    # Make sure scaling_factor is a float
-    if not isinstance(scaling_factor, float):
-        scaling_factor = float(scaling_factor)
-
-    x = float_to_hex(scaling_factor)
-
-    if not blyt_folder:
-        return
-
-    if not numerator_entry:
-        return
-
-    if not denominator_entry:
-        return
-
-    if not output_folder:
-        return
-
-    # Use the scaling_factor variable here
-    ratio = calculate_ratio()
-    scaling_factor = calculate_ratio()
-    x = float_to_hex(scaling_factor)
-
-    if not os.path.isdir(blyt_folder):
-        return
-
-    destination_blyt_folder = os.path.join(output_folder, "blyt")
-    os.makedirs(destination_blyt_folder, exist_ok=True)
-
-    file_names = os.listdir(blyt_folder)
-    file_names = [name for name in file_names if name.startswith('blyt')]
-    file_names = [name[4:] for name in file_names]  # Remove the "blyt" prefix
-
-    for name in file_names:
-        source_path = os.path.join(blyt_folder, f'blyt{name}')
-        destination_path = os.path.join(destination_blyt_folder, name)
-        copy2(source_path, destination_path)
-
-    # Get the full path to script.py
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    script_path = os.path.join(script_dir, "script.py")
-
-    # Pass the ratio value to script.py using subprocess
-    subprocess.run(["python", script_path, str(ratio), destination_blyt_folder])
-
-
-def decompress_zstd():
-    if zs_file_path:
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        decompress_script_path = os.path.join(script_dir, "decompress.py")
-        subprocess.run(["python", decompress_script_path, zs_file_path])
-    else:
-        print("No .zs file selected.")
 
 def create_patch():
     if not output_folder:
