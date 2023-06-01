@@ -17,7 +17,7 @@ def install_keystone_engine():
 
 def convert_asm_to_arm64_hex(asm_code):
     try:
-        from dependencies.keystone import keystone
+        import keystone
     except ImportError:
         print("Keystone Engine not found. Installing...")
         install_keystone_engine()
