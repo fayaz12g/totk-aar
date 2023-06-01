@@ -6,7 +6,7 @@ output_folder = None  # Declare the output_folder as a global variable
 
 def install_zstandard():
     try:
-        from dependencies import zstandard
+        import zstandard
     except ImportError:
         print("Installing zstandard library...")
         try:
