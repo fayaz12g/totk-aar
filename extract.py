@@ -24,7 +24,7 @@ def extract(file, output_folder):
         arc = SarcLib.SARC_Archive()
         arc.load(inb)
 
-        root = os.path.join(output_folder, name)  # Update the construction of the output path
+        root = os.path.join(output_folder, "AAR MOD", "temp", name)  # Update the construction of the output path
         if not os.path.isdir(root):
             os.mkdir(root)
 
@@ -57,8 +57,6 @@ def extract(file, output_folder):
             with open(os.path.join(root, file), "wb") as out:
                 out.write(fileData)
 
-
-
 def main(blarc_file_path, output_folder):
     if not os.path.isfile(blarc_file_path):
         print("Invalid BLARC file path.")
@@ -68,8 +66,8 @@ def main(blarc_file_path, output_folder):
         print("Invalid output folder path.")
         sys.exit(1)
 
-    extract(blarc_file_path, output_folder)
-
+    extracted_file_path = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc")
+    extract(extracted_file_path, output_folder)
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:

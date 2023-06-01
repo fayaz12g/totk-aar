@@ -1,11 +1,15 @@
 import os
 import struct
+import sys
+import ast
+import subprocess
 
-ratio = 3440/1440
-centered_HUD = True
-
-scaling_factor = (16/9) / ratio
+scaling_factor = float(sys.argv[1])
+centered_HUD = ast.literal_eval(sys.argv[2])
+blyt_folder = str(sys.argv[3])
 shift_factor = (1 - scaling_factor) / scaling_factor
+print("Centered HUD value is set to ", centered_HUD)
+print("The scaling factor is ", scaling_factor)
 
 def float_to_hex(f):
     """
@@ -14,25 +18,36 @@ def float_to_hex(f):
     """
     return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0')
 
-
-blyt_folder = 
 file_names = os.listdir(blyt_folder)
 file_names.remove('AppMenuBG_00.bflyt')
+print("Removing AppMenuBG_00.bflyt")
 file_names.remove('AppMenuOverlay_00.bflyt')
+print("Removing AppMenuOverlay_00.bflyt")
 file_names.remove('PauseMenuBG_00.bflyt')
+print("Removing PauseMenuBG_00.bflyt")
 file_names.remove('ShopMenuParasailBG_00.bflyt')
+print("Removing ShopMenuParasailBG_00.bflyt")
 file_names.remove('ShortCutBG_00.bflyt')
+print("Removing ShortCutBG_00.bflyt")
 file_names.remove('TitleMenuBG_00.bflyt')
+print("Removing TitleMenuBG_00.bflyt")
 file_names.remove('PaMap_00.bflyt')
+print("Removing PaMap_00.bflyt")
 file_names.remove('EventFade_00.bflyt')
+print("Removing EventFade_00.bflyt")
 file_names.remove('EventFadeWipe_00.bflyt')
+print("Removing EventFadeWipe_00.bflyt")
 file_names.remove('AttentionLockOn_00.bflyt')
+print("Removing AttentionLockOn_00.bflyt")
 file_names.remove('EnemyInfo_00.bflyt')
+print("Removing EnemyInfo_00.bflyt")
 file_names.remove('BalloonMessage_00.bflyt')
+print("Removing BalloonMessage_00.bflyt")
 file_names.remove('AttentionBalloon_00.bflyt')
+print("Removing AttentionBalloon_00.bflyt")
 
 for name in file_names:
-    file_loc = blyt_folder + name
+    file_loc = blyt_folder + "\\" + name
     
     with open(file_loc, 'rb') as f:
         content = f.read().hex()
@@ -42,18 +57,21 @@ for name in file_names:
     source_str = '526F6F7450616E650000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
     replace_str = '526F6F7450616E65000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
     content = content.replace(source_str.lower(), replace_str.lower())
+    print("Modifying more files")
     
     # Scale BG_00 by inverse scaling_factor
     x = float_to_hex(1/scaling_factor)
     source_str = '42475F3030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
     replace_str = '42475F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
     content = content.replace(source_str.lower(), replace_str.lower()) 
+    print("Modifying more files")
     
     # Scale BG_00 by inverse scaling_factor
     x = float_to_hex(1/scaling_factor)
     source_str = '42475F3030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
     replace_str = '42475F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
     content = content.replace(source_str.lower(), replace_str.lower())
+    print("Modifying even more files")
     
     
     if  name == 'LoadingFade_00.bflyt':
@@ -62,24 +80,28 @@ for name in file_names:
         source_str = '4E5F426173655F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
         replace_str = '4E5F426173655F30300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
         # Shift N_Logo
         x = float_to_hex(610 * shift_factor)
         source_str = '4E5F4C6F676F5F3030000000000000000000000000000000000000000000000000000000'
         replace_str = '4E5F4C6F676F5F30300000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
         # Shift N_Tips
         x = float_to_hex(-879 * shift_factor)
         source_str = '4E5F546970735F3030000000000000000000000000000000000000000000000000000000'
         replace_str = '4E5F546970735F30300000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
         # Shift N_Status
         x = float_to_hex(897 * shift_factor)
         source_str = '4E5F5374617475735F303000000000000000000000000000000000000000000000000000'
         replace_str = '4E5F5374617475735F3030000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
 
     if name == 'PauseMenuOverlay_00.bflyt':
@@ -88,12 +110,14 @@ for name in file_names:
         source_str = '505F466F6F746572426173655F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
         replace_str = '505F466F6F746572426173655F30300000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
         # Scale S_DecoScissor
         x = float_to_hex(1/scaling_factor)
         source_str = '535F4465636F53636973736F725F303000000000000000000000000000000000000000000000F841000000000000000000000000000000000000803F'
         replace_str = '535F4465636F53636973736F725F303000000000000000000000000000000000000000000000F84100000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
        
         
     if name == 'CameraPointer_00.bflyt':
@@ -102,12 +126,14 @@ for name in file_names:
         source_str = '4E5F496E4F757453636F70655F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
         replace_str = '4E5F496E4F757453636F70655F30300000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
         # Scale W_shadow_01
         x = float_to_hex(1/scaling_factor)
         source_str = '575F536861646F775F30310000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
         replace_str = '575F536861646F775F3031000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
         
     if name == 'AppMap_00.bflyt':
@@ -116,24 +142,29 @@ for name in file_names:
         source_str = '4E5F426C7572496E4F75745F30300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
         replace_str = '4E5F426C7572496E4F75745F3030000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
         # Scale N_BlurInOut_01
         x = float_to_hex(1/scaling_factor)
         source_str = '4E5F426C7572496E4F75745F30310000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
         replace_str = '4E5F426C7572496E4F75745F3031000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
         # Scale N_BlurInOut_02
         x = float_to_hex(1/scaling_factor)
         source_str = '4E5F426C7572496E4F75745F30320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
         replace_str = '4E5F426C7572496E4F75745F3032000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
+
         # Scale N_BlurInOut_03
         x = float_to_hex(1/scaling_factor)
         source_str = '4E5F426C7572496E4F75745F30330000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
         replace_str = '4E5F426C7572496E4F75745F3033000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
         content = content.replace(source_str.lower(), replace_str.lower())
+        print("Modifying ", name)
         
  
     if not centered_HUD:
@@ -144,6 +175,7 @@ for name in file_names:
             source_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000'
             replace_str = '526F6F7450616E65000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
+            print("Modifying ", name)
             
             
         if name == 'PlayerStatus_00.bflyt':
@@ -152,6 +184,7 @@ for name in file_names:
             source_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000'
             replace_str = '526F6F7450616E65000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
+            print("Modifying ", name)
                 
             
         if name == 'PlayerStatus3D_00.bflyt':
@@ -160,6 +193,7 @@ for name in file_names:
             source_str = '45787472615374616D696E615461726765745F303100000000000000000000403AC4'
             replace_str = '45787472615374616D696E615461726765745F3031000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
+            print("Modifying ", name)
                 
     
         if name == 'AppMap_00.bflyt':
@@ -169,12 +203,14 @@ for name in file_names:
             source_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000'
             replace_str = '526F6F7450616E65000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
+            print("Modifying ", name)
             
             # Shift N_MiniMap
             x = float_to_hex(-600 * shift_factor * scaling_factor / 0.74) 
             source_str = '4E5F4D696E694D61705F3030000000000000000000000000000000000000000000000000'
             replace_str = '4E5F4D696E694D61705F30300000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
+            print("Modifying ", name)
             
     
     with open(file_loc, 'wb') as f:
