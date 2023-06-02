@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+import requests
 
 def install_required_packages():
     required_packages = ["requests", "zipfile"]
