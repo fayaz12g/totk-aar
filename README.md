@@ -28,5 +28,8 @@ Stretch Goals
 - DualShock Controller Option
 - Stadia Controller Option
 - python 3.11 is required but if I call the functions using subprocesses i could avoid this 
+- include a feature to specify a FOV
+- include a "launch game" button
+- include checkbox for yuzu or ryujinx to output straight to mods folder (wont work if your yuzu/ryu directory is not in the default location)
 
 I was asked if I had a ko-fi so I made one. Don't feel like you need to donate, I made the utility just to help the community: https://ko-fi.com/fayaz12
