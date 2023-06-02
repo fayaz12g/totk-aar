@@ -1,6 +1,8 @@
 # totk-aar
 Any Aspect Ratio for Tears of the Kingdom! With HUD fix
 
+download link: https://github.com/fayaz12g/totk-aar/releases/download/3.0.0/AAR.3.0.0.zip
+
 This utility lets you select the following:
 
 Aspect Ratio (type in ANY two numbers, like the resolution of your display)
