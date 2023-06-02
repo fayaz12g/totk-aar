@@ -18,15 +18,19 @@ def create_patch_files(patch_folder, ratio_value):
         if version_variable == "1.0.0":
             replacement_value = "00C7D8F4"
             inventory_value = "019C2260"
+            nsobidid = "082CE09B06E33A123CB1E2770F5F9147709033DB"
         elif version_variable == "1.1.0":
             replacement_value = "00CDB304"
             inventory_value = "019C2260"
+            nsobidid = "D5AD6AC71EF53E3E52417C1B81DBC9B4142AA3B3"
         elif version_variable == "1.1.1":
             replacement_value = "00CE3410"
             inventory_value = "019C013C"
+            nsobidid = "168DD518D925C7A327677286E72FEDA833314919"
         elif version_variable == "1.1.2":
             replacement_value = "00CCB094"
             inventory_value = "019B5480"
+            nsobidid = "9A10ED9435C06733DA597D8094D9000AB5D3EE60"
         else:
             replacement_value = "00CCB094"  # Default value if version_variable is not recognized
             inventory_value = "019B5480"

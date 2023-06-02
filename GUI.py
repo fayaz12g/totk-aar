@@ -100,6 +100,8 @@ def create_patch():
     button_layout = button_layout_var.get()
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    if button_layout == "Elden Ring":
+        button_layout = "Elden"
     if controller_type == "Switch":
         controller_id = "Switch"
     else:
