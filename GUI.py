@@ -82,11 +82,9 @@ def select_output_folder():
             os.makedirs(output_folder, exist_ok=True)
             Path(patch_folder).mkdir(parents=True, exist_ok=True)  # Create the exefs folder
         except Exception as e:
-            status_label.config(text=f"Error: {str(e)}")
             return
-        status_label.config(text=f"Output folder selected: {output_folder}")
     else:
-        status_label.config(text="No output folder selected.")
+        return
 
 def create_patch():
     global output_folder
