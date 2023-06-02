@@ -100,7 +100,10 @@ def create_patch():
     button_layout = button_layout_var.get()
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    controller_id = f"{controller_type}-{button_color}-{button_layout}"
+    if controller_type == "Switch":
+        controller_id = "Switch"
+    else:
+        controller_id = f"{controller_type}-{button_color}-{button_layout}"
     download_script_path = os.path.join(script_dir, "download.py")
     subprocess.run(["python", download_script_path, controller_id, output_folder])
 
@@ -180,7 +183,7 @@ button_layout_var = StringVar()
 controller_type_label = Label(root, text="Controller Type:")
 controller_type_label.pack()
 
-controller_type_dropdown = OptionMenu(root, controller_type_var, "Xbox", "Playstation")
+controller_type_dropdown = OptionMenu(root, controller_type_var, "Xbox", "Playstation", "Switch")
 controller_type_dropdown.pack()
 
 button_color_label = Label(root, text="Button Color:")
