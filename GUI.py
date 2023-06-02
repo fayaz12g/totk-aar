@@ -10,9 +10,15 @@ import ratiotohex
 import extract
 import decompress
 import patch
+from tkinter import scrolledtext
 import shutil
 from tkinter import filedialog
 from tkinter import Tk, Button, Label, OptionMenu, StringVar, Entry, Frame, Checkbutton
+import ratiotohex
+import extract
+import decompress
+import patch
+from threading import Thread
 
 from tkinter.filedialog import askdirectory
 from shutil import copy2
@@ -25,6 +31,14 @@ blyt_folder = None  # Declare the blyt_folder as a global variable
 blarc_file_path = None  # Declare the blarc_file_path as a global variable
 zs_file_path = None  # Declare the zs_file_path as a global variable
 scaling_factor = 0.0
+
+class PrintRedirector:
+    def __init__(self, text_widget):
+        self.text_widget = text_widget
+
+    def write(self, text):
+        self.text_widget.insert("end", text)
+        self.text_widget.see("end")  # Auto-scroll to the bottom
 
 def calculate_ratio():
     numerator_entry_value = numerator_entry.get()
@@ -87,6 +101,12 @@ def select_output_folder():
         return
 
 def create_patch():
+    t = Thread(target=create_full)
+    t.start()
+
+def create_full():
+    sys.stdout = PrintRedirector(scrolled_text)
+    print("Downloading zip file.")
     global output_folder
     global zs_file_path
     global centered_HUD
@@ -108,6 +128,8 @@ def create_patch():
         controller_id = f"{controller_type}-{button_color}-{button_layout}"
     download_script_path = os.path.join(script_dir, "download.py")
     subprocess.run(["python", download_script_path, controller_id, output_folder])
+    print("Controller type is", controller_id)
+    print("Extracting zip, please wait up to 10 seconds.")
 
     patch_script_path = os.path.join(os.path.dirname(__file__), "patch.py")
     ratio_value = create_ratio()
@@ -117,6 +139,7 @@ def create_patch():
     run(patch_args, cwd=os.path.dirname(patch_script_path))
     global zs_file_path
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
+    print("Extracting ZS.")
 
     if zs_file_path:
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -124,6 +147,7 @@ def create_patch():
         subprocess.run(["python", decompress_script_path, zs_file_path, output_folder])
         blarc_script_dir = os.path.dirname(os.path.abspath(__file__))
         temp_folder = os.path.join(output_folder, "AAR MOD", "temp")
+        print("Extracting BLARC.")
         blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
         blarc_script_path = os.path.join(script_dir, "extract.py")
         subprocess.run(["python", blarc_script_path, blarc_file_path, output_folder])
@@ -133,12 +157,13 @@ def create_patch():
         else:
             fruithapje21_script_path = os.path.join(script_dir, "script.py")
         scaling_factor = str(scaling_factor)  # Convert scaling_factor to string
+        print("Patching BLYT.")
         blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
         subprocess.run(["python", fruithapje21_script_path, scaling_factor, centered_HUD, blyt_folder])
         repack_script_path = os.path.join(script_dir, "repack.py")
         os.remove(blarc_file_path)
         print("Deleted old blarc file.")
-        print("Repacking new blarc file.")
+        print("Repacking new blarc file. This step may take about 10 seconds")
         subprocess.run(["python", repack_script_path, blarc_folder, blarc_file_path])
         print("Repacked new blarc file.")
         print("Repacking new zs file.")
@@ -159,10 +184,8 @@ def create_patch():
     else:
         print("No .zs file selected.")
 
-
-
 root = Tk()
-root.geometry("500x400")
+root.geometry("500x600")
 root.title("Any Aspect Ratio for Tears of the Kingdom")
 
 ratio_label = Label(root, text="Enter Aspect Ratio or Screen Dimensions (ex: 21:9 or 3440x1440)")
@@ -221,5 +244,10 @@ output_folder_button.pack()
 
 create_patch_button = Button(root, text="Create Patch", command=create_patch)
 create_patch_button.pack()
+
+scrolled_text = scrolledtext.ScrolledText(root, width=60, height=20)
+scrolled_text.pack()
+
+sys.stdout = PrintRedirector(scrolled_text)
 
 root.mainloop()
