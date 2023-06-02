@@ -44,7 +44,7 @@ def create_patch_files(patch_folder, ratio_value):
         print(hex_value)
 
         # Create the contents of the patch file with the replacement value and hex code
-        patch_content = f'''@nsobid-9A10ED9435C06733DA597D8094D9000AB5D3EE60
+        patch_content = f'''@nsobid-{nsobidid}
 
 @flag print_values
 @flag offset_shift 0x100
