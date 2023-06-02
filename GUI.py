@@ -25,7 +25,6 @@ blyt_folder = None  # Declare the blyt_folder as a global variable
 blarc_file_path = None  # Declare the blarc_file_path as a global variable
 zs_file_path = None  # Declare the zs_file_path as a global variable
 scaling_factor = 0.0
-centered_HUD = True  # Default value for HUD location
 
 def calculate_ratio():
     numerator_entry_value = numerator_entry.get()
@@ -46,7 +45,10 @@ def calculate_ratio():
         return
 
     scaling_component = numerator / denominator
-    scaling_factor = (16/9) / scaling_component
+    if scaling_component < 16 / 9:
+        scaling_factor = scaling_component / (16/9)
+    else:
+        scaling_factor = (16/9) / scaling_component
     return scaling_factor
 
 def create_ratio():
@@ -55,18 +57,6 @@ def create_ratio():
     ratio = numerator / denominator
 
     return str(ratio)
-
-def select_output_folder():
-    global output_folder
-    global patch_folder
-    output_folder = askdirectory()
-    if output_folder:
-        patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
-        try:
-            os.makedirs(output_folder, exist_ok=True)
-            Path(patch_folder).mkdir(parents=True, exist_ok=True)  # Create the exefs folder
-        except Exception as e:
-            return
 
 def select_zs_file():
     global zs_file_path
@@ -82,17 +72,48 @@ def update_corner_location():
     centered_HUD = not centered_HUD
     center_checkbox.deselect()
 
+def select_output_folder():
+    global output_folder
+    global patch_folder
+    output_folder = askdirectory()
+    if output_folder:
+        patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
+        try:
+            os.makedirs(output_folder, exist_ok=True)
+            Path(patch_folder).mkdir(parents=True, exist_ok=True)  # Create the exefs folder
+        except Exception as e:
+            status_label.config(text=f"Error: {str(e)}")
+            return
+        status_label.config(text=f"Output folder selected: {output_folder}")
+    else:
+        status_label.config(text="No output folder selected.")
+
 def create_patch():
-    global centered_HUD  # Add this line to access the global variable
+    global output_folder
+    global zs_file_path
+    global centered_HUD
+
     if not output_folder:
+        print("Select an output folder.")
         return
-    
+
+    controller_type = controller_type_var.get()
+    button_color = button_color_var.get()
+    button_layout = button_layout_var.get()
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    controller_id = f"{controller_type}-{button_color}-{button_layout}"
+    download_script_path = os.path.join(script_dir, "download.py")
+    subprocess.run(["python", download_script_path, controller_id, output_folder])
+
     patch_script_path = os.path.join(os.path.dirname(__file__), "patch.py")
     ratio_value = create_ratio()
     scaling_factor = calculate_ratio()
     blyt_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN", "blyt")
     patch_args = ["python", patch_script_path, patch_folder, ratio_value]
     run(patch_args, cwd=os.path.dirname(patch_script_path))
+    global zs_file_path
+    zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
 
     if zs_file_path:
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -135,6 +156,7 @@ def create_patch():
         print("No .zs file selected.")
 
 
+
 root = Tk()
 root.geometry("500x400")
 root.title("Any Aspect Ratio for Tears of the Kingdom")
@@ -152,10 +174,32 @@ numerator_label.pack(side="left")
 denominator_entry = Entry(frame)
 denominator_entry.pack(side="left")
 
+controller_type_var = StringVar()
+button_color_var = StringVar()
+button_layout_var = StringVar()
 
-select_zs_button = tk.Button(root, text="Select ZSTD File", command=select_zs_file)
-select_zs_button.pack()
+controller_type_label = Label(root, text="Controller Type:")
+controller_type_label.pack()
 
+controller_type_dropdown = OptionMenu(root, controller_type_var, "Xbox", "Playstation")
+controller_type_dropdown.pack()
+
+button_color_label = Label(root, text="Button Color:")
+button_color_label.pack()
+
+button_color_dropdown = OptionMenu(root, button_color_var, "Colored", "White")
+button_color_dropdown.pack()
+
+button_layout_label = Label(root, text="Button Layout:")
+button_layout_label.pack()
+
+button_layout_dropdown = OptionMenu(root, button_layout_var, "Western", "Normal", "PE", "Elden Ring")
+button_layout_dropdown.pack()
+
+# Add the following later using the StavaasEVG mod
+controller_color_var = StringVar()
+controller_color_label = Label(root, text="Controller Color:")
+controller_color_dropdown = OptionMenu(root, controller_color_var, "Black", "White", "Red", "Blue", "Pink", "Purple")
 
 HUD_label = Label(root, text="HUD Location:")
 HUD_label.pack()
