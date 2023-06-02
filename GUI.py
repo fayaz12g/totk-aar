@@ -125,7 +125,7 @@ def create_patch():
         blarc_script_path = os.path.join(script_dir, "extract.py")
         subprocess.run(["python", blarc_script_path, blarc_file_path, output_folder])
         centered_HUD = str(centered_HUD)      # Convert centered_HUD to string
-        if scaling_factor < 1:
+        if float(ratio_value) < 16/9:
             fruithapje21_script_path = os.path.join(script_dir, "scriptdeck.py")
         else:
             fruithapje21_script_path = os.path.join(script_dir, "script.py")
