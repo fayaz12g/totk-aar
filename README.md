@@ -22,4 +22,4 @@ Stretch Goals
 - DualShock Controller Option
 - Stadia Controller Option
 
-I was asked if I had a ko-fi so I made one. DOn't feel like you need to donate, I made the utility just to help the community: https://ko-fi.com/fayaz12
+I was asked if I had a ko-fi so I made one. Don't feel like you need to donate, I made the utility just to help the community: https://ko-fi.com/fayaz12
