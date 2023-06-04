@@ -21,12 +21,16 @@ Known Issues
 - Character names are stretched
 - aspect ratios below 16:9 dont support corner HUD
 - The Elden Ring layout yields Colored regardless of white being entered
+- item pickup text is stretched
+- all HUD elements aren't cornered (item pickup, location name)
 
 
 Stretch Goals
 - Colored Dualsense Controller Options
 - DualShock Controller Option
 - Stadia Controller Option
+- Steam Controller
+- Steam Deck picture
 - python 3.11 is required but if I call the functions using subprocesses i could avoid this 
 - include a feature to specify a FOV
 - include a "launch game" button
