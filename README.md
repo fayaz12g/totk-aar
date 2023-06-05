@@ -17,7 +17,6 @@ You need Python 3.11 to use this. If you don't have it, open PowerShell and ente
 
 Known Issues
 - Elden Ring only uses Colored button. Selecting White buttons uses colored buttons
-- v3.1 freezes on modyfying BLYT folder. Use v3 instead. (edit, i have deleted 3.1 as im away from home this weekend. I will re-add the console GUI later.
 - Character names are stretched
 - aspect ratios below 16:9 dont support corner HUD
 - The Elden Ring layout yields Colored regardless of white being entered
@@ -37,3 +36,8 @@ Stretch Goals
 - include checkbox for yuzu or ryujinx to output straight to mods folder (wont work if your yuzu/ryu directory is not in the default location)
 
 I was asked if I had a ko-fi so I made one. Don't feel like you need to donate, I made the utility just to help the community: https://ko-fi.com/fayaz12
+
+
+
+Fixed Issues:
+- v3.1 freezes on modyfying BLYT folder. Use v3 instead. (Fixed in new 3.1.0 release)
