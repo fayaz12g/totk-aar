@@ -1,7 +1,8 @@
 # Any Aspect Ratio for Tears of the Kingdom!
 Any Aspect Ratio for Tears of the Kingdom! With HUD fix and controller merge and blackscreenfix
 
-download link: https://github.com/fayaz12g/totk-aar/releases/download/3.0.0/AAR.3.1.0.zip
+Download Link: https://github.com/fayaz12g/totk-aar/releases/download/3.0.0/AAR.3.1.0.zip
+If you want to donate to support this utility, you can here: https://ko-fi.com/fayaz12
 
 This utility lets you select the following:
 
@@ -34,10 +35,6 @@ Stretch Goals
 - include a feature to specify a FOV
 - include a "launch game" button
 - include checkbox for yuzu or ryujinx to output straight to mods folder (wont work if your yuzu/ryu directory is not in the default location)
-
-I was asked if I had a ko-fi so I made one. Don't feel like you need to donate, I made the utility just to help the community: https://ko-fi.com/fayaz12
-
-
 
 Fixed Issues:
 - v3.1 freezes on modyfying BLYT folder. Use v3 instead. (Fixed in new 3.1.0 release)
