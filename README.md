@@ -1,7 +1,7 @@
 # Any Aspect Ratio for Tears of the Kingdom!
 Any Aspect Ratio for Tears of the Kingdom! With HUD fix and controller merge and blackscreenfix
 
-download link: https://github.com/fayaz12g/totk-aar/releases/download/3.0.0/AAR.3.0.0.zip
+download link: https://github.com/fayaz12g/totk-aar/releases/download/3.0.0/AAR.3.1.0.zip
 
 This utility lets you select the following:
 
