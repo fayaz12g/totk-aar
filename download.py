@@ -3,23 +3,7 @@ import sys
 import subprocess
 import requests
 import sys
-from tkinter import scrolledtext
 
-class PrintRedirector:
-    def __init__(self, text_widget):
-        self.text_widget = text_widget
-        self.original_stdout = sys.stdout
-
-    def write(self, text):
-        self.text_widget.insert("end", text)
-        self.text_widget.see("end")  # Auto-scroll to the bottom
-        self.original_stdout.write(text)  # Print to the original stdout
-
-# Assign the PrintRedirector instance to sys.stdout
-sys.stdout = PrintRedirector(scrolled_text)
-
-# Your code that includes print statements
-print("Hello from the download.py script!")
 
 
 def install_required_packages():

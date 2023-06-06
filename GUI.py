@@ -124,6 +124,10 @@ def create_full():
         button_layout = "Elden"
     if controller_type == "Switch":
         controller_id = "Switch"
+    elif controller_type == "Steam Deck":
+        controller_id = f"deck-White-{button_layout}"
+    elif controller_type == "Steam":
+        controller_id = "steam"
     else:
         controller_id = f"{controller_type}-{button_color}-{button_layout}"
     download_script_path = os.path.join(script_dir, "download.py")
@@ -208,7 +212,7 @@ button_layout_var = StringVar()
 controller_type_label = Label(root, text="Controller Type:")
 controller_type_label.pack()
 
-controller_type_dropdown = OptionMenu(root, controller_type_var, "Xbox", "Playstation", "Switch")
+controller_type_dropdown = OptionMenu(root, controller_type_var, "Xbox", "Playstation", "Switch", "Steam", "Steam Deck")
 controller_type_dropdown.pack()
 
 button_color_label = Label(root, text="Button Color:")
