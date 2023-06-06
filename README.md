@@ -33,7 +33,6 @@ Stretch Goals
 - python 3.11 is required but if I call the functions using subprocesses i could avoid this 
 - include a feature to specify a FOV
 - include a "launch game" button
-- include checkbox for yuzu or ryujinx to output straight to mods folder (wont work if your yuzu/ryu directory is not in the default location)
 
 Running Changelog:
 
@@ -45,8 +44,8 @@ Running Changelog:
 - Now removes older versions of the mod detected in yuzu or ryujinx
 
 3.2.0
--Includes early support for steam controller
--Early support for steam deck controller
+- Includes early support for steam controller
+- Early support for steam deck controller
 
 3.1.1
 - Fixed v3.1 Download issue with new console
@@ -58,17 +57,17 @@ Running Changelog:
 - File size reduced from 1.3GB to 14MB
 
 2.1.2
--fixed an issue where charset was needed to be installed
+- Fixed an issue where charset was needed to be installed
 
 2.1.1
--Fixes the issue where urllib3 was not found, causing the entire thing to fail
--no longer requires a "pip install requests" from powershell
--smaller file size utilizing 7z archiving
+- Fixes the issue where urllib3 was not found, causing the entire thing to fail
+- No longer requires a "pip install requests" from powershell
+- Smaller file size utilizing 7z archiving
 
 2.1.0
--Fixes an issue where the nsobid does not update for different versions of the pchtxt
--Adds option for switch controller
--Adds all the PlayStation Controllers
+- Fixes an issue where the nsobid does not update for different versions of the pchtxt
+- Adds option for switch controller
+- Adds all the PlayStation Controllers
 
 2.0.2
 - Fixed an issue that used an old status label config outputting an error (albeit, it did not interrupt the script, but people complained)
