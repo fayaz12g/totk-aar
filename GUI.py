@@ -32,6 +32,18 @@ blarc_file_path = None  # Declare the blarc_file_path as a global variable
 zs_file_path = None  # Declare the zs_file_path as a global variable
 scaling_factor = 0.0
 
+STEAMDECK_LAYOUTS = ["Western", "Normal"]
+
+class UnsupportedCombinationError(Exception):
+    """Raised when an unsupported combination of controller/layout selections was made"""
+    def __init__(self, *selections):
+        self.selections = selections
+        super().__init__(self.get_message())
+
+    def get_message(self):
+        selections_str = " + ".join(self.selections)
+        return f"{selections_str} are not a supported configuration"
+
 class PrintRedirector:
     def __init__(self, text_widget):
         self.text_widget = text_widget
@@ -125,6 +137,10 @@ def create_full():
     if controller_type == "Switch":
         controller_id = "Switch"
     elif controller_type == "Steam Deck":
+        if button_layout not in STEAMDECK_LAYOUTS:
+            error = UnsupportedCombinationError(controller_type, button_layout)
+            print(error.get_message())
+            raise error
         controller_id = f"deck-White-{button_layout}"
     elif controller_type == "Steam":
         controller_id = "steam"
