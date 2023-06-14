@@ -109,12 +109,12 @@ def update_yuzu_location():
 
 def update_corner_location():
     global centered_HUD
-    centered_HUD = not centered_HUD
+    centered_HUD = False
     center_checkbox.deselect()
 
 def update_HUD_location():
     global centered_HUD
-    centered_HUD = centered_HUD
+    centered_HUD = True
     corner_checkbox.deselect()
 
 

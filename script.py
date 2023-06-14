@@ -224,8 +224,8 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
             content = content.replace(source_str.lower(), replace_str.lower())
         
     
-        if not centered_HUD:
-        
+        if centered_HUD == False:
+            print("Shifting to corner HUD")
             if name == 'EnvironmentInfo_00.bflyt':
                 # Shift RootPane
                 x = float_to_hex(603 * shift_factor * scaling_factor / 0.744)
@@ -262,8 +262,8 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
         with open(file_loc, 'rb') as f:
             content = f.read().hex()
             
-        if not centered_HUD:
-            
+        if centered_HUD == False:
+            print("Shifting more elements to corner HUD")
             if name == 'AppMap_00_MiniMap.bflan':
                 # Shift N_Cut_XX
                 x = float_to_hex(780 * (1 + shift_factor) * (0.744 / scaling_factor)**(1/22))
