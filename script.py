@@ -15,7 +15,10 @@ def float_to_hex(f):
 def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
     blyt_folder = unpacked_folder + "\\blyt"
     anim_folder = unpacked_folder + "\\anim"
-    shift_factor = (1 - float(scaling_factor) / float(scaling_factor))
+    shift_numerator = (1 - float(scaling_factor))
+    shift_denominataor = (float(scaling_factor))
+    shift_factor = (shift_numerator / shift_denominataor)
+    print("Shift value", shift_factor)
     centered_HUD = ast.literal_eval(centered_HUD)
     print("Centered HUD value is set to ", centered_HUD)
     scaling_factor = float(scaling_factor)
@@ -225,8 +228,8 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
         
     
         if centered_HUD == False:
-            print("Shifting to corner HUD")
             if name == 'EnvironmentInfo_00.bflyt':
+                print("Shifting environment info to corner HUD")
                 # Shift RootPane
                 x = float_to_hex(603 * shift_factor * scaling_factor / 0.744)
                 source_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000'
@@ -235,6 +238,7 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
                 
                 
             if name == 'PlayerStatus_00.bflyt':
+                print("Shifting PlayerStatus to corner HUD")
                 # Shift RootPane
                 x = float_to_hex(-645 * shift_factor * scaling_factor / 0.744)
                 source_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000'
@@ -243,6 +247,7 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
                     
                 
             if name == 'PlayerStatus3D_00.bflyt':
+                print("Shifting Extra Stamina to corner HUD")
                 # Shift N_ExtraStaminaTarget_01
                 x = float_to_hex(-760 * (1 + shift_factor) * scaling_factor**(-1/11))
                 source_str = '45787472615374616D696E615461726765745F303100000000000000000000403AC4'
@@ -263,8 +268,8 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
             content = f.read().hex()
             
         if centered_HUD == False:
-            print("Shifting more elements to corner HUD")
             if name == 'AppMap_00_MiniMap.bflan':
+                print("Shifting mini map to corner HUD")
                 # Shift N_Cut_XX
                 x = float_to_hex(780 * (1 + shift_factor) * (0.744 / scaling_factor)**(1/22))
                 source_str = '00403F44'
