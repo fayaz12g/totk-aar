@@ -36,7 +36,7 @@ def create_patch_files(patch_folder, ratio_value):
             inventory_value = "019B5480"
 
         # Calculate the rounded ratio
-        rounded_ratio = ratiotohex.calculate_rounded_ratio(ratio_value)
+        rounded_ratio = ratiotohex.calculate_rounded_ratio(float(ratio_value))
 
         # Generate the assembly code and ARM64 hex
         asm_code = ratiotohex.generate_asm_code(rounded_ratio)

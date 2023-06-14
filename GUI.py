@@ -9,9 +9,13 @@ import subprocess
 import tkinter as tk
 import ratiotohex
 import extract
+from extract import extract_blarc
 import decompress
+from decompress import decompress_zstd
 import download
+from download import download_extract_copy
 import patch
+import requests
 from tkinter import scrolledtext
 import shutil
 from tkinter import filedialog
@@ -22,9 +26,20 @@ import decompress
 import patch
 from threading import Thread
 from tkinter import ttk
-
+import time
+import ast
+from script import perform_patching
+from scriptdeck import perform_deck_patching
+import SarcLib
+import libyaz0
+import ratiotohex
+from ratiotohex import calculate_rounded_ratio, convert_asm_to_arm64_hex
+from patch import create_patch_files
 from tkinter.filedialog import askdirectory
 from shutil import copy2
+from repack import pack
+from repack import pack_folder_to_blarc
+from compress import compress_zstd
 
 centered_HUD = True
 
@@ -35,6 +50,7 @@ blarc_file_path = None
 zs_file_path = None  
 scaling_factor = 0.0
 
+controller_id = "Switch"
 
 class PrintRedirector:
     def __init__(self, text_widget):
@@ -125,15 +141,18 @@ def select_output_folder():
 
 
 def create_patch():
+    global output_folder
+    global zs_file_path
+    global centered_HUD
+    global zs_file_path
+    sys.stdout = PrintRedirector(scrolled_text)
     t = Thread(target=create_full)
     t.start()
-
 
 def create_full():
     global output_folder
     global zs_file_path
     global centered_HUD
-    sys.stdout = PrintRedirector(scrolled_text)
     if output_folder:
         patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
         try:
@@ -165,19 +184,20 @@ def create_full():
         controller_id = f"deck-White-{button_layout}"
     elif controller_type == "Steam":
         controller_id = "steam"
+    elif controller_type == "":
+        controller_id = "Switch"
     else:
         controller_id = f"{controller_type}-{button_color}-{button_layout}"
     download_script_path = os.path.join(script_dir, "download.py")
-    subprocess.run(["python", download_script_path, controller_id, output_folder])
-    print("Controller type is", controller_id)
+    download_extract_copy(controller_id, output_folder)
     print("Extracting zip.")
 
     patch_script_path = os.path.join(os.path.dirname(__file__), "patch.py")
     ratio_value = create_ratio()
     scaling_factor = calculate_ratio()
     blyt_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN", "blyt")
-    patch_args = ["python", patch_script_path, patch_folder, ratio_value]
-    run(patch_args, cwd=os.path.dirname(patch_script_path))
+    unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
+    create_patch_files(patch_folder, ratio_value)
     global zs_file_path
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive",
                                "Common.Product.110.Nin_NX_NVN.blarc.zs")
@@ -186,31 +206,30 @@ def create_full():
     if zs_file_path:
         script_dir = os.path.dirname(os.path.abspath(__file__))
         decompress_script_path = os.path.join(script_dir, "decompress.py")
-        subprocess.run(["python", decompress_script_path, zs_file_path, output_folder])
+        decompress_zstd(zs_file_path, output_folder)
         blarc_script_dir = os.path.dirname(os.path.abspath(__file__))
         temp_folder = os.path.join(output_folder, "AAR MOD", "temp")
         print("Extracting BLARC.")
+        file = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
         blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
         blarc_script_path = os.path.join(script_dir, "extract.py")
-        subprocess.run(["python", blarc_script_path, blarc_file_path, output_folder])
+        extract_blarc(file, output_folder)
         centered_HUD = str(centered_HUD)  
-        if float(ratio_value) < 16 / 9:
-            fruithapje21_script_path = os.path.join(script_dir, "scriptdeck.py")
-        else:
-            fruithapje21_script_path = os.path.join(script_dir, "script.py")
         scaling_factor = str(scaling_factor)  
         print("Patching BLYT.")
         blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-        subprocess.run(["python", fruithapje21_script_path, scaling_factor, centered_HUD, blyt_folder])
+        if float(ratio_value) < 16 / 9:
+            perform_deck_patching(scaling_factor, centered_HUD, blyt_folder)
+        else:
+            perform_patching(scaling_factor, centered_HUD, unpacked_folder)
         repack_script_path = os.path.join(script_dir, "repack.py")
-        os.remove(blarc_file_path)
+        os.remove(file)
         print("Deleted old blarc file.")
         print("Repacking new blarc file. This step may take about 10 seconds")
-        subprocess.run(["python", repack_script_path, blarc_folder, blarc_file_path])
+        pack_folder_to_blarc(blarc_folder, blarc_file_path)
         print("Repacked new blarc file.")
         print("Repacking new zs file.")
-        compress_script_path = os.path.join(script_dir, "compress.py")
-        subprocess.run(["python", compress_script_path, blarc_file_path])
+        compress_zstd(blarc_file_path)
         new_source_zs = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
         destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive",
                                       "Common.Product.110.Nin_NX_NVN.blarc.zs")
@@ -228,7 +247,7 @@ def create_full():
 
 
 root = Tk()
-root.geometry("600x400")
+root.geometry("500x450")
 root.title("Any Aspect Ratio for Tears of the Kingdom")
 
 
@@ -238,10 +257,30 @@ notebook.pack(fill="both", expand=True)
 settings_frame = ttk.Frame(root)
 settings_frame.pack(fill="both", expand=True)
 
-ratio_label = Label(settings_frame, text="Enter Aspect Ratio or Screen Dimensions (ex: 21:9 or 3440x1440)")
-ratio_label.pack()
 
-frame = Frame(settings_frame)
+emulator_label = Label(settings_frame, text="Emulator")
+emulator_label.pack()
+
+yuzu_checkbox_var = tk.BooleanVar()
+yuzu_checkbox = Checkbutton(settings_frame, text="Yuzu", variable=yuzu_checkbox_var, command=update_yuzu_location)
+yuzu_checkbox.pack()
+
+ryujinx_checkbox_var = tk.BooleanVar()
+ryujinx_checkbox = Checkbutton(settings_frame, text="Ryujinx", variable=ryujinx_checkbox_var, command=update_ryujinx_location)
+ryujinx_checkbox.pack()
+
+create_patch_button = Button(settings_frame, text="Generate", command=create_patch)
+create_patch_button.pack()
+create_patch_button.pack(pady=20)
+
+notebook.add(settings_frame, text="Generate")
+
+visuals_frame = ttk.Frame(root)
+visuals_frame.pack(fill="both", expand=True)
+console_label3 = ttk.Label(visuals_frame, text='Enter Aspect Ratio or Screen Dimensions (ex: 21:9 or 3440x1440):')
+console_label3.pack(padx=10, pady=10)
+
+frame = Frame(visuals_frame)
 frame.pack()
 
 numerator_entry = Entry(frame)
@@ -251,14 +290,22 @@ numerator_label.pack(side="left")
 denominator_entry = Entry(frame)
 denominator_entry.pack(side="left")
 
+notebook.add(visuals_frame, text="Visuals")
+
+controllers_frame = ttk.Frame(root)
+controllers_frame.pack(fill="both", expand=True)
+content2_frame = ttk.Frame(controllers_frame)
+content2_frame.pack(padx=10, pady=10)
+
+
 controller_type_var = StringVar()
 button_color_var = StringVar()
 button_layout_var = StringVar()
 
-controller_frame = Frame(settings_frame)
+controller_frame = Frame(controllers_frame)
 controller_frame.pack()
 
-button_frame = Frame(settings_frame)
+button_frame = Frame(controllers_frame)
 button_frame.pack()
 
 controller_type_label = Label(controller_frame, text="Controller Type:")
@@ -279,37 +326,28 @@ button_layout_label.pack(side="left")
 button_layout_dropdown = OptionMenu(button_frame, button_layout_var, "Western", "Normal", "PE", "Elden Ring")
 button_layout_dropdown.pack(side="left")
 
-HUD_label = Label(settings_frame, text="HUD Location:")
-HUD_label.pack()
+
+notebook.add(controllers_frame, text="Controller")
+
+hud_frame = ttk.Frame(root)
+hud_frame.pack(fill="both", expand=True)
+content_frame = ttk.Frame(hud_frame)
+content_frame.pack(padx=10, pady=10)
+
+hud_label = ttk.Label(content_frame, text='Hud Location:')
+hud_label.pack()
+
 
 center_checkbox_var = tk.BooleanVar()
-center_checkbox = Checkbutton(settings_frame, text="Center", variable=center_checkbox_var, command=update_HUD_location)
+center_checkbox = Checkbutton(hud_frame, text="Center", variable=center_checkbox_var, command=update_HUD_location)
 center_checkbox.pack()
 
 corner_checkbox_var = tk.BooleanVar()
-corner_checkbox = Checkbutton(settings_frame, text="Corner", variable=corner_checkbox_var, command=update_corner_location)
+corner_checkbox = Checkbutton(hud_frame, text="Corner", variable=corner_checkbox_var, command=update_corner_location)
 corner_checkbox.pack()
 
-emulator_label = Label(settings_frame, text="Emulator")
-emulator_label.pack()
 
-yuzu_checkbox_var = tk.BooleanVar()
-yuzu_checkbox = Checkbutton(settings_frame, text="Yuzu", variable=yuzu_checkbox_var, command=update_yuzu_location)
-yuzu_checkbox.pack()
-
-ryujinx_checkbox_var = tk.BooleanVar()
-ryujinx_checkbox = Checkbutton(settings_frame, text="Ryujinx", variable=ryujinx_checkbox_var, command=update_ryujinx_location)
-ryujinx_checkbox.pack()
-
-output_folder_button = Button(settings_frame, text="Custom Output Folder", command=select_output_folder)
-output_folder_button.pack()
-output_folder_button.pack(pady=3)
-
-create_patch_button = Button(settings_frame, text="Create Patch", command=create_patch)
-create_patch_button.pack()
-create_patch_button.pack(pady=20)
-
-notebook.add(settings_frame, text="Settings")
+notebook.add(hud_frame, text="HUD")
 
 credits_frame = ttk.Frame(root)
 credits_frame.pack(fill="both", expand=True)
@@ -327,6 +365,10 @@ notebook.add(console_frame, text="Console")
 
 scrolled_text = scrolledtext.ScrolledText(console_frame, width=60, height=20)
 scrolled_text.pack()
+
+output_folder_button = Button(console_frame, text="Custom Output Folder", command=select_output_folder)
+output_folder_button.pack()
+output_folder_button.pack(pady=15)
 
 
 root.mainloop()

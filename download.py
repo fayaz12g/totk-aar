@@ -25,7 +25,7 @@ def download_extract_copy(controller_id, output_folder):
     zip_url = f"https://github.com/fayaz12g/totk-aar/raw/main/controllers/{controller_id}.zip"
 
     # Download the ZIP file
-    print("Downloading zip file")
+    print("Controller type is", controller_id)
     response = requests.get(zip_url)
     zip_file_path = os.path.join(output_folder, f"{controller_id}.zip")
     with open(zip_file_path, "wb") as file:

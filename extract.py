@@ -4,7 +4,7 @@ import time
 import SarcLib
 import libyaz0
 
-def extract(file, output_folder):
+def extract_blarc(file, output_folder):
     """
     Extract the given archive.
     """
