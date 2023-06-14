@@ -16,6 +16,7 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
     blyt_folder = unpacked_folder + "\\blyt"
     anim_folder = unpacked_folder + "\\anim"
     shift_factor = (1 - float(scaling_factor) / float(scaling_factor))
+    centered_HUD = ast.literal_eval(centered_HUD)
     print("Centered HUD value is set to ", centered_HUD)
     scaling_factor = float(scaling_factor)
     print("The scaling factor is ", scaling_factor)
