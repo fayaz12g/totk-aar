@@ -34,3 +34,4 @@ Stretch Goals
 - include a feature to specify a FOV
 - include a "launch game" button
 
+Read the full changelog: https://github.com/fayaz12g/totk-aar/blob/main/CHANGELOG.md
