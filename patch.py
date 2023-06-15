@@ -17,23 +17,28 @@ def create_patch_files(patch_folder, ratio_value):
         # Determine the replacement value based on the version
         if version_variable == "1.0.0":
             replacement_value = "00C7D8F4"
-            inventory_value = "019C2260"
+            inventory_value = "01968C2C"
+            hestu_value = "01E5EAE8"
             nsobidid = "082CE09B06E33A123CB1E2770F5F9147709033DB"
         elif version_variable == "1.1.0":
             replacement_value = "00CDB304"
             inventory_value = "019C2260"
+            hestu_value = "01ED8FA4"
             nsobidid = "D5AD6AC71EF53E3E52417C1B81DBC9B4142AA3B3"
         elif version_variable == "1.1.1":
             replacement_value = "00CE3410"
             inventory_value = "019C013C"
+            hestu_value = "01ED6710"
             nsobidid = "168DD518D925C7A327677286E72FEDA833314919"
         elif version_variable == "1.1.2":
             replacement_value = "00CCB094"
             inventory_value = "019B5480"
+            hestu_value = "01ECE314"
             nsobidid = "9A10ED9435C06733DA597D8094D9000AB5D3EE60"
         else:
             replacement_value = "00CCB094"  # Default value if version_variable is not recognized
             inventory_value = "019B5480"
+            hestu_value = "01ECE314"
 
         # Calculate the rounded ratio
         rounded_ratio = ratiotohex.calculate_rounded_ratio(float(ratio_value))
@@ -52,6 +57,7 @@ def create_patch_files(patch_folder, ratio_value):
 @enabled
 {replacement_value} {hex_value}
 {inventory_value} {hex_value}
+{hestu_value} {hex_value}
 @stop
 
 // by youtube.com/fayaz'''
