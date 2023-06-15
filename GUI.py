@@ -218,9 +218,11 @@ def create_full():
         scaling_factor = str(scaling_factor)  
         print("Patching BLYT.")
         blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-        if float(ratio_value) < 16 / 9:
+        if float(ratio_value) < 1.7777778:
+            print("Using vertical stretch script")
             perform_deck_patching(scaling_factor, centered_HUD, blyt_folder)
         else:
+            print("Using horizontal stretch script")
             perform_patching(scaling_factor, centered_HUD, unpacked_folder)
         repack_script_path = os.path.join(script_dir, "repack.py")
         os.remove(file)

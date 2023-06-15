@@ -13,6 +13,7 @@ def float_to_hex(f):
     return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0')
 
 def perform_deck_patching(scaling_factor, centered_HUD, blyt_folder):
+    scaling_factor = float(scaling_factor)
     shift_factor = (1 - float(scaling_factor) / float(scaling_factor))
     print("Centered HUD value is set to ", centered_HUD)
     print("The scaling factor is ", scaling_factor)
@@ -46,6 +47,7 @@ def perform_deck_patching(scaling_factor, centered_HUD, blyt_folder):
 
     for name in file_names:
         file_loc = blyt_folder + "\\" + name
+        print("Modyfying " + name)
         
         with open(file_loc, 'rb') as f:
             content = f.read().hex()
@@ -213,5 +215,5 @@ def perform_deck_patching(scaling_factor, centered_HUD, blyt_folder):
         
         with open(file_loc, 'wb') as f:
             f.write(bytes.fromhex(content))
-            
+
     
