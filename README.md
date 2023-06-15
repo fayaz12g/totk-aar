@@ -1,7 +1,7 @@
 # Any Aspect Ratio for Tears of the Kingdom!
 Any Aspect Ratio for Tears of the Kingdom! With HUD fix and controller merge and blackscreenfix
 
-Download Link: https://github.com/fayaz12g/totk-aar/releases/download/3.3.0/AAR.3.3.0.zip
+Download Link: https://github.com/fayaz12g/totk-aar/releases/download/4.0.0/AAR.4.0.0.zip
 
 If you want to donate to support this utility, you can here: https://ko-fi.com/fayaz12
 
@@ -15,7 +15,6 @@ Centered or Corner HUD
 
 It will then create a mod given all those parameters, including a HUD fix, a fix for link in the menu, and the aspect ratio mod itself, and black screen fix. If you use this utility, disable BlackscreenFIX, Controller Mods, and my Any Aspect Ratio mod. This one file will do all that for you and more!
 
-You need Python 3.11 to use this. If you don't have it, open PowerShell and enter "python". Then download what it opens.
 
 Known Issues
 - Elden Ring only uses Colored button. Selecting White buttons uses colored buttons
@@ -29,12 +28,19 @@ Known Issues
 Stretch Goals
 - Colored Dualsense Controller Options
 - DualShock Controller Option
+- Include HUD Adjustments (turn things on or off, move them around)
+- Show a picture of the controller and layout
 - Stadia Controller Option
-- python 3.11 is required but if I call the functions using subprocesses i could avoid this 
 - include a feature to specify a FOV
 - include a "launch game" button
 
 Running Changelog:
+
+4.0.0
+- No longer relies on Python being installed. It should just work, regardless of what version you have or whether you have it or not (on Windows via the EXE) 
+- Includes new tabs to make room for upcoming changes to HUD and Controller customization features, as well as visual mods to be added
+- Includes fruithapje21's new script with the mini map fix. No more shifting the main map!!
+- Fixes the stretched text in the action guide
 
 3.3.0
 - New credits tab indicating appropriate credits (will be updated based on what they prefer later)
