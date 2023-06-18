@@ -26,6 +26,7 @@ def download_extract_copy(controller_id, output_folder):
 
     # Download the ZIP file
     print("Controller type is", controller_id)
+    print("Downloading zip file. This may take up to 10 seconds.")
     response = requests.get(zip_url)
     zip_file_path = os.path.join(output_folder, f"{controller_id}.zip")
     with open(zip_file_path, "wb") as file:

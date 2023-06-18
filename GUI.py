@@ -49,6 +49,18 @@ blyt_folder = None
 blarc_file_path = None  
 zs_file_path = None  
 scaling_factor = 0.0
+shadow_quality = "1024"
+do_disable_fxaa = False
+do_disable_fsr = False
+do_disable_reduction = False
+do_disable_ansiotropic = False
+do_disable_dynamicres = False
+do_force_trilinear = False
+do_cutscene_fix = False
+do_staticfps = False
+do_shadowres = False
+do_dynamicfps = False
+staticfps = "30"
 
 controller_id = "Switch"
 
@@ -111,7 +123,50 @@ def update_corner_location():
     global centered_HUD
     centered_HUD = False
     center_checkbox.deselect()
+    
+def disable_fxaa():
+    global do_disable_fxaa
+    do_disable_fxaa = True
+    
+def disable_fsr():
+    global do_disable_fsr
+    do_disable_fsr = True
+    
+def disable_ansiotropic():
+    global do_disable_ansiotropic
+    do_disable_ansiotropic = True
+    
+def disable_reduction():
+    global do_disable_reduction
+    do_disable_reduction = True
+    
+def force_trilinear():
+    global do_force_trilinear
+    do_force_trilinear = True
+    
+def disable_dynamicres():
+    global do_disable_dynamicres
+    do_disable_dynamicres = True
+    
+def apply_dynamicfps():
+    global do_dynamicfps
+    do_dynamicfps = True
+    
+def apply_cutscenefix():
+    global do_cutscene_fix
+    do_cutscene_fix = True
+    
+def apply_shadowres():
+    global do_shadowres
+    shadow_quality = shadow_res_var
+    do_shadowres = True
+    print("Shadow Resolution is set to " + shadow_quality)
 
+def apply_staticfps():
+    global do_staticfps
+    do_staticfps = True
+    print("Static FPS is set to " + staticfps_var)
+    
 def update_HUD_location():
     global centered_HUD
     centered_HUD = True
@@ -145,6 +200,7 @@ def create_patch():
     global zs_file_path
     global centered_HUD
     global zs_file_path
+    global shadow_quality
     sys.stdout = PrintRedirector(scrolled_text)
     t = Thread(target=create_full)
     t.start()
@@ -153,6 +209,7 @@ def create_full():
     global output_folder
     global zs_file_path
     global centered_HUD
+    global shadow_quality
     if output_folder:
         patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
         try:
@@ -169,11 +226,13 @@ def create_full():
         print("Old mod found, deleting.")
         shutil.rmtree(folder_to_delete)
         print("Old mod deleted.")
-    print("Downloading zip file. This may take up to 10 seconds.")
   
     controller_type = controller_type_var.get()
     button_color = button_color_var.get()
     button_layout = button_layout_var.get()
+    controller_color = controller_color_var.get()
+    shadow_quality = shadow_res_label_var.get()
+    static_fps = staticfps_var.get()
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     if button_layout == "Elden Ring":
@@ -186,18 +245,18 @@ def create_full():
         controller_id = "steam"
     elif controller_type == "":
         controller_id = "Switch"
+    elif controller_type == "Colored Dualsense":
+        controller_id = f"dual-{controller_color}"
     else:
         controller_id = f"{controller_type}-{button_color}-{button_layout}"
     download_script_path = os.path.join(script_dir, "download.py")
     download_extract_copy(controller_id, output_folder)
     print("Extracting zip.")
-
-    patch_script_path = os.path.join(os.path.dirname(__file__), "patch.py")
     ratio_value = create_ratio()
     scaling_factor = calculate_ratio()
     blyt_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN", "blyt")
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    create_patch_files(patch_folder, ratio_value)
+    create_patch_files(patch_folder, ratio_value, shadow_quality)
     global zs_file_path
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive",
                                "Common.Product.110.Nin_NX_NVN.blarc.zs")
@@ -292,6 +351,54 @@ numerator_label.pack(side="left")
 denominator_entry = Entry(frame)
 denominator_entry.pack(side="left")
 
+cutscene_checkbox_var = tk.BooleanVar()
+cutscene_checkbox = Checkbutton(visuals_frame, text="Cutscene Fix", variable=cutscene_checkbox_var, command=apply_cutscenefix)
+cutscene_checkbox.pack()
+
+fsr_checkbox_var = tk.BooleanVar()
+fsr_checkbox = Checkbutton(visuals_frame, text="Disable FSR", variable=fsr_checkbox_var, command=disable_fsr)
+fsr_checkbox.pack()
+
+fxaa_checkbox_var = tk.BooleanVar()
+fxaa_checkbox = Checkbutton(visuals_frame, text="Disable FXAA", variable=fxaa_checkbox_var, command=disable_fxaa)
+fxaa_checkbox.pack()
+
+reduction_checkbox_var = tk.BooleanVar()
+reduction_checkbox = Checkbutton(visuals_frame, text="Disable LOD Reduction", variable=reduction_checkbox_var, command=disable_reduction)
+reduction_checkbox.pack()
+
+ansiotropic_checkbox_var = tk.BooleanVar()
+ansiotropic_checkbox = Checkbutton(visuals_frame, text="Disable Ansiotropic", variable=ansiotropic_checkbox_var, command=disable_ansiotropic)
+ansiotropic_checkbox.pack()
+
+trilinear_checkbox_var = tk.BooleanVar()
+trilinear_checkbox = Checkbutton(visuals_frame, text="Force Trilinear Over Bilinear", variable=trilinear_checkbox_var, command=force_trilinear)
+trilinear_checkbox.pack()
+
+dynamicres_checkbox_var = tk.BooleanVar()
+dynamicres_checkbox = Checkbutton(visuals_frame, text="Disable Dynamic Resolution", variable=dynamicres_checkbox_var, command=disable_dynamicres)
+dynamicres_checkbox.pack()
+
+dynamicfps_checkbox_var = tk.BooleanVar()
+dynamicfps_checkbox = Checkbutton(visuals_frame, text="Use Dynamic FPS", variable=dynamicfps_checkbox_var, command=apply_dynamicfps)
+dynamicfps_checkbox.pack()
+
+staticfps_label = Label(visuals_frame, text="Static FPS:")
+staticfps_label.pack()
+
+staticfps_var = StringVar()
+
+staticfps_label_dropdown = OptionMenu(visuals_frame, staticfps_var, "20", "30", "60")
+staticfps_label_dropdown.pack()
+
+shadow_res_label = Label(visuals_frame, text="Shadow Resolution:")
+shadow_res_label.pack()
+
+shadow_res_var = StringVar()
+
+shadow_res_dropdown = OptionMenu(visuals_frame, shadow_res_var, "8", "16", "32", "64", "128", "256", "512", "1024", "2048")
+shadow_res_dropdown.pack()
+
 notebook.add(visuals_frame, text="Visuals")
 
 controllers_frame = ttk.Frame(root)
@@ -299,9 +406,9 @@ controllers_frame.pack(fill="both", expand=True)
 content2_frame = ttk.Frame(controllers_frame)
 content2_frame.pack(padx=10, pady=10)
 
-
 controller_type_var = StringVar()
 button_color_var = StringVar()
+controller_color_var = StringVar()
 button_layout_var = StringVar()
 
 controller_frame = Frame(controllers_frame)
@@ -313,8 +420,14 @@ button_frame.pack()
 controller_type_label = Label(controller_frame, text="Controller Type:")
 controller_type_label.pack(side="left")
 
-controller_type_dropdown = OptionMenu(controller_frame, controller_type_var, "Xbox", "Playstation", "Switch", "Steam", "Steam Deck")
+controller_type_dropdown = OptionMenu(controller_frame, controller_type_var, "Xbox", "Playstation", "Colored Dualsense", "Switch", "Steam", "Steam Deck")
 controller_type_dropdown.pack(side="left")
+
+controller_color_label = Label(button_frame, text="Controller Color:")
+controller_color_label.pack(side="left")
+
+controller_color_dropdown = OptionMenu(button_frame, controller_color_var, "Red", "White", "Blue", "Pink", "Purple", "Black")
+controller_color_dropdown.pack(side="left")
 
 button_color_label = Label(button_frame, text="Button Color:")
 button_color_label.pack(side="left")
@@ -328,7 +441,6 @@ button_layout_label.pack(side="left")
 button_layout_dropdown = OptionMenu(button_frame, button_layout_var, "Western", "Normal", "PE", "Elden Ring")
 button_layout_dropdown.pack(side="left")
 
-
 notebook.add(controllers_frame, text="Controller")
 
 hud_frame = ttk.Frame(root)
@@ -339,7 +451,6 @@ content_frame.pack(padx=10, pady=10)
 hud_label = ttk.Label(content_frame, text='Hud Location:')
 hud_label.pack()
 
-
 center_checkbox_var = tk.BooleanVar()
 center_checkbox = Checkbutton(hud_frame, text="Center", variable=center_checkbox_var, command=update_HUD_location)
 center_checkbox.pack()
@@ -347,7 +458,6 @@ center_checkbox.pack()
 corner_checkbox_var = tk.BooleanVar()
 corner_checkbox = Checkbutton(hud_frame, text="Corner", variable=corner_checkbox_var, command=update_corner_location)
 corner_checkbox.pack()
-
 
 notebook.add(hud_frame, text="HUD")
 
