@@ -231,7 +231,7 @@ def create_full():
     button_color = button_color_var.get()
     button_layout = button_layout_var.get()
     controller_color = controller_color_var.get()
-    shadow_quality = shadow_res_label_var.get()
+    shadow_quality = shadow_res_var.get()
     static_fps = staticfps_var.get()
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
