@@ -33,12 +33,7 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
     file_names.remove('PaMap_00.bflyt')
     file_names.remove('EventFade_00.bflyt')
     file_names.remove('EventFadeWipe_00.bflyt')
-    file_names.remove('AttentionLockOn_00.bflyt')
-    file_names.remove('EnemyInfo_00.bflyt')
-    file_names.remove('BalloonMessage_00.bflyt')
-    file_names.remove('AttentionBalloon_00.bflyt')
     file_names.remove('CameraShutter_00.bflyt')
-
 
     for name in file_names:
         file_loc = blyt_folder + '\\' + name
