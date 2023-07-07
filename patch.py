@@ -2,11 +2,13 @@ import os
 import sys
 import subprocess
 import ratiotohex
+import struct
+import math
 
 from ratiotohex import calculate_rounded_ratio, convert_asm_to_arm64_hex, float2hex
 
 
-def create_patch_files(patch_folder, ratio_value, shadow_quality, scaling_factor):
+def create_patch_files(patch_folder, ratio_value, shadow_quality):
     DOF_replace = "C0035FD6"
     shadow2_replace = "17000014"
     reducation_replace = "C0000014"
@@ -16,7 +18,13 @@ def create_patch_files(patch_folder, ratio_value, shadow_quality, scaling_factor
     trilinear_replace = "4A008052"
     anisotropic_replace = "28E0A0F2"
     fxaa_replace = "08008052"
-    scaling_factor=float(scaling_factor)
+    if float(ratio_value) > (16/9):
+        scaling_factor = float(ratio_value) / (16/9)
+        scaling_factor = float(scaling_factor)
+    else:
+        scaling_factor = (16/9) / float(ratio_value)
+        scaling_factor = float(scaling_factor)
+    print(f"Ratio value is set to {ratio_value} and the scaling factor is {scaling_factor}.")
     hex_factor = ratiotohex.float2hex(scaling_factor)
     rounded_ratio = ratiotohex.calculate_rounded_ratio(float(ratio_value))
     asm_code = ratiotohex.generate_asm_code(rounded_ratio)

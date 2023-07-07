@@ -272,6 +272,7 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
                 content = content.replace(source_str.lower(), replace_str.lower())
             
         with open(file_loc, 'wb') as f:
+            print(f"Writing patched file {f}")
             f.write(bytes.fromhex(content))
         
 

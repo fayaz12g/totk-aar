@@ -257,7 +257,7 @@ def create_full():
     scaling_factor = calculate_ratio()
     blyt_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN", "blyt")
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    create_patch_files(patch_folder, ratio_value, shadow_quality, scaling_factor)
+    create_patch_files(patch_folder, ratio_value, shadow_quality)
     global zs_file_path
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive",
                                "Common.Product.110.Nin_NX_NVN.blarc.zs")

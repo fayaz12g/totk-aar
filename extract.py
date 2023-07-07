@@ -53,7 +53,7 @@ def extract_blarc(file, output_folder):
                 getAbsPath(checkObj, checkObj.name)
 
         for file, fileData in files:
-            print(file)
+            print(f"Unpacking {file}")
             with open(os.path.join(root, file), "wb") as out:
                 out.write(fileData)
 
