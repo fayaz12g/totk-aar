@@ -44,6 +44,7 @@ from compress import compress_zstd
 centered_HUD = True
 
 output_folder = None  
+tool_version = "4.2.0"
 patch_folder = None 
 blyt_folder = None  
 blarc_file_path = None  
@@ -256,7 +257,7 @@ def create_full():
     scaling_factor = calculate_ratio()
     blyt_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN", "blyt")
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    create_patch_files(patch_folder, ratio_value, shadow_quality)
+    create_patch_files(patch_folder, ratio_value, shadow_quality, scaling_factor)
     global zs_file_path
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive",
                                "Common.Product.110.Nin_NX_NVN.blarc.zs")
@@ -311,13 +312,18 @@ root = Tk()
 root.geometry("500x450")
 root.title("Any Aspect Ratio for Tears of the Kingdom")
 
-
 notebook = ttk.Notebook(root)
 notebook.pack(fill="both", expand=True)
 
 settings_frame = ttk.Frame(root)
 settings_frame.pack(fill="both", expand=True)
 
+version_label = Label(root, text=f"Tool Version: {tool_version}")
+
+def update_label_position(event):
+    version_label.place(x=root.winfo_width()-10, y=root.winfo_height()-10, anchor="se")
+
+root.bind("<Configure>", update_label_position)
 
 emulator_label = Label(settings_frame, text="Emulator")
 emulator_label.pack()
@@ -333,6 +339,7 @@ ryujinx_checkbox.pack()
 create_patch_button = Button(settings_frame, text="Generate", command=create_patch)
 create_patch_button.pack()
 create_patch_button.pack(pady=20)
+
 
 notebook.add(settings_frame, text="Generate")
 

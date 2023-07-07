@@ -1,6 +1,8 @@
 import importlib.util
 import subprocess
 import sys
+import struct
+import math
 
 def install_keystone_engine():
     try:
@@ -15,21 +17,13 @@ def install_keystone_engine():
             print(f"Error installing Keystone Engine: {str(e)}")
             sys.exit(1)
 
-def convert_asm_to_arm64_hex(asm_code):
-    try:
-        import keystone
-    except ImportError:
-        print("Keystone Engine not found. Installing...")
-        install_keystone_engine()
-        try:
-            import keystone_engine
-        except ImportError:
-            print("Failed to install Keystone Engine. Please install it manually.")
-            sys.exit(1)
-
-    ks = keystone.Ks(keystone.KS_ARCH_ARM64, keystone.KS_MODE_LITTLE_ENDIAN)
-    encoding, _ = ks.asm(asm_code)
-    hex_value = "".join(f"{byte:02x}" for byte in encoding).upper()  # Convert to uppercase
+def convert_asm_to_arm64_hex(x):
+    p = math.floor(math.log(x, 2))
+    a = round(16*(p-2) + x / 2**(p-4))
+    if a<0: a += 128
+    a = 2*a + 1
+    h = hex(a).lstrip('0x').rjust(2,'0').upper()
+    hex_value = '00' + h[1] + '02' + h[0] + '1E' 
     print(hex_value)
     return hex_value
 
@@ -46,9 +40,10 @@ def generate_asm_code(rounded_ratio):
     asm_code = f"fmov s0, #{rounded_ratio}"
     return asm_code
 
+def float2hex(f):
+    return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0').upper()
+    
 if __name__ == "__main__":
-    install_keystone_engine()
-
     ratio = 21 / 9
     rounded_ratio = calculate_rounded_ratio(ratio_value)
     print(f"Rounded Ratio: {rounded_ratio}")
