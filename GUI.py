@@ -341,7 +341,7 @@ def handle_focus_out(entry, default_text):
 
 root = Tk()
 root.geometry("500x450")
-root.title("Any Aspect Ratio for Tears of the Kingdom")
+root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
 
 notebook = ttk.Notebook(root)
 notebook.pack(fill="both", expand=True)
@@ -536,5 +536,9 @@ output_folder_button = Button(console_frame, text="Custom Output Folder", comman
 output_folder_button.pack()
 output_folder_button.pack(pady=15)
 
+script_path = os.path.abspath(__file__)
+script_directory = os.path.dirname(script_path)
+icon_path = os.path.join(script_directory, 'icon.ico')
 
+root.iconbitmap(icon_path)
 root.mainloop()

@@ -1,0 +1,1 @@
+python -m PyInstaller --onefile --noconsole --add-data "\\Mac\Home\Documents\GitHub\totk-aar\icon.ico;." --name=AAR --icon=\\Mac\Home\Documents\GitHub\totk-aar\icon.ico \\Mac\Home\Documents\GitHub\totk-aar\GUI.py
