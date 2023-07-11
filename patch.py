@@ -8,16 +8,7 @@ import math
 from ratiotohex import calculate_rounded_ratio, convert_asm_to_arm64_hex, float2hex
 
 
-def create_patch_files(patch_folder, ratio_value, shadow_quality):
-    DOF_replace = "C0035FD6"
-    shadow2_replace = "17000014"
-    reducation_replace = "C0000014"
-    FSR_replace = "08008052"
-    dynamic1_replace = "15000014"
-    dynamic2_replace = "000080D2"
-    trilinear_replace = "4A008052"
-    anisotropic_replace = "28E0A0F2"
-    fxaa_replace = "08008052"
+def create_patch_files(patch_folder, ratio_value, visual_fixes):
     if float(ratio_value) > (16/9):
         scaling_factor = float(ratio_value) / (16/9)
         scaling_factor = float(scaling_factor)
@@ -31,28 +22,11 @@ def create_patch_files(patch_folder, ratio_value, shadow_quality):
     ratio_value = float(ratio_value)
     hex_value = ratiotohex.convert_asm_to_arm64_hex(ratio_value)
     print(hex_value)
-        
-    if shadow_quality == "8":
-        shadow1_replace = "0B018052"
-    elif shadow_quality == "16":
-        shadow1_replace = "0B028052"
-    elif shadow_quality == "32":
-        shadow1_replace = "0B048052"
-    elif shadow_quality == "64":
-        shadow1_replace = "0B088052"
-    elif shadow_quality == "128":
-        shadow1_replace = "0B108052"
-    elif shadow_quality == "256":
-        shadow1_replace = "0B208052"
-    elif shadow_quality == "512":
-        shadow1_replace = "0B408052"
-    elif shadow_quality == "1024":
-        shadow1_replace = "0B808052"
-    elif shadow_quality == "2048":
-        shadow1_replace = "0B008152"
-        shadow_message = "Notice: Shadow resolution 2048 may cause freezing. We reccommend 1024."
-    else:
-        shadow1_replace = "0B808052"
+    visual_fixese = visual_fixes[0]
+    visual_fixesa = visual_fixes[1]
+    visual_fixesb = visual_fixes[2]
+    visual_fixesc = visual_fixes[3]
+    visual_fixesd = visual_fixes[4]
     version_variables = ["1.0.0", "1.1.0", "1.1.1", "1.1.2", "1.2.0"]
 
     for version_variable in version_variables:
@@ -62,6 +36,7 @@ def create_patch_files(patch_folder, ratio_value, shadow_quality):
 
         # Determine the replacement value based on the version
         if version_variable == "1.0.0":
+            visual_fix = visual_fixese
             text_fix = f'''
 037745a0 {hex_factor}
 01a8f18c DD947394 
@@ -168,6 +143,7 @@ def create_patch_files(patch_folder, ratio_value, shadow_quality):
 00CEA5E4 0001221E
 00CEA5EC 2101221E'''
         elif version_variable == "1.1.0":
+            visual_fix = visual_fixesa
             text_fix = f'''
 036d1120 {hex_factor}
 01aec24c 8D936F94
@@ -274,6 +250,7 @@ def create_patch_files(patch_folder, ratio_value, shadow_quality):
             dynamic1_value = "010622C4"
             dynamic2_value = "027CA074"
         elif version_variable == "1.1.1":
+            visual_fix = visual_fixesb
             text_fix = f'''
 036d9f80 {hex_factor}
 01ae9b14 F3C06F94
@@ -380,6 +357,7 @@ def create_patch_files(patch_folder, ratio_value, shadow_quality):
 0081FF10 75008052
 0081FF44 61008052'''
         elif version_variable == "1.1.2":
+            visual_fix = visual_fixesc
             text_fix = f'''
 036c9b20 {hex_factor}
 01ae0440 90A56F94
@@ -486,6 +464,7 @@ def create_patch_files(patch_folder, ratio_value, shadow_quality):
 00C77588 F503092A
 00C7758C C0035FD6'''
         elif version_variable == "1.2.0":
+            visual_fix = visual_fixesd
             text_fix = f'''
 036bd770 {hex_factor}
 01ad2174 ABAC6F94
@@ -617,6 +596,7 @@ def create_patch_files(patch_folder, ratio_value, shadow_quality):
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
 {text_fix}
+{visual_fix}
 @stop
 
 // Generated using TOTK-AAR by Fayaz (github.com/fayaz12g/totk-aar)'''

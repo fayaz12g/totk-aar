@@ -21,6 +21,8 @@ import shutil
 from tkinter import filedialog
 from tkinter import Tk, Button, Label, OptionMenu, StringVar, Entry, Frame, Checkbutton
 import ratiotohex
+import visuals
+from visuals import create_visuals
 import extract
 import decompress
 import patch
@@ -42,15 +44,14 @@ from repack import pack_folder_to_blarc
 from compress import compress_zstd
 
 centered_HUD = True
-
 output_folder = None  
-tool_version = "4.2.0"
+tool_version = "5.0.0"
 patch_folder = None 
 blyt_folder = None  
 blarc_file_path = None  
 zs_file_path = None  
 scaling_factor = 0.0
-shadow_quality = "1024"
+shadow_quality = "0"
 do_disable_fxaa = False
 do_disable_fsr = False
 do_disable_reduction = False
@@ -59,9 +60,11 @@ do_disable_dynamicres = False
 do_force_trilinear = False
 do_cutscene_fix = False
 do_staticfps = False
+do_DOF = False
+do_chuck = False
 do_shadowres = False
 do_dynamicfps = False
-staticfps = "30"
+staticfps = "0"
 
 controller_id = "Switch"
 
@@ -101,9 +104,15 @@ def calculate_ratio():
 
 
 def create_ratio():
-    numerator = float(numerator_entry.get())
-    denominator = float(denominator_entry.get())
-    ratio = numerator / denominator
+    numerator = numerator_entry.get()
+    denominator = denominator_entry.get()
+
+    if numerator and denominator:
+        numerator = float(numerator)
+        denominator = float(denominator)
+        ratio = numerator / denominator
+    else:
+        ratio = 16/9
 
     return str(ratio)
 
@@ -141,6 +150,10 @@ def disable_reduction():
     global do_disable_reduction
     do_disable_reduction = True
     
+def apply_chuck():
+    global do_chuck
+    do_chuck = True
+    
 def force_trilinear():
     global do_force_trilinear
     do_force_trilinear = True
@@ -156,6 +169,10 @@ def apply_dynamicfps():
 def apply_cutscenefix():
     global do_cutscene_fix
     do_cutscene_fix = True
+    
+def apply_DOF():
+    global do_DOF
+    do_DOF = True
     
 def apply_shadowres():
     global do_shadowres
@@ -211,6 +228,7 @@ def create_full():
     global zs_file_path
     global centered_HUD
     global shadow_quality
+    global staticfps
     if output_folder:
         patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
         try:
@@ -232,9 +250,12 @@ def create_full():
     button_color = button_color_var.get()
     button_layout = button_layout_var.get()
     controller_color = controller_color_var.get()
-    shadow_quality = shadow_res_var.get()
-    static_fps = staticfps_var.get()
-
+    staticfpsnew = staticfps_var.get()
+    shadow_qualitynew = shadow_res_var.get()
+    if staticfpsnew:
+        staticfps = staticfps_var.get()
+    if shadow_qualitynew:
+        shadow_quality = shadow_res_var.get()
     script_dir = os.path.dirname(os.path.abspath(__file__))
     if button_layout == "Elden Ring":
         button_layout = "Elden"
@@ -257,7 +278,8 @@ def create_full():
     scaling_factor = calculate_ratio()
     blyt_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN", "blyt")
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    create_patch_files(patch_folder, ratio_value, shadow_quality)
+    visual_fixes = create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck, staticfps, shadow_quality)
+    create_patch_files(patch_folder, ratio_value, visual_fixes)
     global zs_file_path
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive",
                                "Common.Product.110.Nin_NX_NVN.blarc.zs")
@@ -307,6 +329,15 @@ def create_full():
     else:
         print("No .zs file selected.")
 
+def handle_focus_in(entry, default_text):
+    if entry.get() == default_text:
+        entry.delete(0, "end")
+        entry.configure(fg='black')
+
+def handle_focus_out(entry, default_text):
+    if entry.get() == "":
+        entry.insert(0, default_text)
+        entry.configure(fg='gray')
 
 root = Tk()
 root.geometry("500x450")
@@ -352,10 +383,18 @@ frame = Frame(visuals_frame)
 frame.pack()
 
 numerator_entry = Entry(frame)
+numerator_entry.insert(0, "16")
+numerator_entry.configure(fg='gray')
+numerator_entry.bind("<FocusIn>", lambda event: handle_focus_in(numerator_entry, "16"))
+numerator_entry.bind("<FocusOut>", lambda event: handle_focus_out(numerator_entry, "16"))
 numerator_entry.pack(side="left")
 numerator_label = Label(frame, text=":")
 numerator_label.pack(side="left")
 denominator_entry = Entry(frame)
+denominator_entry.insert(0, "9")
+denominator_entry.configure(fg='gray')
+denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(denominator_entry, "9"))
+denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(denominator_entry, "9"))
 denominator_entry.pack(side="left")
 
 cutscene_checkbox_var = tk.BooleanVar()
@@ -365,6 +404,14 @@ cutscene_checkbox.pack()
 fsr_checkbox_var = tk.BooleanVar()
 fsr_checkbox = Checkbutton(visuals_frame, text="Disable FSR", variable=fsr_checkbox_var, command=disable_fsr)
 fsr_checkbox.pack()
+
+DOF_checkbox_var = tk.BooleanVar()
+DOF_checkbox = Checkbutton(visuals_frame, text="Disable targeting DOF", variable=DOF_checkbox_var, command=apply_DOF)
+DOF_checkbox.pack()
+
+chuck_checkbox_var = tk.BooleanVar()
+chuck_checkbox = Checkbutton(visuals_frame, text="Use Chuck's 1008p", variable=chuck_checkbox_var, command=apply_chuck)
+chuck_checkbox.pack()
 
 fxaa_checkbox_var = tk.BooleanVar()
 fxaa_checkbox = Checkbutton(visuals_frame, text="Disable FXAA", variable=fxaa_checkbox_var, command=disable_fxaa)
