@@ -515,7 +515,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 '''
             replacement_value = "0380794c"
             inventory_value = "019a5870"
-            hestu_value = "01ECE314"
+            hestu_value = "01EC1918"
             shadow1_value = "00BD2BFC"
             shadow2_value = "00BD2C00"
             fxaa_value = "00C76FE0"
