@@ -34,8 +34,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
         if version_variable == "1.0.0":
             nsobidid = "082CE09B06E33A123CB1E2770F5F9147709033DB"
             visual_fix = visual_fixese
-            text_fix = f'''
-// Text UI Fixes
+            text_fix = f'''// Text UI Fixes
 037745a0 {hex_factor}
 01a8f18c DD947394 
 03774500 A01B40BD 
@@ -89,8 +88,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
         elif version_variable == "1.1.0":
             nsobidid = "D5AD6AC71EF53E3E52417C1B81DBC9B4142AA3B3"
             visual_fix = visual_fixesa
-            text_fix = f'''
-// Text UI Fixes
+            text_fix = f'''// Text UI Fixes
 036d1120 {hex_factor}
 01aec24c 8D936F94
 036d1080 A01B40BD
@@ -147,8 +145,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
             replacement_value = "0382413C"
             inventory_value = "019C013C"
             hestu_value = "01ED6710"
-            text_fix = f'''
-// Text UI Fixes
+            text_fix = f'''// Text UI Fixes
 036d9f80 {hex_factor}
 01ae9b14 F3C06F94
 036d9ee0 A01B40BD
@@ -202,8 +199,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
             replacement_value = "03813D0C"
             inventory_value = "019B5480"
             hestu_value = "01ECE314"
-            text_fix = f'''
-// Text UI Fixes
+            text_fix = f'''// Text UI Fixes
 036c9b20 {hex_factor}
 01ae0440 90A56F94
 036c9a80 A01B40BD
@@ -257,8 +253,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
             inventory_value = "019a5870"
             hestu_value = "01EC1918"
             visual_fix = visual_fixesd
-            text_fix = f'''
-// Text UI Fixes
+            text_fix = f'''// Text UI Fixes
 036bd770 {hex_factor}
 01ad2174 ABAC6F94
 036bd420 A01B40BD
@@ -312,10 +307,12 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @flag offset_shift 0x100
 
 @enabled
+
 // Core Games Fixes
 {replacement_value} {ratiotohex.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
+
 {text_fix}
 {visual_fix}
 @stop
