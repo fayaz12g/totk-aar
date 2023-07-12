@@ -45,7 +45,7 @@ from compress import compress_zstd
 
 centered_HUD = False
 output_folder = None  
-tool_version = "5.2.1"
+tool_version = "5.3.0"
 patch_folder = None 
 blyt_folder = None  
 blarc_file_path = None  
@@ -341,44 +341,23 @@ def handle_focus_out(entry, default_text):
         entry.configure(fg='gray')
 
 root = Tk()
-root.geometry("500x450")
+root.geometry("500x550")
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
 
 notebook = ttk.Notebook(root)
 notebook.pack(fill="both", expand=True)
 
-settings_frame = ttk.Frame(root)
-settings_frame.pack(fill="both", expand=True)
-
-version_label = Label(root, text=f"Tool Version: {tool_version}")
-
-def update_label_position(event):
-    version_label.place(x=root.winfo_width()-10, y=root.winfo_height()-10, anchor="se")
-
-root.bind("<Configure>", update_label_position)
-
-emulator_label = Label(settings_frame, text="Emulator")
-emulator_label.pack()
-
-yuzu_checkbox_var = tk.BooleanVar()
-yuzu_checkbox = Checkbutton(settings_frame, text="Yuzu", variable=yuzu_checkbox_var, command=update_yuzu_location)
-yuzu_checkbox.pack()
-
-ryujinx_checkbox_var = tk.BooleanVar()
-ryujinx_checkbox = Checkbutton(settings_frame, text="Ryujinx", variable=ryujinx_checkbox_var, command=update_ryujinx_location)
-ryujinx_checkbox.pack()
-
-create_patch_button = Button(settings_frame, text="Generate", command=create_patch)
-create_patch_button.pack()
-create_patch_button.pack(pady=20)
-
-
-notebook.add(settings_frame, text="Generate")
-
 visuals_frame = ttk.Frame(root)
 visuals_frame.pack(fill="both", expand=True)
 console_label3 = ttk.Label(visuals_frame, text='Enter Aspect Ratio or Screen Dimensions (ex: 21:9 or 3440x1440):')
 console_label3.pack(padx=10, pady=10)
+
+visuals_version_label = ttk.Label(visuals_frame, text=f"Tool Version: {tool_version}")
+
+def update_label_position2(event):
+    visuals_version_label.place(x=visuals_frame.winfo_width()-10, y=visuals_frame.winfo_height()-10, anchor="se")
+
+visuals_frame.bind("<Configure>", update_label_position2)
 
 frame = Frame(visuals_frame)
 frame.pack()
@@ -472,6 +451,13 @@ controller_frame.pack()
 button_frame = Frame(controllers_frame)
 button_frame.pack()
 
+controller_version_label = ttk.Label(controllers_frame, text=f"Tool Version: {tool_version}")
+
+def update_label_position3(event):
+    controller_version_label.place(x=controllers_frame.winfo_width()-10, y=controllers_frame.winfo_height()-10, anchor="se")
+
+controller_frame.bind("<Configure>", update_label_position3)
+
 controller_type_label = Label(controller_frame, text="Controller Type:")
 controller_type_label.pack(side="left")
 
@@ -506,6 +492,13 @@ content_frame.pack(padx=10, pady=10)
 hud_label = ttk.Label(content_frame, text='Hud Location:')
 hud_label.pack()
 
+hud_version_label = ttk.Label(hud_frame, text=f"Tool Version: {tool_version}")
+
+def update_label_position4(event):
+    hud_version_label.place(x=hud_frame.winfo_width()-10, y=hud_frame.winfo_height()-10, anchor="se")
+
+hud_frame.bind("<Configure>", update_label_position4)
+
 center_checkbox_var = tk.BooleanVar()
 center_checkbox = Checkbutton(hud_frame, text="Center", variable=center_checkbox_var, command=update_HUD_location)
 center_checkbox.pack()
@@ -516,6 +509,42 @@ corner_checkbox.pack()
 
 notebook.add(hud_frame, text="HUD")
 
+console_frame = ttk.Frame(root)
+console_frame.pack(fill="both", expand=True)
+console_label = ttk.Label(console_frame, text='Console:')
+console_label.pack(padx=10, pady=10)
+
+notebook.add(console_frame, text="Generate")
+
+scrolled_text = scrolledtext.ScrolledText(console_frame, width=55, height=15)
+scrolled_text.pack()
+
+emulator_label = Label(console_frame, text="Select your Emulator OR choose a custom output folder, then click Generate.")
+emulator_label.pack()
+
+yuzu_checkbox_var = tk.BooleanVar()
+yuzu_checkbox = Checkbutton(console_frame, text="Yuzu", variable=yuzu_checkbox_var, command=update_yuzu_location)
+yuzu_checkbox.pack(side="top")
+
+ryujinx_checkbox_var = tk.BooleanVar()
+ryujinx_checkbox = Checkbutton(console_frame, text="Ryujinx", variable=ryujinx_checkbox_var, command=update_ryujinx_location)
+ryujinx_checkbox.pack(side="top")
+
+output_folder_button = Button(console_frame, text="Custom Output Folder", command=select_output_folder)
+output_folder_button.pack()
+output_folder_button.pack(pady=10)
+
+create_patch_button = Button(console_frame, text="Generate", command=create_patch)
+create_patch_button.pack()
+create_patch_button.pack(pady=5)
+
+console_version_label = ttk.Label(console_frame, text=f"Tool Version: {tool_version}")
+
+def update_label_position4(event):
+    console_version_label.place(x=console_frame.winfo_width()-10, y=console_frame.winfo_height()-10, anchor="se")
+
+console_frame.bind("<Configure>", update_label_position4)
+
 credits_frame = ttk.Frame(root)
 credits_frame.pack(fill="both", expand=True)
 credits_label = ttk.Label(credits_frame, text='Utility created by fayaz\nhttps://ko-fi.com/fayaz12\nyoutube.com/fayaz\n\nBased on\nHUD Fix script by u/fruithapje21 on Reddit\n\nController Mods:\nAlerion921 on Gamebanana')
@@ -523,19 +552,12 @@ credits_label.pack(padx=10, pady=10)
 
 notebook.add(credits_frame, text="Credits")
 
-console_frame = ttk.Frame(root)
-console_frame.pack(fill="both", expand=True)
-console_label = ttk.Label(console_frame, text='Console:')
-console_label.pack(padx=10, pady=10)
+credits_version_label = ttk.Label(credits_frame, text=f"Tool Version: {tool_version}")
 
-notebook.add(console_frame, text="Console")
+def update_label_position4(event):
+    credits_version_label.place(x=credits_frame.winfo_width()-10, y=credits_frame.winfo_height()-10, anchor="se")
 
-scrolled_text = scrolledtext.ScrolledText(console_frame, width=60, height=20)
-scrolled_text.pack()
-
-output_folder_button = Button(console_frame, text="Custom Output Folder", command=select_output_folder)
-output_folder_button.pack()
-output_folder_button.pack(pady=15)
+credits_frame.bind("<Configure>", update_label_position4)
 
 script_path = os.path.abspath(__file__)
 script_directory = os.path.dirname(script_path)
