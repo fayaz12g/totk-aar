@@ -55,8 +55,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             dynamic2_value = "02760D24"
             trilinear_value = "0070CD2C"
             ansiotropic_value = "00895558"
-            fps20_code = f'''
-@stop
+            fps20_code = f'''@stop
 // Set the Static FPS to 20
 @enabled
 00E9D8A0 61008052
@@ -68,8 +67,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 008F6CAC 1F2003D5
 008F6D28 75008052
 008F6D20 61008052'''
-            fps30_code = f'''
-@stop
+            fps30_code = f'''@stop
 // Set the Static FPS to 30
 @enabled
 00E9D8A0 41008052
@@ -81,8 +79,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 008F6CAC 41008052
 008F6D28 4C008052
 008F6D20 55008052'''
-            fps60_code = f'''
-@stop
+            fps60_code = f'''@stop
 // Set the Static FPS to 60
 @enabled
 00E9D8A0 21008052
@@ -92,8 +89,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 008F6C74 EB031F2A
 0196591C 1F2003D5
 019707AC 1F2003D5'''
-            cutscene_code = f'''
-@stop
+            cutscene_code = f'''@stop
 // Sync Cutscene FPS to Game FPS
 @enabled
 008F6C78 C4280D94
@@ -104,8 +100,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00C40F98 29050011
 00C40F9C F503092A
 00C40FA0 C0035FD6'''
-            chuck_1008 = f'''
-@stop
+            chuck_1008 = f'''@stop
 // Set Internal Resolution to 1008
 @enabled
 00CEA5BC F50300AA
@@ -120,20 +115,20 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00CEA5EC 2101221E'''
             visual_fixese = ""
             if do_disable_fxaa:
-                visual_fixese += f"@stop\n// Disable FXAA\n@enable\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixese += f"@stop\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
-                visual_fixese += f"@stop\n// Disable DOF Targeting\n@enable\n{DOF_value} {DOF_replace}\n"
+                visual_fixese += f"@stop\n// Disable DOF Targeting\n@enabled\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
-                visual_fixese += f"@stop\n// Disable FSR\n@enable\n{fsr_value} {FSR_replace}\n"
+                visual_fixese += f"@stop\n// Disable FSR\n@enabled\n{fsr_value} {FSR_replace}\n"
             if do_disable_reduction:
-                visual_fixese += f"@stop\n// Disable Quality Reduction\n@enable\n{reduction_value} {reduction_replace}\n"
+                visual_fixese += f"@stop\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
-                visual_fixese += f"@stop\n// Disable Ansiotropic Filtering\n@enable\n{ansiotropic_value} {ansiotropic_replace}\n"
+                visual_fixese += f"@stop\n// Disable Ansiotropic Filtering\n@enabled\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
-                visual_fixese += f"@stop\n// Disable Dynamic Resolution\n@enable\n{dynamic1_value} {dynamic1_replace}\n"
+                visual_fixese += f"@stop\n// Disable Dynamic Resolution\n@enabled\n{dynamic1_value} {dynamic1_replace}\n"
                 visual_fixese += f"{dynamic2_value} {dynamic2_replace}\n"
             if do_force_trilinear:
-                visual_fixese += f"@stop\n// Force Trilinear Scaling\n@enable\n{trilinear_value} {trilinear_replace}\n"
+                visual_fixese += f"@stop\n// Force Trilinear Scaling\n@enabled\n{trilinear_value} {trilinear_replace}\n"
             if do_cutscene_fix:
                 visual_fixese += f"{cutscene_code}\n"
             if do_chuck:
@@ -145,12 +140,11 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             if staticfps == 20:
                 visual_fixese += f"{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixese += f"@stop\n// Set the shaow resolution to {shadow_quality}\n@enable\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixese += f"@stop\n// Set the shadow resolution to {shadow_quality}\n@enabled\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixese += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixese)
         elif version_variable == "1.1.0":
-            chuck_1008 = f'''
-@stop
+            chuck_1008 = f'''@stop
 // Set Internal Resolution to 1008
 @enabled            
 00CEA5BC F50300AA
@@ -163,8 +157,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00CEA5E0 0001221E
 00CEA5E4 0001221E
 00CEA5EC 2101221E'''
-            fps30_code = f'''
-@stop
+            fps30_code = f'''@stop
 // Set the Static FPS to 30
 @enabled            
 00EBD158 41008052
@@ -176,8 +169,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 019CA668 1F2003D5
 0090E990 55008052
 0090E9C4 41008052'''
-            fps60_code = f'''
-@stop
+            fps60_code = f'''@stop
 // Set the Static FPS to 60
 @enabled
 00EBD158 21008052
@@ -187,8 +179,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 0090E98C EB031F2A
 019BF104 1F2003D5
 019CA668 1F2003D5'''
-            cutscene_code = f'''
-@stop
+            cutscene_code = f'''@stop
 // Sync Cutscene FPS to Game FPS
 @enabled
 0090E990 CD7B0E94
@@ -199,8 +190,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00CAD8D4 29050011
 00CAD8D8 F503092A
 00CAD8DC C0035FD6'''
-            fps20_code = f'''
-@stop
+            fps20_code = f'''@stop
 // Set the Static FPS to 20
 @enabled
 00EBD158 61008052
@@ -224,20 +214,20 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             dynamic2_value = "027CA074"
             visual_fixesa = ""
             if do_disable_fxaa:
-                visual_fixesa += f"@stop\n// Disable FXAA\n@enable\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixesa += f"@stop\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
-                visual_fixesa += f"@stop\n// Disable DOF Targeting\n@enable\n{DOF_value} {DOF_replace}\n"
+                visual_fixesa += f"@stop\n// Disable DOF Targeting\n@enabled\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
-                visual_fixesa += f"@stop\n// Disable FSR\n@enable\n{fsr_value} {FSR_replace}\n"
+                visual_fixesa += f"@stop\n// Disable FSR\n@enabled\n{fsr_value} {FSR_replace}\n"
             if do_disable_reduction:
-                visual_fixesa += f"@stop\n// Disable Quality Reduction\n@enable\n{reduction_value} {reduction_replace}\n"
+                visual_fixesa += f"@stop\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
-                visual_fixesa += f"@stop\n// Disable Ansiotropic Filtering\n@enable\n{ansiotropic_value} {ansiotropic_replace}\n"
+                visual_fixesa += f"@stop\n// Disable Ansiotropic Filtering\n@enabled\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
-                visual_fixesa += f"@stop\n// Disable Dynamic Resolution\n@enable\n{dynamic1_value} {dynamic1_replace}\n"
+                visual_fixesa += f"@stop\n// Disable Dynamic Resolution\n@enabled\n{dynamic1_value} {dynamic1_replace}\n"
                 visual_fixesa += f"{dynamic2_value} {dynamic2_replace}\n"
             if do_force_trilinear:
-                visual_fixesa += f"@stop\n// Force Trilinear Scaling\n@enable\n{trilinear_value} {trilinear_replace}\n"
+                visual_fixesa += f"@stop\n// Force Trilinear Scaling\n@enabled\n{trilinear_value} {trilinear_replace}\n"
             if do_cutscene_fix:
                 visual_fixesa += f"{cutscene_code}\n"
             if do_chuck:
@@ -249,7 +239,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             if staticfps == 20:
                 visual_fixesa += f"{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixesa += f"@stop\n// Set the shaow resolution to {shadow_quality}\n@enable\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixesa += f"@stop\n// Set the shaow resolution to {shadow_quality}\n@enabled\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixesa += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesa)
         elif version_variable == "1.1.1":
@@ -263,8 +253,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             ansiotropic_value = "008714D0"
             dynamic1_value = "01063774"
             dynamic2_value = "027D13D4"
-            chuck_1008 = f'''
-@stop
+            chuck_1008 = f'''@stop
 // Set Internal Resolution to 1008
 @enabled
 00CECA44 F50300AA
@@ -277,8 +266,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00CECA68 0001221E
 00CECA6C 0001221E
 00CECA74 2101221E'''
-            cutscene_code = f'''
-@stop
+            cutscene_code = f'''@stop
 // Sync Cutscene FPS to Game FPS
 @enabled
 0081FF10 A5881294
@@ -289,8 +277,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00CC21B4 29050011
 00CC21B8 F503092A
 00CC21BC C0035FD6'''
-            fps60_code = f'''
-@stop
+            fps60_code = f'''@stop
 // Set the Static FPS to 60
 @enabled            
 00ECF81C 21008052
@@ -300,8 +287,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 0081FF0C EB031F2A
 019BCC40 1F2003D5
 019C84D8 1F2003D5'''
-            fps30_code = f'''
-@stop
+            fps30_code = f'''@stop
 // Set the Static FPS to 30
 @enabled            
 00ECF81C 41008052
@@ -313,8 +299,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 019C84D8 1F2003D5
 0081FF10 55008052
 0081FF44 41008052'''
-            fps20_code = f'''
-@stop
+            fps20_code = f'''@stop
 // Set the Static FPS to 20
 @enabled            
 00ECF81C 61008052
@@ -328,20 +313,20 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 0081FF44 61008052'''
             visual_fixesb = ""
             if do_disable_fxaa:
-                visual_fixesb += f"@stop\n// Disable FXAA\n@enable\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixesb += f"@stop\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
-                visual_fixesb += f"@stop\n// Disable DOF Targeting\n@enable\n{DOF_value} {DOF_replace}\n"
+                visual_fixesb += f"@stop\n// Disable DOF Targeting\n@enabled\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
-                visual_fixesb += f"@stop\n// Disable FSR\n@enable\n{fsr_value} {FSR_replace}\n"
+                visual_fixesb += f"@stop\n// Disable FSR\n@enabled\n{fsr_value} {FSR_replace}\n"
             if do_disable_reduction:
-                visual_fixesb += f"@stop\n// Disable Quality Reduction\n@enable\n{reduction_value} {reduction_replace}\n"
+                visual_fixesb += f"@stop\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
-                visual_fixesb += f"@stop\n// Disable Ansiotropic Filtering\n@enable\n{ansiotropic_value} {ansiotropic_replace}\n"
+                visual_fixesb += f"@stop\n// Disable Ansiotropic Filtering\n@enabled\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
-                visual_fixesb += f"@stop\n// Disable Dynamic Resolution\n@enable\n{dynamic1_value} {dynamic1_replace}\n"
+                visual_fixesb += f"@stop\n// Disable Dynamic Resolution\n@enabled\n{dynamic1_value} {dynamic1_replace}\n"
                 visual_fixesb += f"{dynamic2_value} {dynamic2_replace}\n"
             if do_force_trilinear:
-                visual_fixesb += f"@stop\n// Force Trilinear Scaling\n@enable\n{trilinear_value} {trilinear_replace}\n"
+                visual_fixesb += f"@stop\n// Force Trilinear Scaling\n@enabled\n{trilinear_value} {trilinear_replace}\n"
             if do_cutscene_fix:
                 visual_fixesb += f"{cutscene_code}\n"
             if do_chuck:
@@ -353,7 +338,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             if staticfps == 20:
                 visual_fixesb += f"{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixesb += f"@stop\n// Set the shaow resolution to {shadow_quality}\n@enable\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixesb += f"@stop\n// Set the shaow resolution to {shadow_quality}\n@enabled\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixesb += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesb)
         elif version_variable == "1.1.2":
@@ -367,8 +352,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             ansiotropic_value = "00BF21F0"
             dynamic1_value = "0104A704"
             dynamic2_value = "027C1124"
-            fps60_code = f'''
-@stop
+            fps60_code = f'''@stop
 // Set the Static FPS to 60
 @enabled
 00EAC370 21008052
@@ -378,8 +362,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 008F66F8 EB031F2A
 019B1F84 1F2003D5
 019BD9E8 1F2003D5'''
-            fps30_code = f'''
-@stop
+            fps30_code = f'''@stop
 // Set the Static FPS to 30
 @enabled
 00EAC370 41008052
@@ -391,8 +374,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 019BD9E8 1F2003D5
 008F66FC 55008052
 008F6730 41008052'''
-            fps20_code = f'''
-@stop
+            fps20_code = f'''@stop
 // Set the Static FPS to 20
 @enabled        
 00EAC370 61008052
@@ -404,8 +386,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 019BD9E8 1F2003D5
 008F66FC 75008052
 008F6730 61008052'''
-            chuck_1008 = f'''
-@stop
+            chuck_1008 = f'''@stop
 // Set Internal Resolution to 1008
 @enabled
 00CDD3C4 F50300AA
@@ -418,8 +399,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00CDD3E8 0001221E
 00CDD3EC 0001221E
 00CDD3F4 2101221E'''
-            cutscene_code = f'''
-@stop
+            cutscene_code = f'''@stop
 // Sync Cutscene FPS to Game FPS
 @enabled            
 008F66FC 9E030E94
@@ -432,20 +412,20 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00C7758C C0035FD6'''
             visual_fixesc = ""
             if do_disable_fxaa:
-                visual_fixesc += f"@stop\n// Disable FXAA\n@enable\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixesc += f"@stop\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
-                visual_fixesc += f"@stop\n// Disable DOF Targeting\n@enable\n{DOF_value} {DOF_replace}\n"
+                visual_fixesc += f"@stop\n// Disable DOF Targeting\n@enabled\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
-                visual_fixesc += f"@stop\n// Disable FSR\n@enable\n{fsr_value} {FSR_replace}\n"
+                visual_fixesc += f"@stop\n// Disable FSR\n@enabled\n{fsr_value} {FSR_replace}\n"
             if do_disable_reduction:
-                visual_fixesc += f"@stop\n// Disable Quality Reduction\n@enable\n{reduction_value} {reduction_replace}\n"
+                visual_fixesc += f"@stop\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
-                visual_fixesc += f"@stop\n// Disable Ansiotropic Filtering\n@enable\n{ansiotropic_value} {ansiotropic_replace}\n"
+                visual_fixesc += f"@stop\n// Disable Ansiotropic Filtering\n@enabled\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
-                visual_fixesc += f"@stop\n// Disable Dynamic Resolution\n@enable\n{dynamic1_value} {dynamic1_replace}\n"
+                visual_fixesc += f"@stop\n// Disable Dynamic Resolution\n@enabled\n{dynamic1_value} {dynamic1_replace}\n"
                 visual_fixesc += f"{dynamic2_value} {dynamic2_replace}\n"
             if do_force_trilinear:
-                visual_fixesc += f"@stop\n// Force Trilinear Scaling\n@enable\n{trilinear_value} {trilinear_replace}\n"
+                visual_fixesc += f"@stop\n// Force Trilinear Scaling\n@enabled\n{trilinear_value} {trilinear_replace}\n"
             if do_cutscene_fix:
                 visual_fixesc += f"{cutscene_code}\n"
             if do_chuck:
@@ -457,7 +437,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             if staticfps == 20:
                 visual_fixesc += f"{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixesc += f"@stop\n// Set the shaow resolution to {shadow_quality}\n@enable\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixesc += f"@stop\n// Set the shaow resolution to {shadow_quality}\n@enabled\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixesc += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesc)
         elif version_variable == "1.2.0":
@@ -471,8 +451,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             ansiotropic_value = "00BF21F0"
             dynamic1_value = "0104A704"
             dynamic2_value = "027C1124"
-            fps60_code = f'''
-@stop
+            fps60_code = f'''@stop
 // Set the Static FPS to 60
 @enabled
 00EAC370 21008052
@@ -482,8 +461,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 008F66F8 EB031F2A
 019B1F84 1F2003D5
 019BD9E8 1F2003D5'''
-            fps30_code = f'''
-@stop
+            fps30_code = f'''@stop
 // Set the Static FPS to 30
 @enabled            
 00EAC370 41008052
@@ -495,8 +473,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 019BD9E8 1F2003D5
 008F66FC 55008052
 008F6730 41008052'''
-            fps20_code = f'''
-@stop
+            fps20_code = f'''@stop
 // Set the Static FPS to 20
 @enabled         
 00EAC370 61008052
@@ -508,8 +485,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 019BD9E8 1F2003D5
 008F66FC 75008052
 008F6730 61008052'''
-            chuck_1008 = f'''
-@stop
+            chuck_1008 = f'''@stop
 // Set Internal Resolution to 1008
 @enabled
 00CDD3C4 F50300AA
@@ -522,8 +498,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00CDD3E8 0001221E
 00CDD3EC 0001221E
 00CDD3F4 2101221E'''
-            cutscene_code = f'''
-@stop
+            cutscene_code = f'''@stop
 // Sync Cutscene FPS to Game FPS
 @enabled            
 008F66FC 9E030E94
@@ -536,20 +511,20 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00C7758C C0035FD6'''
             visual_fixesd = ""
             if do_disable_fxaa:
-                visual_fixesd += f"@stop\n// Disable FXAA\n@enable\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixesd += f"@stop\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
-                visual_fixesd += f"@stop\n// Disable DOF Targeting\n@enable\n{DOF_value} {DOF_replace}\n"
+                visual_fixesd += f"@stop\n// Disable DOF Targeting\n@enabled\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
-                visual_fixesd += f"@stop\n// Disable FSR\n@enable\n{fsr_value} {FSR_replace}\n"
+                visual_fixesd += f"@stop\n// Disable FSR\n@enabled\n{fsr_value} {FSR_replace}\n"
             if do_disable_reduction:
-                visual_fixesd += f"@stop\n// Disable Quality Reduction\n@enable\n{reduction_value} {reduction_replace}\n"
+                visual_fixesd += f"@stop\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
-                visual_fixesd += f"@stop\n// Disable Ansiotropic Filtering\n@enable\n{ansiotropic_value} {ansiotropic_replace}\n"
+                visual_fixesd += f"@stop\n// Disable Ansiotropic Filtering\n@enabled\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
-                visual_fixesd += f"@stop\n// Disable Dynamic Resolution\n@enable\n{dynamic1_value} {dynamic1_replace}\n"
+                visual_fixesd += f"@stop\n// Disable Dynamic Resolution\n@enabled\n{dynamic1_value} {dynamic1_replace}\n"
                 visual_fixesd += f"{dynamic2_value} {dynamic2_replace}\n"
             if do_force_trilinear:
-                visual_fixesd += f"@stop\n// Force Trilinear Scaling\n@enable\n{trilinear_value} {trilinear_replace}\n"
+                visual_fixesd += f"@stop\n// Force Trilinear Scaling\n@enabled\n{trilinear_value} {trilinear_replace}\n"
             if do_cutscene_fix:
                 visual_fixesd += f"{cutscene_code}\n"
             if do_chuck:
@@ -561,7 +536,7 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             if staticfps == 20:
                 visual_fixesd += f"{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixesd += f"@stop\n// Set the shaow resolution to {shadow_quality}\n@enable\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixesd += f"@stop\n// Set the shaow resolution to {shadow_quality}\n@enabled\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixesd += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesd)
         if do_dynamicfps:
