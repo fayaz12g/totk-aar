@@ -243,8 +243,8 @@ def create_full():
 
     if os.path.exists(folder_to_delete):
         print("Old mod found, deleting.")
-        shutil.rmtree(folder_to_delete)
         print("If you are stuck hanging here, be sure to close the emulator first and then hit generate again.")
+        shutil.rmtree(folder_to_delete)
         print("Old mod deleted.")
   
     controller_type = controller_type_var.get()
