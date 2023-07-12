@@ -43,7 +43,7 @@ from repack import pack
 from repack import pack_folder_to_blarc
 from compress import compress_zstd
 
-centered_HUD = True
+centered_HUD = False
 output_folder = None  
 tool_version = "5.2.0"
 patch_folder = None 
