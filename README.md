@@ -18,15 +18,14 @@ It will then create a mod given all those parameters, including a HUD fix, a fix
 
 Known Issues
 - Elden Ring only uses Colored button. Selecting White buttons uses colored buttons
-- Character names are stretched
 - Aspect ratios below 16:9 dont support corner HUD, only center
 - The Elden Ring layout yields Colored regardless of white being entered
-- Item pickup text is stretched
-- Some HUD elements aren't cornered (item pickup, location name)
+- The map in the loading screen is stretched
 
 
 Stretch Goals
 - Colored Dualsense Controller Options
+- Add HDR Support
 - DualShock Controller Option
 - Include HUD Adjustments (turn things on or off, move them around)
 - Show a picture of the controller and layout
