@@ -45,7 +45,7 @@ from compress import compress_zstd
 
 centered_HUD = False
 output_folder = None  
-tool_version = "5.2.0"
+tool_version = "5.2.1"
 patch_folder = None 
 blyt_folder = None  
 blarc_file_path = None  
