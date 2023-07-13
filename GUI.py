@@ -576,6 +576,8 @@ def update_image(*args):
             controller_layout_label = normal__dual_layout
         else:
             controller_layout_label = normal__xbox_layout
+            
+    print(f"{selected_controller_type}")
 
     if selected_controller_type == "steam deck":
         button_color_label.pack_forget()
@@ -596,7 +598,7 @@ def update_image(*args):
         # Restore the state of the color dropdowns
         controller_color_label.pack()
         controller_color_dropdown.pack()
-    if selected_controller_type == "switch" or selected_controller_type == "steam":
+    if selected_controller_type == "switch" or selected_controller_type == "steam" or selected_controller_type == "colored dualsense":
         button_color_label.pack_forget()
         button_color_dropdown.pack_forget()
         button_layout_label.pack_forget()
@@ -605,6 +607,15 @@ def update_image(*args):
     else:
         button_color_label.pack()
         button_color_dropdown.pack()
+        button_layout_label.pack()
+        button_layout_dropdown.pack()
+        image_layout_label.pack()
+    
+    if selected_controller_type == "steam deck":
+        button_color_label.pack_forget()
+        button_color_dropdown.pack_forget()
+        button_layout_label.pack_forget()
+        button_layout_dropdown.pack_forget()
         button_layout_label.pack()
         button_layout_dropdown.pack()
         image_layout_label.pack()
