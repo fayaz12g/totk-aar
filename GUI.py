@@ -45,8 +45,8 @@ from repack import pack_folder_to_blarc
 from compress import compress_zstd
 
 centered_HUD = False
-output_folder = None  
-image_name = "dual_red.jpeg"
+output_folder = None
+image_name = "switch_normal.jpeg"
 controller_layout_label = ""
 normal__xbox_layout = "Normal Layout:  A > B, B > A , X > Y, Y > X"
 PE__xbox_layout = "PE Layout: A > A, B > B, X > X, Y > Y"
@@ -56,7 +56,7 @@ normal__dual_layout = "Normal Layout:  A > Circle, B > Cross, X > Triangle, Y > 
 PE__dual_layout = "PE Layout: B > Circle, A > Cross, Y > Triangle, X > Square"
 western_dual_layout = "Western Layout: B  > Circle,  A > Cross, X > Triangle, Y > Square"
 elden_dual_layout = "Elden Ring Layout: A > Triangle,  B > Square, X > Circle, Y > Cross"
-tool_version = "5.4.1"
+tool_version = "5.6.0"
 patch_folder = None 
 blyt_folder = None  
 open_when_done = False
@@ -373,7 +373,7 @@ def handle_focus_out(entry, default_text):
         entry.configure(fg='gray')
 
 root = Tk()
-root.geometry("500x550")
+root.geometry("500x580")
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
 
 notebook = ttk.Notebook(root)
@@ -483,42 +483,42 @@ controller_frame.pack()
 button_frame = Frame(controllers_frame)
 button_frame.pack()
 
+image_label = Label(controller_frame)
+image_label.pack()
+
+image_layout_label = Label(button_frame, text=f"{controller_layout_label}", font=("Roboto", 11, "bold"))
+image_layout_label.pack(padx=5, pady=5)
+
+controller_type_label = Label(controller_frame, text="Controller Type:")
+controller_type_label.pack()
+
+controller_type_dropdown = OptionMenu(controller_frame, controller_type_var, "Xbox", "Playstation", "Colored Dualsense", "Switch", "Steam", "Steam Deck")
+controller_type_dropdown.pack()
+
+controller_color_label = Label(button_frame, text="Controller Color:")
+controller_color_label.pack()
+
+controller_color_dropdown = OptionMenu(button_frame, controller_color_var, "Red", "White", "Blue", "Pink", "Purple", "Black")
+controller_color_dropdown.pack()
+
+button_color_label = Label(button_frame, text="Button Color:")
+button_color_label.pack()
+
+button_color_dropdown = OptionMenu(button_frame, button_color_var, "Colored", "White")
+button_color_dropdown.pack()
+
+button_layout_label = Label(button_frame, text="Button Layout:")
+button_layout_label.pack()
+
+button_layout_dropdown = OptionMenu(button_frame, button_layout_var, "Western", "Normal", "PE", "Elden Ring")
+button_layout_dropdown.pack()
+
 controller_version_label = ttk.Label(controllers_frame, text=f"Tool Version: {tool_version}")
 
 def update_label_position3(event):
     controller_version_label.place(x=controllers_frame.winfo_width()-10, y=controllers_frame.winfo_height()-10, anchor="se")
 
 controller_frame.bind("<Configure>", update_label_position3)
-
-controller_type_label = Label(controller_frame, text="Controller Type:")
-controller_type_label.pack(side="left")
-
-controller_type_dropdown = OptionMenu(controller_frame, controller_type_var, "Xbox", "Playstation", "Colored Dualsense", "Switch", "Steam", "Steam Deck")
-controller_type_dropdown.pack(side="left")
-
-controller_color_label = Label(button_frame, text="Controller Color:")
-controller_color_label.pack(side="left")
-
-controller_color_dropdown = OptionMenu(button_frame, controller_color_var, "Red", "White", "Blue", "Pink", "Purple", "Black")
-controller_color_dropdown.pack(side="left")
-
-button_color_label = Label(button_frame, text="Button Color:")
-button_color_label.pack(side="left")
-
-button_color_dropdown = OptionMenu(button_frame, button_color_var, "Colored", "White")
-button_color_dropdown.pack(side="left")
-
-button_layout_label = Label(button_frame, text="Button Layout:")
-button_layout_label.pack(side="left")
-
-button_layout_dropdown = OptionMenu(button_frame, button_layout_var, "Western", "Normal", "PE", "Elden Ring")
-button_layout_dropdown.pack(side="left")
-
-image_label = tk.Label(controller_frame)
-image_label.pack(side="left")
-
-image_layout_label = Label(button_frame, text=f"{controller_layout_label}", font=("Roboto", 12, "bold"))
-image_layout_label.pack()
 
 def update_image(*args):
     global controller_layout_label
@@ -529,20 +529,31 @@ def update_image(*args):
 
     global image_name
     if selected_controller_type == "colored dualsense":
-        image_name = f"dual_{selected_controller_color}.jpeg"
+        if selected_controller_color:
+            image_name = f"dual_{selected_controller_color}.jpeg"
+        else:
+            image_name = f"dual_black.jpeg"
     elif selected_controller_type == "xbox":
-        image_name = f"xbox_{selected_button_layout}.jpeg"
+        if selected_button_layout:
+            image_name = f"xbox_{selected_button_layout}.jpeg"
+        else:
+            image_name = f"xbox_normal.jpeg"
     elif selected_controller_type == "playstation":
-        image_name = f"dual_{selected_button_layout}.jpeg"
+        if selected_button_layout:
+            image_name = f"dual_{selected_button_layout}.jpeg"
+        else:
+            image_name = f"dual_normal.jpeg"
     elif selected_controller_type == "switch":
         image_name = "switch_normal.jpeg"
     elif selected_controller_type == "steam deck":
         if selected_button_layout == "normal":
             image_name = "deck_normal.jpeg"
         else:
-            image_name = "deck_pe.jpeg"
+            image_name = "deck_western.jpeg"
     elif selected_controller_type == "steam":
         image_name = "steam_pe.jpeg"
+    else:
+        image_name = "switch_normal.jpeg"
 
     if selected_button_layout == "elden ring":
         image_name = image_name.replace("elden ring", "elden")
@@ -565,6 +576,38 @@ def update_image(*args):
             controller_layout_label = normal__dual_layout
         else:
             controller_layout_label = normal__xbox_layout
+
+    if selected_controller_type == "steam deck":
+        button_color_label.pack_forget()
+        button_color_dropdown.pack_forget()
+        button_layout_label.pack_forget()
+        button_layout_dropdown.pack_forget()
+    else:
+        # Restore the state of the color dropdowns and button layout dropdown
+        button_color_label.pack()
+        button_color_dropdown.pack()
+        button_layout_label.pack()
+        button_layout_dropdown.pack()
+
+    if selected_controller_type != "colored dualsense":
+        controller_color_label.pack_forget()
+        controller_color_dropdown.pack_forget()
+    else:
+        # Restore the state of the color dropdowns
+        controller_color_label.pack()
+        controller_color_dropdown.pack()
+    if selected_controller_type == "switch" or selected_controller_type == "steam":
+        button_color_label.pack_forget()
+        button_color_dropdown.pack_forget()
+        button_layout_label.pack_forget()
+        button_layout_dropdown.pack_forget()
+        image_layout_label.pack_forget()
+    else:
+        button_color_label.pack()
+        button_color_dropdown.pack()
+        button_layout_label.pack()
+        button_layout_dropdown.pack()
+        image_layout_label.pack()
     print(f"{controller_layout_label}")
     
     image_layout_label.config(text=controller_layout_label)
@@ -585,6 +628,8 @@ controller_type_var.trace("w", update_image)
 controller_color_var.trace("w", update_image)
 button_color_var.trace("w", update_image)
 button_layout_var.trace("w", update_image)
+
+update_image()
 
 notebook.add(controllers_frame, text="Controller")
 
