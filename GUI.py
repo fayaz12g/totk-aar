@@ -45,7 +45,15 @@ from compress import compress_zstd
 
 centered_HUD = False
 output_folder = None  
-tool_version = "5.4.0"
+normal__xbox_layout = "Normal Layout:  A > B, B > A , X > Y, Y > X"
+PE__xbox_layout = "PE Layout: A > A, B > B, X > X, Y > Y"
+western_xbox_layout = "Western Layout: B > A,  A > B, X > X, Y > Y"
+elden_xbox_layout = "Elden Ring Layout: A > Y, B > B, Y > A,  X > X"
+normal__dual_layout = "Normal Layout:  A > Circle, B > Cross, X > Triangle, Y > Square"
+PE__dual_layout = "PE Layout: B > Circle, A > Cross, Y > Triangle, X > Square"
+western_dual_layout = "Western Layout: B  > Circle,  A > Cross, X > Triangle, Y > Square"
+elden_dual_layout = "Elden Ring Layout: A > Triangle,  B > Square, X > Circle, Y > Cross"
+tool_version = "5.4.1"
 patch_folder = None 
 blyt_folder = None  
 open_when_done = False
