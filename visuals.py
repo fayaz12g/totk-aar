@@ -2,7 +2,7 @@ import ast
 import sys
 import subprocess
 
-def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck, staticfps, shadow_quality):
+def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck):
     DOF_replace = "C0035FD6"
     shadow2_replace = "17000014"
     reduction_replace = "C0000014"
@@ -12,10 +12,10 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
     trilinear_replace = "4A008052"
     ansiotropic_replace = "28E0A0F2"
     fxaa_replace = "08008052"
-    if staticfps:
-        staticfps = float(staticfps)
-    if shadow_quality:
-        shadow_quality = float(shadow_quality)
+    staticfps = "0"
+    shadow_quality = "0"
+    staticfps = float(staticfps)
+    shadow_quality = float(shadow_quality)
     visual_fixes = []
     
     version_variables = ["1.0.0", "1.1.0", "1.1.1", "1.1.2", "1.2.0"]

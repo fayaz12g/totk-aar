@@ -31,6 +31,8 @@ from threading import Thread
 from tkinter import ttk
 import time
 import ast
+import custominiscript
+from custominiscript import create_custom_ini
 from script import perform_patching
 from scriptdeck import perform_deck_patching
 import SarcLib
@@ -56,10 +58,16 @@ normal__dual_layout = "Normal Layout:  A > Circle, B > Cross, X > Triangle, Y > 
 PE__dual_layout = "PE Layout: B > Circle, A > Cross, Y > Triangle, X > Square"
 western_dual_layout = "Western Layout: B  > Circle,  A > Cross, X > Triangle, Y > Square"
 elden_dual_layout = "Elden Ring Layout: A > Triangle,  B > Square, X > Circle, Y > Cross"
-tool_version = "5.6.0"
+tool_version = "6.0.0"
 patch_folder = None 
 blyt_folder = None  
+customwidth = 0
+customheight = 0
+customshadow = 0
+customfps = 0
+cameramod = "False"
 open_when_done = False
+do_custom_ini = False
 blarc_file_path = None  
 zs_file_path = None  
 scaling_factor = 0.0
@@ -84,6 +92,7 @@ script_path = os.path.abspath(__file__)
 script_directory = os.path.dirname(script_path)
 icon_path = os.path.join(script_directory, 'icon.ico')
 dfps_folder = os.path.join(script_directory, "dFPS")
+dfps_ini_folder = os.path.join(script_directory, "customini", "dfps")
 
 class PrintRedirector:
     def __init__(self, text_widget):
@@ -186,30 +195,44 @@ def disable_dynamicres():
 def apply_dynamicfps():
     global do_dynamicfps
     do_dynamicfps = True
+    res_numerator_entry.pack(side="left")
+    res_numerator_label.pack(side="left")
+    res_denominator_entry.pack(side="left")
+    shadow_label.pack()
+    shadow_entry.pack()
+    FPS_label.pack()
+    FPS_entry.pack()
+    camera_checkbox.pack()
     
 def apply_cutscenefix():
     global do_cutscene_fix
     do_cutscene_fix = True
     
+def apply_cameramod():
+    global cameramod
+    cameramod = "True"
+    
 def apply_DOF():
     global do_DOF
     do_DOF = True
-    
-def apply_shadowres():
-    global do_shadowres
-    shadow_quality = shadow_res_var
-    do_shadowres = True
-    print("Shadow Resolution is set to " + shadow_quality)
-
-def apply_staticfps():
-    global do_staticfps
-    do_staticfps = True
-    print("Static FPS is set to " + staticfps_var)
     
 def update_HUD_location():
     global centered_HUD
     centered_HUD = True
     corner_checkbox.deselect()
+
+def update_values(*args):
+    global do_custom_ini
+    global customfps
+    global customheight
+    global customshadow
+    global customwidth
+    do_custom_ini = True
+    customfps = FPS_entry.get()
+    customshadow = shadow_entry.get()
+    customheight = res_numerator_entry.get()
+    customwidth = res_denominator_entry.get()
+    print (f"New values:{customwidth} {customheight} {customfps} {customshadow}")
 
 
 def update_ryujinx_location():
@@ -250,6 +273,7 @@ def create_full():
     global centered_HUD
     global shadow_quality
     global staticfps
+    global cameramod
     if output_folder:
         patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
         try:
@@ -272,12 +296,6 @@ def create_full():
     button_color = button_color_var.get()
     button_layout = button_layout_var.get()
     controller_color = controller_color_var.get()
-    staticfpsnew = staticfps_var.get()
-    shadow_qualitynew = shadow_res_var.get()
-    if staticfpsnew:
-        staticfps = staticfps_var.get()
-    if shadow_qualitynew:
-        shadow_quality = shadow_res_var.get()
     script_dir = os.path.dirname(os.path.abspath(__file__))
     if button_layout == "Elden Ring":
         button_layout = "Elden"
@@ -300,16 +318,28 @@ def create_full():
     scaling_factor = calculate_ratio()
     blyt_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN", "blyt")
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    visual_fixes = create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck, staticfps, shadow_quality)
+    visual_fixes = create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck)
     create_patch_files(patch_folder, ratio_value, visual_fixes)
     global dfps_folder
+    global do_custom_ini
+    global dfps_ini_folder
+    global customwidth
+    global customheight
+    global customshadow
+    global customfps
     dfps_output = os.path.join(output_folder, "dFPS")
+    dfps_ini_output = os.path.join(output_folder, "AAR MOD", "romfs")
     if do_dynamicfps:
         if os.path.exists(dfps_output):
             shutil.rmtree(dfps_output)
         print("Copying dynamicFPS mod.")
         shutil.copytree(dfps_folder, dfps_output)
         print("Copied dynamicFPS mod.")
+        if do_custom_ini == False:
+            shutil.copytree(dfps_ini_folder, dfps_ini_output)
+        if do_custom_ini == True:
+            cameramod = str(cameramod)
+            create_custom_ini(customwidth, customheight, customshadow, customfps, cameramod, dfps_ini_output)
     global zs_file_path
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
     print("Extracting ZS.")
@@ -445,25 +475,51 @@ dynamicres_checkbox_var = tk.BooleanVar()
 dynamicres_checkbox = Checkbutton(visuals_frame, text="Disable Dynamic Resolution", variable=dynamicres_checkbox_var, command=disable_dynamicres)
 dynamicres_checkbox.pack()
 
+dynamicfps_label = Label(visuals_frame, text="DynamicFPS Settings:")
+dynamicfps_label.pack(pady=(20, 0))
+
 dynamicfps_checkbox_var = tk.BooleanVar()
 dynamicfps_checkbox = Checkbutton(visuals_frame, text="Use Dynamic FPS", variable=dynamicfps_checkbox_var, command=apply_dynamicfps)
 dynamicfps_checkbox.pack()
 
-staticfps_label = Label(visuals_frame, text="Static FPS:")
-staticfps_label.pack()
+camera_checkbox_var = tk.BooleanVar()
+camera_checkbox = Checkbutton(visuals_frame, text="Increase Camera Quality", variable=camera_checkbox_var, command=apply_cameramod)
 
-staticfps_var = StringVar()
+fps_entry_var = tk.StringVar()
+shadow_entry_var = tk.StringVar()
+res_denominator_entry_var = tk.StringVar()
+res_numerator_entry_var = tk.StringVar()
 
-staticfps_label_dropdown = OptionMenu(visuals_frame, staticfps_var, "20", "30", "60")
-staticfps_label_dropdown.pack()
+resolution_label = Label(visuals_frame, text="Custom Resolution:")
+resolution_label.pack(pady=(10, 0))
 
-shadow_res_label = Label(visuals_frame, text="Shadow Resolution:")
-shadow_res_label.pack()
+frame = Frame(visuals_frame)
+frame.pack()
 
-shadow_res_var = StringVar()
+res_numerator_entry = Entry(frame, textvariable=res_numerator_entry_var)
+res_numerator_entry.insert(0, "1080")
+res_numerator_entry.configure(fg='gray')
+res_numerator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_numerator_entry, "1080"))
+res_numerator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_numerator_entry, "1080"))
 
-shadow_res_dropdown = OptionMenu(visuals_frame, shadow_res_var, "8", "16", "32", "64", "128", "256", "512", "1024", "2048")
-shadow_res_dropdown.pack()
+res_numerator_label = Label(frame, text="x")
+
+res_denominator_entry = Entry(frame, textvariable=res_denominator_entry_var)
+res_denominator_entry.insert(0, "1920")
+res_denominator_entry.configure(fg='gray')
+res_denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_denominator_entry, "1920"))
+res_denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_denominator_entry, "1920"))
+
+FPS_label = Label(visuals_frame, text="Custom FPS:")
+FPS_entry = Entry(visuals_frame, textvariable=fps_entry_var)
+
+shadow_label = Label(visuals_frame, text="Custom Shadow Resolution:")
+shadow_entry = Entry(visuals_frame, textvariable=shadow_entry_var)
+
+fps_entry_var.trace("w", update_values)
+shadow_entry_var.trace("w", update_values)
+res_denominator_entry_var.trace("w", update_values)
+res_numerator_entry_var.trace("w", update_values)
 
 notebook.add(visuals_frame, text="Visuals")
 
@@ -585,7 +641,6 @@ def update_image(*args):
         button_layout_label.pack_forget()
         button_layout_dropdown.pack_forget()
     else:
-        # Restore the state of the color dropdowns and button layout dropdown
         button_color_label.pack()
         button_color_dropdown.pack()
         button_layout_label.pack()
@@ -595,7 +650,6 @@ def update_image(*args):
         controller_color_label.pack_forget()
         controller_color_dropdown.pack_forget()
     else:
-        # Restore the state of the color dropdowns
         controller_color_label.pack()
         controller_color_dropdown.pack()
     if selected_controller_type == "switch" or selected_controller_type == "steam" or selected_controller_type == "colored dualsense":
