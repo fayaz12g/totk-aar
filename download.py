@@ -22,7 +22,7 @@ def download_extract_copy(controller_id, output_folder):
     import shutil
 
     # URL of the ZIP file
-    zip_url = f"https://github.com/fayaz12g/totk-aar/raw/9d0d875ae1fa0ed8c414870a74cb0effff8828bc/controllers/{controller_id}.zip"
+    zip_url = f"https://github.com/fayaz12g/totk-controllers/raw/main/{controller_id}.zip"
 
     # Download the ZIP file
     print("Controller type is", controller_id)

@@ -72,8 +72,8 @@ def pack(root, endianness, level, outname):
 
             print(f"Repacking {filename}")
             
-            if file == "timg/__Combined.bntx":
-                print("Finishing up. This step takes the longest.")
+            if filename == "timg/__Combined.bntx":
+                print("Writing file. Please wait. This step takes the longest (5-10 seconds).")
 
             fullname = ''.join([root, "/", filename])
 
@@ -108,13 +108,16 @@ def pack(root, endianness, level, outname):
 
         if not outname:
             outname = ''.join([root, ".szs"])
+            print(f"Writing {outname}")
 
     else:
         outData = data
         if not outname:
             outname = ''.join([root, ".sarc"])
+            print(f"Writing {outname}")
 
     with open(outname, "wb+") as output:
+        print(f"Writing {outname}")
         output.write(outData)
 
 if __name__ == '__main__':

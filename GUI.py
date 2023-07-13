@@ -45,9 +45,10 @@ from compress import compress_zstd
 
 centered_HUD = False
 output_folder = None  
-tool_version = "5.3.0"
+tool_version = "5.4.0"
 patch_folder = None 
 blyt_folder = None  
+open_when_done = False
 blarc_file_path = None  
 zs_file_path = None  
 scaling_factor = 0.0
@@ -67,6 +68,11 @@ do_dynamicfps = False
 staticfps = "0"
 
 controller_id = "Switch"
+
+script_path = os.path.abspath(__file__)
+script_directory = os.path.dirname(script_path)
+icon_path = os.path.join(script_directory, 'icon.ico')
+dfps_folder = os.path.join(script_directory, "dFPS")
 
 class PrintRedirector:
     def __init__(self, text_widget):
@@ -146,6 +152,10 @@ def disable_ansiotropic():
     global do_disable_ansiotropic
     do_disable_ansiotropic = True
     
+def open_output():
+    global open_when_done
+    open_when_done = True
+
 def disable_reduction():
     global do_disable_reduction
     do_disable_reduction = True
@@ -281,9 +291,16 @@ def create_full():
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
     visual_fixes = create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck, staticfps, shadow_quality)
     create_patch_files(patch_folder, ratio_value, visual_fixes)
+    global dfps_folder
+    dfps_output = os.path.join(output_folder, "dFPS")
+    if do_dynamicfps:
+        if os.path.exists(dfps_output):
+            shutil.rmtree(dfps_output)
+        print("Copying dynamicFPS mod.")
+        shutil.copytree(dfps_folder, dfps_output)
+        print("Copied dynamicFPS mod.")
     global zs_file_path
-    zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive",
-                               "Common.Product.110.Nin_NX_NVN.blarc.zs")
+    zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
     print("Extracting ZS.")
 
     if zs_file_path:
@@ -316,8 +333,7 @@ def create_full():
         print("Repacking new zs file.")
         compress_zstd(blarc_file_path)
         new_source_zs = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
-        destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive",
-                                      "Common.Product.110.Nin_NX_NVN.blarc.zs")
+        destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
         print("Repacked new zs file.")
         os.remove(destination_zs)
         destination_directory = os.path.dirname(destination_zs)
@@ -326,7 +342,12 @@ def create_full():
         print("Copied new zs file to mod.")
         shutil.rmtree(temp_folder)
         print("Removed temp folder.")
-        print("Complete! Enjoy the mod.")
+        global open_when_done
+        if open_when_done == True:
+            print ("Complete! Opening output folder.")
+            os.startfile(output_folder)
+        else:
+            print("Complete! Enjoy the mod.")
     else:
         print("No .zs file selected.")
 
@@ -534,6 +555,10 @@ output_folder_button = Button(console_frame, text="Custom Output Folder", comman
 output_folder_button.pack()
 output_folder_button.pack(pady=10)
 
+open_checkbox_var = tk.BooleanVar()
+open_checkbox = Checkbutton(console_frame, text="Open Output Folder When Done", variable=open_checkbox_var, command=open_output)
+open_checkbox.pack(side="top")
+
 create_patch_button = Button(console_frame, text="Generate", command=create_patch)
 create_patch_button.pack()
 create_patch_button.pack(pady=5)
@@ -558,10 +583,6 @@ def update_label_position4(event):
     credits_version_label.place(x=credits_frame.winfo_width()-10, y=credits_frame.winfo_height()-10, anchor="se")
 
 credits_frame.bind("<Configure>", update_label_position4)
-
-script_path = os.path.abspath(__file__)
-script_directory = os.path.dirname(script_path)
-icon_path = os.path.join(script_directory, 'icon.ico')
 
 root.iconbitmap(icon_path)
 root.mainloop()
