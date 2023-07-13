@@ -619,6 +619,9 @@ def update_image(*args):
         button_layout_label.pack()
         button_layout_dropdown.pack()
         image_layout_label.pack()
+    if selected_controller_type != "steam deck":
+        print("WIP")
+
     print(f"{controller_layout_label}")
     
     image_layout_label.config(text=controller_layout_label)
