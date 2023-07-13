@@ -20,6 +20,7 @@ from tkinter import scrolledtext
 import shutil
 from tkinter import filedialog
 from tkinter import Tk, Button, Label, OptionMenu, StringVar, Entry, Frame, Checkbutton
+from PIL import Image, ImageTk
 import ratiotohex
 import visuals
 from visuals import create_visuals
@@ -45,6 +46,8 @@ from compress import compress_zstd
 
 centered_HUD = False
 output_folder = None  
+image_name = "dual_red.jpeg"
+controller_layout_label = ""
 normal__xbox_layout = "Normal Layout:  A > B, B > A , X > Y, Y > X"
 PE__xbox_layout = "PE Layout: A > A, B > B, X > X, Y > Y"
 western_xbox_layout = "Western Layout: B > A,  A > B, X > X, Y > Y"
@@ -510,6 +513,78 @@ button_layout_label.pack(side="left")
 
 button_layout_dropdown = OptionMenu(button_frame, button_layout_var, "Western", "Normal", "PE", "Elden Ring")
 button_layout_dropdown.pack(side="left")
+
+image_label = tk.Label(controller_frame)
+image_label.pack(side="left")
+
+image_layout_label = Label(button_frame, text=f"{controller_layout_label}", font=("Roboto", 12, "bold"))
+image_layout_label.pack()
+
+def update_image(*args):
+    global controller_layout_label
+    selected_controller_type = controller_type_var.get().lower()
+    selected_controller_color = controller_color_var.get().lower()
+    selected_button_color = button_color_var.get().lower()
+    selected_button_layout = button_layout_var.get().lower()
+
+    global image_name
+    if selected_controller_type == "colored dualsense":
+        image_name = f"dual_{selected_controller_color}.jpeg"
+    elif selected_controller_type == "xbox":
+        image_name = f"xbox_{selected_button_layout}.jpeg"
+    elif selected_controller_type == "playstation":
+        image_name = f"dual_{selected_button_layout}.jpeg"
+    elif selected_controller_type == "switch":
+        image_name = "switch_normal.jpeg"
+    elif selected_controller_type == "steam deck":
+        if selected_button_layout == "normal":
+            image_name = "deck_normal.jpeg"
+        else:
+            image_name = "deck_pe.jpeg"
+    elif selected_controller_type == "steam":
+        image_name = "steam_pe.jpeg"
+
+    if selected_button_layout == "elden ring":
+        image_name = image_name.replace("elden ring", "elden")
+        if selected_controller_type == "playstation":
+            controller_layout_label = elden_dual_layout
+        else:
+            controller_layout_label = elden_xbox_layout
+    if selected_button_layout == "western":
+        if selected_controller_type == "playstation":
+            controller_layout_label = western_dual_layout
+        else:
+            controller_layout_label = western_xbox_layout
+    if selected_button_layout == "PE":
+        if selected_controller_type == "playstation":
+            controller_layout_label = PE__dual_layout
+        else:
+            controller_layout_label = PE__xbox_layout
+    if selected_button_layout == "normal":
+        if selected_controller_type == "playstation":
+            controller_layout_label = normal__dual_layout
+        else:
+            controller_layout_label = normal__xbox_layout
+    print(f"{controller_layout_label}")
+    
+    image_layout_label.config(text=controller_layout_label)
+    image_layout_label.update()
+
+    image_path = os.path.join(script_directory, "images", image_name)
+    
+    # Load and display the image
+    image = Image.open(image_path)
+    image = image.resize((500, 300))  # Adjust the size as needed
+    photo = ImageTk.PhotoImage(image)
+    image_label.config(image=photo)
+    image_label.image = photo  # Keep a reference to the photo to prevent garbage collection
+    print(f"Controller image set to {image_name}")
+    image_label.update()
+
+controller_type_var.trace("w", update_image)
+controller_color_var.trace("w", update_image)
+button_color_var.trace("w", update_image)
+button_layout_var.trace("w", update_image)
 
 notebook.add(controllers_frame, text="Controller")
 
