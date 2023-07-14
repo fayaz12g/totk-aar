@@ -58,7 +58,7 @@ normal__dual_layout = "Normal Layout:  A > Circle, B > Cross, X > Triangle, Y > 
 PE__dual_layout = "PE Layout: B > Circle, A > Cross, Y > Triangle, X > Square"
 western_dual_layout = "Western Layout: B  > Circle,  A > Cross, X > Triangle, Y > Square"
 elden_dual_layout = "Elden Ring Layout: A > Triangle,  B > Square, X > Circle, Y > Cross"
-tool_version = "6.1.2"
+tool_version = "6.1.3"
 patch_folder = None 
 blyt_folder = None  
 customwidth = 0
@@ -512,7 +512,7 @@ res_denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_deno
 FPS_label = Label(visuals_frame, text="Custom FPS:")
 FPS_entry = Entry(visuals_frame, textvariable=fps_entry_var)
 
-shadow_label = Label(visuals_frame, text="Custom Shadow Resolution:")
+shadow_label = Label(visuals_frame, text="Custom Shadow Resolution (Set to -1 to scale to resolution):")
 shadow_entry = Entry(visuals_frame, textvariable=shadow_entry_var)
 
 fps_entry_var.trace("w", update_values)
