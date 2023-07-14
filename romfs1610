@@ -1,21 +1,19 @@
 import os
 import struct
-import sys
-import ast
-import subprocess
 
+def patch_romfs_1610(extracted_blarc_dir):
 
-def float_to_hex(f):
-    return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0')
-
-def perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder):
-    blyt_folder = unpacked_folder + "\\blyt"
-    anim_folder = unpacked_folder + "\\anim"
-    scaling_factor = float(scaling_factor)
-    shift_factor = (1 - float(scaling_factor) / float(scaling_factor))
-    print("Centered HUD value is set to ", centered_HUD)
-    print("The scaling factor is ", scaling_factor)
-    file_names = os.listdir(blyt_folder)
+    scaling_factor = 0.9
+    
+    def float_to_hex(f):
+        """
+        Converts float values into hex, strips the 0x prefix and prepends zeroes to
+        always have length 8
+        """
+        return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0')
+    
+    
+    blyt_folder = os.path.join(extracted_blarc_dir, 'blyt')
     file_names = os.listdir(blyt_folder)
     file_names.remove('AppMenuBG_00.bflyt')
     file_names.remove('PauseMenuBG_00.bflyt')
@@ -26,14 +24,13 @@ def perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder):
     file_names.remove('EventFade_00.bflyt')
     file_names.remove('EventFadeWipe_00.bflyt')
     file_names.remove('CameraShutter_00.bflyt')
-
+    
     for name in file_names:
-        file_loc = blyt_folder + "\\" + name
-        print("Modyfying " + name)
+        file_loc = os.path.join(blyt_folder, name)
         
         with open(file_loc, 'rb') as f:
             content = f.read().hex()
-                
+            
         if name == 'AppMenuOverlay_00.bflyt':
             # Scale N_FadeInOut_00
             x = float_to_hex(scaling_factor)
@@ -431,37 +428,37 @@ def perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder):
             source_str = '4E5F416C6C4D617054696D655F303000000000000000000000000000000000000000000000000000'
             replace_str = '4E5F416C6C4D617054696D655F3031000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
-        if centered_HUD == False:
-            if name == 'EnvironmentInfo_00.bflyt':
-                # Shift RootPane
-                print(f"Shifting {name}")
-                x = float_to_hex(-67)
-                source_str = '526F6F7450616E650000000000000000000000000000000000000000000000000000000000000000'
-                replace_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000' + x
-                content = content.replace(source_str.lower(), replace_str.lower())
+            
+        if name == 'EnvironmentInfo_00.bflyt':
+            # Shift RootPane
+            x = float_to_hex(-67)
+            source_str = '526F6F7450616E650000000000000000000000000000000000000000000000000000000000000000'
+            replace_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+            
+            
+        if name == 'PlayerStatus_00.bflyt':
+            # Shift RootPane
+            x = float_to_hex(55)
+            source_str = '526F6F7450616E650000000000000000000000000000000000000000000000000000000000000000'
+            replace_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
                 
-                
-            if name == 'PlayerStatus_00.bflyt':
-                # Shift RootPane
-                print(f"Shifting {name}")
-                x = float_to_hex(55)
-                source_str = '526F6F7450616E650000000000000000000000000000000000000000000000000000000000000000'
-                replace_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000' + x
-                content = content.replace(source_str.lower(), replace_str.lower())
-                    
-            if name == 'PlayerStatus3D_00.bflyt':
-                print(f"Shifting {name}")
-                # Shift N_ExtraStaminaTarget_01
-                x = float_to_hex(400)
-                source_str = '45787472615374616D696E615461726765745F303100000000000000000000403AC400009843'
-                replace_str = '45787472615374616D696E615461726765745F303100000000000000000000403AC4' + x
-                content = content.replace(source_str.lower(), replace_str.lower())
+            
+        if name == 'PlayerStatus3D_00.bflyt':
+            # Shift N_ExtraStaminaTarget_01
+            x = float_to_hex(400)
+            source_str = '45787472615374616D696E615461726765745F303100000000000000000000403AC400009843'
+            replace_str = '45787472615374616D696E615461726765745F303100000000000000000000403AC4' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+               
                 
         
         with open(file_loc, 'wb') as f:
             f.write(bytes.fromhex(content))
             
-
+    
+    anim_folder = os.path.join(extracted_blarc_dir, 'anim')
     file_names = os.listdir(anim_folder)
     
     for name in file_names:
@@ -469,27 +466,25 @@ def perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder):
         
         with open(file_loc, 'rb') as f:
             content = f.read().hex()
-        if centered_HUD == False:
-            if name == 'AppMap_00_MiniMap.bflan':
-                # Shift N_Cut_XX
-                print(f"Shifting {name}")
-                x = float_to_hex(-440)
-                source_str = '0000b4c3'
-                replace_str = x
-                content = content.replace(source_str.lower(), replace_str.lower())
-                
-            if name == 'Location_00_IsDiscovery.bflan':
-                # Shift N_Lange
-                print(f"Shifting {name}")
-                x = float_to_hex(285+60)
-                source_str = '00808e43'
-                replace_str = x
-                content = content.replace(source_str.lower(), replace_str.lower())
-        
-                x = float_to_hex(260+60)
-                source_str = '00008243'
-                replace_str = x
-                content = content.replace(source_str.lower(), replace_str.lower())
+            
+        if name == 'AppMap_00_MiniMap.bflan':
+            # Shift N_Cut_XX
+            x = float_to_hex(-440)
+            source_str = '0000b4c3'
+            replace_str = x
+            content = content.replace(source_str.lower(), replace_str.lower())
+            
+        if name == 'Location_00_IsDiscovery.bflan':
+            # Shift N_Lange
+            x = float_to_hex(285+60)
+            source_str = '00808e43'
+            replace_str = x
+            content = content.replace(source_str.lower(), replace_str.lower())
+    
+            x = float_to_hex(260+60)
+            source_str = '00008243'
+            replace_str = x
+            content = content.replace(source_str.lower(), replace_str.lower())
             
         with open(file_loc, 'wb') as f:
             f.write(bytes.fromhex(content))

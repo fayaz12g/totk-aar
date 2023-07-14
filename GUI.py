@@ -316,7 +316,6 @@ def create_full():
     print("Extracting zip.")
     ratio_value = create_ratio()
     scaling_factor = calculate_ratio()
-    blyt_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN", "blyt")
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
     visual_fixes = create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck)
     create_patch_files(patch_folder, ratio_value, visual_fixes)
@@ -361,7 +360,7 @@ def create_full():
         blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
         if float(ratio_value) < 1.7777778:
             print("Using vertical stretch script")
-            perform_deck_patching(scaling_factor, centered_HUD, blyt_folder)
+            perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder)
         else:
             print("Using horizontal stretch script")
             perform_patching(scaling_factor, centered_HUD, unpacked_folder)

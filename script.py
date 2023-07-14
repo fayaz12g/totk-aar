@@ -6,10 +6,6 @@ import subprocess
 
 
 def float_to_hex(f):
-    """
-    Converts float values into hex, strips the 0x prefix and prepends zeroes to
-    always have length 8
-    """
     return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0')
 
 def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
