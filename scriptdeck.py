@@ -13,6 +13,7 @@ def perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder):
     anim_folder = unpacked_folder + "\\anim"
     scaling_factor = float(scaling_factor)
     shift_factor = (1 - float(scaling_factor) / float(scaling_factor))
+    centered_HUD = ast.literal_eval(centered_HUD)
     print("Centered HUD value is set to ", centered_HUD)
     print("The scaling factor is ", scaling_factor)
     file_names = os.listdir(blyt_folder)
@@ -431,6 +432,7 @@ def perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder):
             source_str = '4E5F416C6C4D617054696D655F303000000000000000000000000000000000000000000000000000'
             replace_str = '4E5F416C6C4D617054696D655F3031000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
+        
         if centered_HUD == False:
             if name == 'EnvironmentInfo_00.bflyt':
                 # Shift RootPane
@@ -439,7 +441,6 @@ def perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder):
                 source_str = '526F6F7450616E650000000000000000000000000000000000000000000000000000000000000000'
                 replace_str = '526F6F7450616E6500000000000000000000000000000000000000000000000000000000' + x
                 content = content.replace(source_str.lower(), replace_str.lower())
-                
                 
             if name == 'PlayerStatus_00.bflyt':
                 # Shift RootPane

@@ -58,7 +58,7 @@ normal__dual_layout = "Normal Layout:  A > Circle, B > Cross, X > Triangle, Y > 
 PE__dual_layout = "PE Layout: B > Circle, A > Cross, Y > Triangle, X > Square"
 western_dual_layout = "Western Layout: B  > Circle,  A > Cross, X > Triangle, Y > Square"
 elden_dual_layout = "Elden Ring Layout: A > Triangle,  B > Square, X > Circle, Y > Cross"
-tool_version = "6.0.1"
+tool_version = "6.1.2"
 patch_folder = None 
 blyt_folder = None  
 customwidth = 0
@@ -463,7 +463,7 @@ reduction_checkbox = Checkbutton(visuals_frame, text="Disable LOD Reduction", va
 reduction_checkbox.pack()
 
 ansiotropic_checkbox_var = tk.BooleanVar()
-ansiotropic_checkbox = Checkbutton(visuals_frame, text="Disable Ansiotropic", variable=ansiotropic_checkbox_var, command=disable_ansiotropic)
+ansiotropic_checkbox = Checkbutton(visuals_frame, text="Anisotropic Filtering Fix", variable=ansiotropic_checkbox_var, command=disable_ansiotropic)
 ansiotropic_checkbox.pack()
 
 trilinear_checkbox_var = tk.BooleanVar()
