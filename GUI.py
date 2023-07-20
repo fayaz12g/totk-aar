@@ -762,7 +762,7 @@ progressbar.configure(mode="determinate", determinate_speed=0.1, progress_color=
 console_version_label = customtkinter.CTkLabel(master=notebook.tab("Generate"), text=f"Tool Version: {tool_version}")
 
 credits_label = customtkinter.CTkLabel(master=notebook.tab("Credits"), text='Utility created by fayaz\nhttps://ko-fi.com/fayaz12\nyoutube.com/fayaz\n\nBased on\nHUD Fix script by u/fruithapje21 on Reddit\n\nController Mods:\nAlerion921 on Gamebanana\nStavaasEVG on Gamebanana\n\nVisual Fixes by\nChuckFeedAndSeed, patchanon, somerandompeople, SweetMini, \ntheboy181, Wollnashorn, and Zeikken on GBAtemp\n\ndFPS Mod by\nu/ChucksFeedAndSeed on reddit')
-credits_label.place(relx=0.55, rely=0.3, anchor="center")
+credits_label.pack(padx=20, pady=50)
 
 root.iconbitmap(icon_path)
 root.mainloop()
