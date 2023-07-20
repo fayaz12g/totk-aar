@@ -425,28 +425,21 @@ def handle_focus_out(entry, default_text):
         entry.configure(text_color='gray')
 
 root = customtkinter.CTk()
-root.geometry("500x740")
+root.geometry("500x780")
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
 
 style = ttk.Style()
 style.configure("Custom.TNotebook.Tab", padding=[25, 15], font=("Futura", 18), background='gray') 
 
-notebook = ttk.Notebook(root, style="Custom.TNotebook")
-notebook.pack(fill="both", expand=True)
+notebook = customtkinter.CTkTabview(root, width=10, height=10)
+notebook.pack(padx=10, pady=10)
 
-visuals_frame = customtkinter.CTkFrame(root)
-visuals_frame.pack(fill="both", expand=True)
-console_label3 = customtkinter.CTkLabel(visuals_frame, text='Enter Aspect Ratio or Screen Dimensions (ex: 21:9 or 3440x1440):')
+notebook.add("Visuals")
+
+console_label3 = customtkinter.CTkLabel(master=notebook.tab("Visuals"), text='Enter Aspect Ratio or Screen Dimensions (ex: 21:9 or 3440x1440):')
 console_label3.pack(padx=10, pady=10)
 
-visuals_version_label = customtkinter.CTkLabel(visuals_frame, text=f"Tool Version: {tool_version}")
-
-def update_label_position2(event):
-    visuals_version_label.place(x=visuals_frame.winfo_width()-10, y=visuals_frame.winfo_height()-10, anchor="se")
-
-visuals_frame.bind("<Configure>", update_label_position2)
-
-frame = customtkinter.CTkFrame(visuals_frame)
+frame = customtkinter.CTkFrame(master=notebook.tab("Visuals"))
 frame.pack()
 
 numerator_entry = customtkinter.CTkEntry(frame)
@@ -465,60 +458,60 @@ denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(denominator_
 denominator_entry.pack(side="left")
 
 cutscene_checkbox_var = tk.BooleanVar()
-cutscene_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Cutscene FPS Fix", variable=cutscene_checkbox_var, command=apply_cutscenefix)
+cutscene_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Cutscene FPS Fix", variable=cutscene_checkbox_var, command=apply_cutscenefix)
 cutscene_checkbox.pack(padx=5, pady=5)
 
 fsr_checkbox_var = tk.BooleanVar()
-fsr_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable FSR", variable=fsr_checkbox_var, command=disable_fsr)
+fsr_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable FSR", variable=fsr_checkbox_var, command=disable_fsr)
 fsr_checkbox.pack(padx=5, pady=5)
 
 DOF_checkbox_var = tk.BooleanVar()
-DOF_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable Targeting DOF", variable=DOF_checkbox_var, command=apply_DOF)
+DOF_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Targeting DOF", variable=DOF_checkbox_var, command=apply_DOF)
 DOF_checkbox.pack(padx=5, pady=5)
 
 chuck_checkbox_var = tk.BooleanVar()
-chuck_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Use Chuck's 1008p", variable=chuck_checkbox_var, command=apply_chuck)
+chuck_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Use Chuck's 1008p", variable=chuck_checkbox_var, command=apply_chuck)
 chuck_checkbox.pack(padx=5, pady=5)
 
 fxaa_checkbox_var = tk.BooleanVar()
-fxaa_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable FXAA", variable=fxaa_checkbox_var, command=disable_fxaa)
+fxaa_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable FXAA", variable=fxaa_checkbox_var, command=disable_fxaa)
 fxaa_checkbox.pack(padx=5, pady=5)
 
 reduction_checkbox_var = tk.BooleanVar()
-reduction_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable LOD Reduction", variable=reduction_checkbox_var, command=disable_reduction)
+reduction_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable LOD Reduction", variable=reduction_checkbox_var, command=disable_reduction)
 reduction_checkbox.pack(padx=5, pady=5)
 
 ansiotropic_checkbox_var = tk.BooleanVar()
-ansiotropic_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Anisotropic Filtering Fix", variable=ansiotropic_checkbox_var, command=disable_ansiotropic)
+ansiotropic_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Anisotropic Filtering Fix", variable=ansiotropic_checkbox_var, command=disable_ansiotropic)
 ansiotropic_checkbox.pack(padx=5, pady=5)
 
 trilinear_checkbox_var = tk.BooleanVar()
-trilinear_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Force Trilinear Over Bilinear", variable=trilinear_checkbox_var, command=force_trilinear)
+trilinear_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Force Trilinear Over Bilinear", variable=trilinear_checkbox_var, command=force_trilinear)
 trilinear_checkbox.pack(padx=5, pady=5)
 
 dynamicres_checkbox_var = tk.BooleanVar()
-dynamicres_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable Dynamic Resolution", variable=dynamicres_checkbox_var, command=disable_dynamicres)
+dynamicres_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Dynamic Resolution", variable=dynamicres_checkbox_var, command=disable_dynamicres)
 dynamicres_checkbox.pack(padx=5, pady=5)
 
-dynamicfps_label = customtkinter.CTkLabel(visuals_frame, text="DynamicFPS Settings:")
+dynamicfps_label = customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="DynamicFPS Settings:")
 dynamicfps_label.pack(pady=(20, 0))
 
 dynamicfps_checkbox_var = tk.BooleanVar()
-dynamicfps_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Use Dynamic FPS", variable=dynamicfps_checkbox_var, command=apply_dynamicfps)
+dynamicfps_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Use Dynamic FPS", variable=dynamicfps_checkbox_var, command=apply_dynamicfps)
 dynamicfps_checkbox.pack(padx=5, pady=5)
 
 camera_checkbox_var = tk.BooleanVar()
-camera_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Increase Camera Quality", variable=camera_checkbox_var, command=apply_cameramod)
+camera_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Increase Camera Quality", variable=camera_checkbox_var, command=apply_cameramod)
 
 fps_entry_var = tk.StringVar()
 shadow_entry_var = tk.StringVar()
 res_denominator_entry_var = tk.StringVar()
 res_numerator_entry_var = tk.StringVar()
 
-resolution_label = customtkinter.CTkLabel(visuals_frame, text="Custom Resolution:")
+resolution_label = customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom Resolution:")
 resolution_label.pack(pady=(10, 0))
 
-frame = customtkinter.CTkFrame(visuals_frame)
+frame = customtkinter.CTkFrame(master=notebook.tab("Visuals"))
 frame.pack()
 
 res_numerator_entry = customtkinter.CTkEntry(frame, textvariable=res_numerator_entry_var)
@@ -535,11 +528,11 @@ res_denominator_entry.configure(text_color='gray')
 res_denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_denominator_entry, "1920"))
 res_denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_denominator_entry, "1920"))
 
-FPS_label = customtkinter.CTkLabel(visuals_frame, text="Custom FPS:")
-FPS_entry = customtkinter.CTkEntry(visuals_frame, textvariable=fps_entry_var)
+FPS_label = customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom FPS:")
+FPS_entry = customtkinter.CTkEntry(master=notebook.tab("Visuals"), textvariable=fps_entry_var)
 
-shadow_label = customtkinter.CTkLabel(visuals_frame, text="Custom Shadow Resolution (Set to -1 to scale to resolution):")
-shadow_entry = customtkinter.CTkEntry(visuals_frame, textvariable=shadow_entry_var)
+shadow_label = customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom Shadow Resolution (Set to -1 to scale to resolution):")
+shadow_entry = customtkinter.CTkEntry(master=notebook.tab("Visuals"), textvariable=shadow_entry_var)
 
 fps_entry_var.trace("w", update_values)
 shadow_entry_var.trace("w", update_values)
@@ -548,52 +541,42 @@ res_numerator_entry_var.trace("w", update_values)
 
 apply_dynamicfps()
 
-notebook.add(visuals_frame, text="Visuals")
-
-controllers_frame = customtkinter.CTkFrame(root)
-controllers_frame.pack(fill="both", expand=True)
+notebook.add("Controller")
 
 controller_type_var = StringVar()
 button_color_var = StringVar()
 controller_color_var = StringVar()
 button_layout_var = StringVar()
 
-image_label = customtkinter.CTkLabel(controllers_frame)
+image_label = customtkinter.CTkLabel(master=notebook.tab("Controller"))
 image_label.pack(pady=30)
 
-image_layout_label = customtkinter.CTkLabel(controllers_frame, text=f"{controller_layout_label}", font=("Roboto", 15, "bold"))
+image_layout_label = customtkinter.CTkLabel(master=notebook.tab("Controller"), text=f"{controller_layout_label}", font=("Roboto", 15, "bold"))
 image_layout_label.pack(padx=5, pady=5)
 
-controller_type_label = customtkinter.CTkLabel(controllers_frame, text="Controller Type:")
+controller_type_label = customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Controller Type:")
 controller_type_label.pack()
 
-controller_type_dropdown = customtkinter.CTkOptionMenu(controllers_frame, variable=controller_type_var, values=["Xbox", "Playstation", "Colored Dualsense", "Switch", "Steam", "Steam Deck"])
+controller_type_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=controller_type_var, values=["Xbox", "Playstation", "Colored Dualsense", "Switch", "Steam", "Steam Deck"])
 controller_type_dropdown.pack()
 
-controller_color_label = customtkinter.CTkLabel(controllers_frame, text="Controller Color:")
+controller_color_label = customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Controller Color:")
 controller_color_label.pack()
 
-controller_color_dropdown = customtkinter.CTkOptionMenu(controllers_frame, values=["Red", "White", "Blue", "Pink", "Purple", "Black"], variable=controller_color_var)
+controller_color_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), values=["Red", "White", "Blue", "Pink", "Purple", "Black"], variable=controller_color_var)
 controller_color_dropdown.pack()
 
-button_color_label = customtkinter.CTkLabel(controllers_frame, text="Button Color:")
+button_color_label = customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Button Color:")
 button_color_label.pack()
 
-button_color_dropdown = customtkinter.CTkOptionMenu(controllers_frame, variable=button_color_var, values=["Colored", "White"])
+button_color_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=button_color_var, values=["Colored", "White"])
 button_color_dropdown.pack()
 
-button_layout_label = customtkinter.CTkLabel(controllers_frame, text="Button Layout:")
+button_layout_label = customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Button Layout:")
 button_layout_label.pack()
 
-button_layout_dropdown = customtkinter.CTkOptionMenu(controllers_frame, variable=button_layout_var, values=["Western", "Normal", "PE", "Elden Ring"])
+button_layout_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=button_layout_var, values=["Western", "Normal", "PE", "Elden Ring"])
 button_layout_dropdown.pack()
-
-controller_version_label = customtkinter.CTkLabel(controllers_frame, text=f"Tool Version: {tool_version}")
-
-def update_label_position3(event):
-    controller_version_label.place(x=controllers_frame.winfo_width()-10, y=controllers_frame.winfo_height()-10, anchor="se")
-
-controllers_frame.bind("<Configure>", update_label_position3)
 
 def update_image(*args):
     global controller_layout_label
@@ -718,96 +701,68 @@ button_layout_var.trace("w", update_image)
 
 update_image()
 
-notebook.add(controllers_frame, text="Controller")
+notebook.add("Hud")
 
-hud_frame = customtkinter.CTkFrame(root)
-hud_frame.pack(fill="both", expand=True)
-content_frame = customtkinter.CTkFrame(hud_frame)
+content_frame = customtkinter.CTkFrame(master=notebook.tab("Hud"))
 content_frame.pack(padx=10, pady=10)
 
 hud_label = customtkinter.CTkLabel(content_frame, text='Hud Location:')
 hud_label.pack()
 
-hud_version_label = customtkinter.CTkLabel(hud_frame, text=f"Tool Version: {tool_version}")
-
-def update_label_position4(event):
-    hud_version_label.place(x=hud_frame.winfo_width()-10, y=hud_frame.winfo_height()-10, anchor="se")
-
-hud_frame.bind("<Configure>", update_label_position4)
-
 center_checkbox_var = tk.BooleanVar()
-center_checkbox = customtkinter.CTkRadioButton(hud_frame, text="Center", variable=center_checkbox_var, value=1, command=update_HUD_location)
+center_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("Hud"), text="Center", variable=center_checkbox_var, value=1, command=update_HUD_location)
 center_checkbox.pack()
 
 corner_checkbox_var = tk.BooleanVar()
-corner_checkbox = customtkinter.CTkRadioButton(hud_frame, text="Corner", variable=corner_checkbox_var, value=2, command=update_corner_location)
+corner_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("Hud"), text="Corner", variable=corner_checkbox_var, value=2, command=update_corner_location)
 corner_checkbox.pack(padx=10, pady=10)
 
 shutter_checkbox_var = tk.BooleanVar()
-shutter_checkbox = customtkinter.CTkCheckBox(hud_frame, text="Expand Shutter Size", variable=shutter_checkbox_var, command=update_shutter)
+shutter_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Hud"), text="Expand Shutter Size", variable=shutter_checkbox_var, command=update_shutter)
 shutter_checkbox.pack(padx=20, pady=20)
 
-notebook.add(hud_frame, text="HUD")
+notebook.add("Generate")
 
-console_frame = customtkinter.CTkFrame(root)
-console_frame.pack(fill="both", expand=True)
+notebook.add("Credits")
 
-notebook.add(console_frame, text="Generate")
-
-emulator_label = customtkinter.CTkLabel(console_frame, text="Select your Emulator OR choose a custom output folder, then click Generate.")
+emulator_label = customtkinter.CTkLabel(master=notebook.tab("Generate"), text="Select your Emulator OR choose a custom output folder, then click Generate.")
 emulator_label.pack(pady=10)
 
 yuzu_checkbox_var = tk.BooleanVar()
-yuzu_checkbox = customtkinter.CTkRadioButton(console_frame, text="Yuzu", value=1, variable=yuzu_checkbox_var, command=update_yuzu_location)
+yuzu_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("Generate"), text="Yuzu", value=1, variable=yuzu_checkbox_var, command=update_yuzu_location)
 yuzu_checkbox.pack(side="top")
 
 ryujinx_checkbox_var = tk.BooleanVar()
-ryujinx_checkbox = customtkinter.CTkRadioButton(console_frame, text="Ryujinx", value=2, variable=ryujinx_checkbox_var, command=update_ryujinx_location)
+ryujinx_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("Generate"), text="Ryujinx", value=2, variable=ryujinx_checkbox_var, command=update_ryujinx_location)
 ryujinx_checkbox.pack(pady=5, side="top")
 
-output_folder_button = customtkinter.CTkButton(console_frame, text="Custom Output Folder", fg_color="gray", hover_color="black", command=select_output_folder)
+output_folder_button = customtkinter.CTkButton(master=notebook.tab("Generate"), text="Custom Output Folder", fg_color="gray", hover_color="black", command=select_output_folder)
 output_folder_button.pack()
 output_folder_button.pack(pady=10)
 
 open_checkbox_var = tk.BooleanVar()
-open_checkbox = customtkinter.CTkCheckBox(console_frame, text="Open Output Folder When Done", variable=open_checkbox_var, command=open_output)
+open_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Generate"), text="Open Output Folder When Done", variable=open_checkbox_var, command=open_output)
 open_checkbox.pack(pady=10, side="top")
 
-create_patch_button = customtkinter.CTkButton(console_frame, text="Generate", command=create_patch)
+create_patch_button = customtkinter.CTkButton(master=notebook.tab("Generate"), text="Generate", command=create_patch)
 create_patch_button.pack()
 create_patch_button.pack(pady=15)
 
-console_label = customtkinter.CTkLabel(console_frame, text='Console:')
+console_label = customtkinter.CTkLabel(master=notebook.tab("Generate"), text='Console:')
 console_label.pack(padx=10, pady=5)
-scrolled_text = scrolledtext.ScrolledText(console_frame, width=50, height=22, font=("Helvetica", 20))
+scrolled_text = scrolledtext.ScrolledText(master=notebook.tab("Generate"), width=50, height=22, font=("Helvetica", 20))
 scrolled_text.pack()
 
-progressbar = customtkinter.CTkProgressBar(console_frame, orientation="horizontal")
+progressbar = customtkinter.CTkProgressBar(master=notebook.tab("Generate"), orientation="horizontal")
 progressbar.pack(pady=5)
 progressbar.set(0)
 
 progressbar.configure(mode="determinate", determinate_speed=0.1, progress_color="green", fg_color="lightgreen", height=6, width=400)
 
-console_version_label = customtkinter.CTkLabel(console_frame, text=f"Tool Version: {tool_version}")
+console_version_label = customtkinter.CTkLabel(master=notebook.tab("Generate"), text=f"Tool Version: {tool_version}")
 
-def update_label_position4(event):
-    console_version_label.place(x=console_frame.winfo_width()-10, y=console_frame.winfo_height()-10, anchor="se")
-
-console_frame.bind("<Configure>", update_label_position4)
-
-credits_frame = customtkinter.CTkFrame(root)
-credits_frame.pack(fill="both", expand=True)
-credits_label = customtkinter.CTkLabel(credits_frame, text='Utility created by fayaz\nhttps://ko-fi.com/fayaz12\nyoutube.com/fayaz\n\nBased on\nHUD Fix script by u/fruithapje21 on Reddit\n\nController Mods:\nAlerion921 on Gamebanana\nStavaasEVG on Gamebanana\n\nVisual Fixes by\nChuckFeedAndSeed, patchanon, somerandompeople, SweetMini, \ntheboy181, Wollnashorn, and Zeikken on GBAtemp\n\ndFPS Mod by\nu/ChucksFeedAndSeed on reddit')
+credits_label = customtkinter.CTkLabel(master=notebook.tab("Credits"), text='Utility created by fayaz\nhttps://ko-fi.com/fayaz12\nyoutube.com/fayaz\n\nBased on\nHUD Fix script by u/fruithapje21 on Reddit\n\nController Mods:\nAlerion921 on Gamebanana\nStavaasEVG on Gamebanana\n\nVisual Fixes by\nChuckFeedAndSeed, patchanon, somerandompeople, SweetMini, \ntheboy181, Wollnashorn, and Zeikken on GBAtemp\n\ndFPS Mod by\nu/ChucksFeedAndSeed on reddit')
 credits_label.place(relx=0.55, rely=0.3, anchor="center")
-
-notebook.add(credits_frame, text="Credits")
-
-credits_version_label = customtkinter.CTkLabel(credits_frame, text=f"Tool Version: {tool_version}")
-
-def update_label_position4(event):
-    credits_version_label.place(x=credits_frame.winfo_width()-10, y=credits_frame.winfo_height()-10, anchor="se")
-
-credits_frame.bind("<Configure>", update_label_position4)
 
 root.iconbitmap(icon_path)
 root.mainloop()
