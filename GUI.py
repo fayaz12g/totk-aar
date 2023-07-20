@@ -7,6 +7,7 @@ import ctypes
 from pathlib import Path
 import subprocess
 import tkinter as tk
+import customtkinter
 import ratiotohex
 import extract
 from extract import extract_blarc
@@ -46,6 +47,9 @@ from repack import pack
 from repack import pack_folder_to_blarc
 from compress import compress_zstd
 
+customtkinter.set_appearance_mode("dark")
+customtkinter.set_default_color_theme("green")  
+
 expand_shutter = False
 centered_HUD = False
 output_folder = None
@@ -59,7 +63,7 @@ normal__dual_layout = "Normal Layout:  A > Circle, B > Cross, X > Triangle, Y > 
 PE__dual_layout = "PE Layout: B > Circle, A > Cross, Y > Triangle, X > Square"
 western_dual_layout = "Western Layout: B  > Circle,  A > Cross, X > Triangle, Y > Square"
 elden_dual_layout = "Elden Ring Layout: A > Triangle,  B > Square, X > Circle, Y > Cross"
-tool_version = "7.0.1"
+tool_version = "8.0.0"
 patch_folder = None 
 blyt_folder = None  
 customwidth = 0
@@ -332,17 +336,21 @@ def create_full():
     global customshadow
     global customfps
     global expand_shutter
+    dfps_default_ini = os.path.join(dfps_ini_folder, "default.ini")
     dfps_output = os.path.join(output_folder, "dFPS")
     dfps_ini_output = os.path.join(output_folder, "AAR MOD", "romfs")
+    dfps_default_output = os.path.join(dfps_ini_output, "dfps")
     if do_dynamicfps:
         if os.path.exists(dfps_output):
             shutil.rmtree(dfps_output)
         print("Copying dynamicFPS mod.")
         shutil.copytree(dfps_folder, dfps_output)
         print("Copied dynamicFPS mod.")
-        if do_custom_ini == False:
-            shutil.copytree(dfps_ini_folder, dfps_ini_output)
+        if os.path.exists(dfps_default_output):
+            shutil.rmtree(dfps_default_output)
+        shutil.copy2(dfps_default_ini, dfps_default_output)
         if do_custom_ini == True:
+            print("Creating custom ini")
             cameramod = str(cameramod)
             create_custom_ini(customwidth, customheight, customshadow, customfps, cameramod, dfps_ini_output)
     global zs_file_path
@@ -401,186 +409,180 @@ def create_full():
 def handle_focus_in(entry, default_text):
     if entry.get() == default_text:
         entry.delete(0, "end")
-        entry.configure(fg='black')
+        entry.configure(text_color='white')
 
 def handle_focus_out(entry, default_text):
     if entry.get() == "":
         entry.insert(0, default_text)
-        entry.configure(fg='gray')
+        entry.configure(text_color='gray')
 
-root = Tk()
-root.geometry("500x580")
+root = customtkinter.CTk()
+root.geometry("500x700")
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
 
 notebook = ttk.Notebook(root)
 notebook.pack(fill="both", expand=True)
 
-visuals_frame = ttk.Frame(root)
+visuals_frame = customtkinter.CTkFrame(root)
 visuals_frame.pack(fill="both", expand=True)
-console_label3 = ttk.Label(visuals_frame, text='Enter Aspect Ratio or Screen Dimensions (ex: 21:9 or 3440x1440):')
+console_label3 = customtkinter.CTkLabel(visuals_frame, text='Enter Aspect Ratio or Screen Dimensions (ex: 21:9 or 3440x1440):')
 console_label3.pack(padx=10, pady=10)
 
-visuals_version_label = ttk.Label(visuals_frame, text=f"Tool Version: {tool_version}")
+visuals_version_label = customtkinter.CTkLabel(visuals_frame, text=f"Tool Version: {tool_version}")
 
 def update_label_position2(event):
     visuals_version_label.place(x=visuals_frame.winfo_width()-10, y=visuals_frame.winfo_height()-10, anchor="se")
 
 visuals_frame.bind("<Configure>", update_label_position2)
 
-frame = Frame(visuals_frame)
+frame = customtkinter.CTkFrame(visuals_frame)
 frame.pack()
 
-numerator_entry = Entry(frame)
+numerator_entry = customtkinter.CTkEntry(frame)
 numerator_entry.insert(0, "16")
-numerator_entry.configure(fg='gray')
+numerator_entry.configure(text_color='gray')
 numerator_entry.bind("<FocusIn>", lambda event: handle_focus_in(numerator_entry, "16"))
 numerator_entry.bind("<FocusOut>", lambda event: handle_focus_out(numerator_entry, "16"))
 numerator_entry.pack(side="left")
-numerator_label = Label(frame, text=":")
+numerator_label = customtkinter.CTkLabel(frame, text=":")
 numerator_label.pack(side="left")
-denominator_entry = Entry(frame)
+denominator_entry = customtkinter.CTkEntry(frame)
 denominator_entry.insert(0, "9")
-denominator_entry.configure(fg='gray')
+denominator_entry.configure(text_color='gray')
 denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(denominator_entry, "9"))
 denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(denominator_entry, "9"))
 denominator_entry.pack(side="left")
 
 cutscene_checkbox_var = tk.BooleanVar()
-cutscene_checkbox = Checkbutton(visuals_frame, text="Cutscene Fix", variable=cutscene_checkbox_var, command=apply_cutscenefix)
-cutscene_checkbox.pack()
+cutscene_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Cutscene FPS Fix", variable=cutscene_checkbox_var, command=apply_cutscenefix)
+cutscene_checkbox.pack(padx=5, pady=5)
 
 fsr_checkbox_var = tk.BooleanVar()
-fsr_checkbox = Checkbutton(visuals_frame, text="Disable FSR", variable=fsr_checkbox_var, command=disable_fsr)
-fsr_checkbox.pack()
+fsr_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable FSR", variable=fsr_checkbox_var, command=disable_fsr)
+fsr_checkbox.pack(padx=5, pady=5)
 
 DOF_checkbox_var = tk.BooleanVar()
-DOF_checkbox = Checkbutton(visuals_frame, text="Disable targeting DOF", variable=DOF_checkbox_var, command=apply_DOF)
-DOF_checkbox.pack()
+DOF_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable Targeting DOF", variable=DOF_checkbox_var, command=apply_DOF)
+DOF_checkbox.pack(padx=5, pady=5)
 
 chuck_checkbox_var = tk.BooleanVar()
-chuck_checkbox = Checkbutton(visuals_frame, text="Use Chuck's 1008p", variable=chuck_checkbox_var, command=apply_chuck)
-chuck_checkbox.pack()
+chuck_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Use Chuck's 1008p", variable=chuck_checkbox_var, command=apply_chuck)
+chuck_checkbox.pack(padx=5, pady=5)
 
 fxaa_checkbox_var = tk.BooleanVar()
-fxaa_checkbox = Checkbutton(visuals_frame, text="Disable FXAA", variable=fxaa_checkbox_var, command=disable_fxaa)
-fxaa_checkbox.pack()
+fxaa_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable FXAA", variable=fxaa_checkbox_var, command=disable_fxaa)
+fxaa_checkbox.pack(padx=5, pady=5)
 
 reduction_checkbox_var = tk.BooleanVar()
-reduction_checkbox = Checkbutton(visuals_frame, text="Disable LOD Reduction", variable=reduction_checkbox_var, command=disable_reduction)
-reduction_checkbox.pack()
+reduction_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable LOD Reduction", variable=reduction_checkbox_var, command=disable_reduction)
+reduction_checkbox.pack(padx=5, pady=5)
 
 ansiotropic_checkbox_var = tk.BooleanVar()
-ansiotropic_checkbox = Checkbutton(visuals_frame, text="Anisotropic Filtering Fix", variable=ansiotropic_checkbox_var, command=disable_ansiotropic)
-ansiotropic_checkbox.pack()
+ansiotropic_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Anisotropic Filtering Fix", variable=ansiotropic_checkbox_var, command=disable_ansiotropic)
+ansiotropic_checkbox.pack(padx=5, pady=5)
 
 trilinear_checkbox_var = tk.BooleanVar()
-trilinear_checkbox = Checkbutton(visuals_frame, text="Force Trilinear Over Bilinear", variable=trilinear_checkbox_var, command=force_trilinear)
-trilinear_checkbox.pack()
+trilinear_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Force Trilinear Over Bilinear", variable=trilinear_checkbox_var, command=force_trilinear)
+trilinear_checkbox.pack(padx=5, pady=5)
 
 dynamicres_checkbox_var = tk.BooleanVar()
-dynamicres_checkbox = Checkbutton(visuals_frame, text="Disable Dynamic Resolution", variable=dynamicres_checkbox_var, command=disable_dynamicres)
-dynamicres_checkbox.pack()
+dynamicres_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Disable Dynamic Resolution", variable=dynamicres_checkbox_var, command=disable_dynamicres)
+dynamicres_checkbox.pack(padx=5, pady=5)
 
-dynamicfps_label = Label(visuals_frame, text="DynamicFPS Settings:")
+dynamicfps_label = customtkinter.CTkLabel(visuals_frame, text="DynamicFPS Settings:")
 dynamicfps_label.pack(pady=(20, 0))
 
 dynamicfps_checkbox_var = tk.BooleanVar()
-dynamicfps_checkbox = Checkbutton(visuals_frame, text="Use Dynamic FPS", variable=dynamicfps_checkbox_var, command=apply_dynamicfps)
-dynamicfps_checkbox.pack()
+dynamicfps_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Use Dynamic FPS", variable=dynamicfps_checkbox_var, command=apply_dynamicfps)
+dynamicfps_checkbox.pack(padx=5, pady=5)
 
 camera_checkbox_var = tk.BooleanVar()
-camera_checkbox = Checkbutton(visuals_frame, text="Increase Camera Quality", variable=camera_checkbox_var, command=apply_cameramod)
+camera_checkbox = customtkinter.CTkCheckBox(visuals_frame, text="Increase Camera Quality", variable=camera_checkbox_var, command=apply_cameramod)
 
 fps_entry_var = tk.StringVar()
 shadow_entry_var = tk.StringVar()
 res_denominator_entry_var = tk.StringVar()
 res_numerator_entry_var = tk.StringVar()
 
-resolution_label = Label(visuals_frame, text="Custom Resolution:")
+resolution_label = customtkinter.CTkLabel(visuals_frame, text="Custom Resolution:")
 resolution_label.pack(pady=(10, 0))
 
-frame = Frame(visuals_frame)
+frame = customtkinter.CTkFrame(visuals_frame)
 frame.pack()
 
-res_numerator_entry = Entry(frame, textvariable=res_numerator_entry_var)
+res_numerator_entry = customtkinter.CTkEntry(frame, textvariable=res_numerator_entry_var)
 res_numerator_entry.insert(0, "1080")
-res_numerator_entry.configure(fg='gray')
+res_numerator_entry.configure(text_color='gray')
 res_numerator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_numerator_entry, "1080"))
 res_numerator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_numerator_entry, "1080"))
 
-res_numerator_label = Label(frame, text="x")
+res_numerator_label = customtkinter.CTkLabel(frame, text="x")
 
-res_denominator_entry = Entry(frame, textvariable=res_denominator_entry_var)
+res_denominator_entry = customtkinter.CTkEntry(frame, textvariable=res_denominator_entry_var)
 res_denominator_entry.insert(0, "1920")
-res_denominator_entry.configure(fg='gray')
+res_denominator_entry.configure(text_color='gray')
 res_denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_denominator_entry, "1920"))
 res_denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_denominator_entry, "1920"))
 
-FPS_label = Label(visuals_frame, text="Custom FPS:")
-FPS_entry = Entry(visuals_frame, textvariable=fps_entry_var)
+FPS_label = customtkinter.CTkLabel(visuals_frame, text="Custom FPS:")
+FPS_entry = customtkinter.CTkEntry(visuals_frame, textvariable=fps_entry_var)
 
-shadow_label = Label(visuals_frame, text="Custom Shadow Resolution (Set to -1 to scale to resolution):")
-shadow_entry = Entry(visuals_frame, textvariable=shadow_entry_var)
+shadow_label = customtkinter.CTkLabel(visuals_frame, text="Custom Shadow Resolution (Set to -1 to scale to resolution):")
+shadow_entry = customtkinter.CTkEntry(visuals_frame, textvariable=shadow_entry_var)
 
 fps_entry_var.trace("w", update_values)
 shadow_entry_var.trace("w", update_values)
 res_denominator_entry_var.trace("w", update_values)
 res_numerator_entry_var.trace("w", update_values)
 
+apply_dynamicfps()
+
 notebook.add(visuals_frame, text="Visuals")
 
-controllers_frame = ttk.Frame(root)
+controllers_frame = customtkinter.CTkFrame(root)
 controllers_frame.pack(fill="both", expand=True)
-content2_frame = ttk.Frame(controllers_frame)
-content2_frame.pack(padx=10, pady=10)
 
 controller_type_var = StringVar()
 button_color_var = StringVar()
 controller_color_var = StringVar()
 button_layout_var = StringVar()
 
-controller_frame = Frame(controllers_frame)
-controller_frame.pack()
+image_label = customtkinter.CTkLabel(controllers_frame)
+image_label.pack(pady=30)
 
-button_frame = Frame(controllers_frame)
-button_frame.pack()
-
-image_label = Label(controller_frame)
-image_label.pack()
-
-image_layout_label = Label(button_frame, text=f"{controller_layout_label}", font=("Roboto", 11, "bold"))
+image_layout_label = customtkinter.CTkLabel(controllers_frame, text=f"{controller_layout_label}", font=("Roboto", 15, "bold"))
 image_layout_label.pack(padx=5, pady=5)
 
-controller_type_label = Label(controller_frame, text="Controller Type:")
+controller_type_label = customtkinter.CTkLabel(controllers_frame, text="Controller Type:")
 controller_type_label.pack()
 
-controller_type_dropdown = OptionMenu(controller_frame, controller_type_var, "Xbox", "Playstation", "Colored Dualsense", "Switch", "Steam", "Steam Deck")
+controller_type_dropdown = customtkinter.CTkOptionMenu(controllers_frame, variable=controller_type_var, values=["Xbox", "Playstation", "Colored Dualsense", "Switch", "Steam", "Steam Deck"])
 controller_type_dropdown.pack()
 
-controller_color_label = Label(button_frame, text="Controller Color:")
+controller_color_label = customtkinter.CTkLabel(controllers_frame, text="Controller Color:")
 controller_color_label.pack()
 
-controller_color_dropdown = OptionMenu(button_frame, controller_color_var, "Red", "White", "Blue", "Pink", "Purple", "Black")
+controller_color_dropdown = customtkinter.CTkOptionMenu(controllers_frame, values=["Red", "White", "Blue", "Pink", "Purple", "Black"], variable=controller_color_var)
 controller_color_dropdown.pack()
 
-button_color_label = Label(button_frame, text="Button Color:")
+button_color_label = customtkinter.CTkLabel(controllers_frame, text="Button Color:")
 button_color_label.pack()
 
-button_color_dropdown = OptionMenu(button_frame, button_color_var, "Colored", "White")
+button_color_dropdown = customtkinter.CTkOptionMenu(controllers_frame, variable=button_color_var, values=["Colored", "White"])
 button_color_dropdown.pack()
 
-button_layout_label = Label(button_frame, text="Button Layout:")
+button_layout_label = customtkinter.CTkLabel(controllers_frame, text="Button Layout:")
 button_layout_label.pack()
 
-button_layout_dropdown = OptionMenu(button_frame, button_layout_var, "Western", "Normal", "PE", "Elden Ring")
+button_layout_dropdown = customtkinter.CTkOptionMenu(controllers_frame, variable=button_layout_var, values=["Western", "Normal", "PE", "Elden Ring"])
 button_layout_dropdown.pack()
 
-controller_version_label = ttk.Label(controllers_frame, text=f"Tool Version: {tool_version}")
+controller_version_label = customtkinter.CTkLabel(controllers_frame, text=f"Tool Version: {tool_version}")
 
 def update_label_position3(event):
     controller_version_label.place(x=controllers_frame.winfo_width()-10, y=controllers_frame.winfo_height()-10, anchor="se")
 
-controller_frame.bind("<Configure>", update_label_position3)
+controllers_frame.bind("<Configure>", update_label_position3)
 
 def update_image(*args):
     global controller_layout_label
@@ -684,16 +686,16 @@ def update_image(*args):
 
     print(f"{controller_layout_label}")
     
-    image_layout_label.config(text=controller_layout_label)
+    image_layout_label.configure(text=controller_layout_label)
     image_layout_label.update()
 
     image_path = os.path.join(script_directory, "images", image_name)
     
     # Load and display the image
     image = Image.open(image_path)
-    image = image.resize((500, 300))  # Adjust the size as needed
+    image = image.resize((900, 600))  # Adjust the size as needed
     photo = ImageTk.PhotoImage(image)
-    image_label.config(image=photo)
+    image_label.configure(image=photo)
     image_label.image = photo  # Keep a reference to the photo to prevent garbage collection
     print(f"Controller image set to {image_name}")
     image_label.update()
@@ -707,15 +709,15 @@ update_image()
 
 notebook.add(controllers_frame, text="Controller")
 
-hud_frame = ttk.Frame(root)
+hud_frame = customtkinter.CTkFrame(root)
 hud_frame.pack(fill="both", expand=True)
-content_frame = ttk.Frame(hud_frame)
+content_frame = customtkinter.CTkFrame(hud_frame)
 content_frame.pack(padx=10, pady=10)
 
-hud_label = ttk.Label(content_frame, text='Hud Location:')
+hud_label = customtkinter.CTkLabel(content_frame, text='Hud Location:')
 hud_label.pack()
 
-hud_version_label = ttk.Label(hud_frame, text=f"Tool Version: {tool_version}")
+hud_version_label = customtkinter.CTkLabel(hud_frame, text=f"Tool Version: {tool_version}")
 
 def update_label_position4(event):
     hud_version_label.place(x=hud_frame.winfo_width()-10, y=hud_frame.winfo_height()-10, anchor="se")
@@ -723,67 +725,67 @@ def update_label_position4(event):
 hud_frame.bind("<Configure>", update_label_position4)
 
 center_checkbox_var = tk.BooleanVar()
-center_checkbox = Checkbutton(hud_frame, text="Center", variable=center_checkbox_var, command=update_HUD_location)
+center_checkbox = customtkinter.CTkRadioButton(hud_frame, text="Center", variable=center_checkbox_var, value=1, command=update_HUD_location)
 center_checkbox.pack()
 
 corner_checkbox_var = tk.BooleanVar()
-corner_checkbox = Checkbutton(hud_frame, text="Corner", variable=corner_checkbox_var, command=update_corner_location)
-corner_checkbox.pack()
+corner_checkbox = customtkinter.CTkRadioButton(hud_frame, text="Corner", variable=corner_checkbox_var, value=2, command=update_corner_location)
+corner_checkbox.pack(padx=10, pady=10)
 
 shutter_checkbox_var = tk.BooleanVar()
-shutter_checkbox = Checkbutton(hud_frame, text="Expand Shutter Size", variable=shutter_checkbox_var, command=update_shutter)
-shutter_checkbox.pack()
+shutter_checkbox = customtkinter.CTkCheckBox(hud_frame, text="Expand Shutter Size", variable=shutter_checkbox_var, command=update_shutter)
+shutter_checkbox.pack(padx=20, pady=20)
 
 notebook.add(hud_frame, text="HUD")
 
-console_frame = ttk.Frame(root)
+console_frame = customtkinter.CTkFrame(root)
 console_frame.pack(fill="both", expand=True)
-console_label = ttk.Label(console_frame, text='Console:')
-console_label.pack(padx=10, pady=10)
 
 notebook.add(console_frame, text="Generate")
 
-scrolled_text = scrolledtext.ScrolledText(console_frame, width=55, height=15)
-scrolled_text.pack()
-
-emulator_label = Label(console_frame, text="Select your Emulator OR choose a custom output folder, then click Generate.")
-emulator_label.pack()
+emulator_label = customtkinter.CTkLabel(console_frame, text="Select your Emulator OR choose a custom output folder, then click Generate.")
+emulator_label.pack(pady=10)
 
 yuzu_checkbox_var = tk.BooleanVar()
-yuzu_checkbox = Checkbutton(console_frame, text="Yuzu", variable=yuzu_checkbox_var, command=update_yuzu_location)
+yuzu_checkbox = customtkinter.CTkRadioButton(console_frame, text="Yuzu", value=1, variable=yuzu_checkbox_var, command=update_yuzu_location)
 yuzu_checkbox.pack(side="top")
 
 ryujinx_checkbox_var = tk.BooleanVar()
-ryujinx_checkbox = Checkbutton(console_frame, text="Ryujinx", variable=ryujinx_checkbox_var, command=update_ryujinx_location)
-ryujinx_checkbox.pack(side="top")
+ryujinx_checkbox = customtkinter.CTkRadioButton(console_frame, text="Ryujinx", value=2, variable=ryujinx_checkbox_var, command=update_ryujinx_location)
+ryujinx_checkbox.pack(pady=5, side="top")
 
-output_folder_button = Button(console_frame, text="Custom Output Folder", command=select_output_folder)
+output_folder_button = customtkinter.CTkButton(console_frame, text="Custom Output Folder", fg_color="gray", hover_color="black", command=select_output_folder)
 output_folder_button.pack()
 output_folder_button.pack(pady=10)
 
 open_checkbox_var = tk.BooleanVar()
-open_checkbox = Checkbutton(console_frame, text="Open Output Folder When Done", variable=open_checkbox_var, command=open_output)
-open_checkbox.pack(side="top")
+open_checkbox = customtkinter.CTkCheckBox(console_frame, text="Open Output Folder When Done", variable=open_checkbox_var, command=open_output)
+open_checkbox.pack(pady=10, side="top")
 
-create_patch_button = Button(console_frame, text="Generate", command=create_patch)
+create_patch_button = customtkinter.CTkButton(console_frame, text="Generate", command=create_patch)
 create_patch_button.pack()
-create_patch_button.pack(pady=5)
+create_patch_button.pack(pady=15)
 
-console_version_label = ttk.Label(console_frame, text=f"Tool Version: {tool_version}")
+console_label = customtkinter.CTkLabel(console_frame, text='Console:')
+console_label.pack(padx=10, pady=5)
+scrolled_text = scrolledtext.ScrolledText(console_frame, width=50, height=23, font=("Helvetica", 20))
+scrolled_text.pack()
+
+console_version_label = customtkinter.CTkLabel(console_frame, text=f"Tool Version: {tool_version}")
 
 def update_label_position4(event):
     console_version_label.place(x=console_frame.winfo_width()-10, y=console_frame.winfo_height()-10, anchor="se")
 
 console_frame.bind("<Configure>", update_label_position4)
 
-credits_frame = ttk.Frame(root)
+credits_frame = customtkinter.CTkFrame(root)
 credits_frame.pack(fill="both", expand=True)
-credits_label = ttk.Label(credits_frame, text='Utility created by fayaz\nhttps://ko-fi.com/fayaz12\nyoutube.com/fayaz\n\nBased on\nHUD Fix script by u/fruithapje21 on Reddit\n\nController Mods:\nAlerion921 on Gamebanana\nStavaasEVG on Gamebanana\n\nVisual Fixes by\nChuckFeedAndSeed, patchanon, somerandompeople, SweetMini, \ntheboy181, Wollnashorn, and Zeikken on GBAtemp\n\ndFPS Mod by\nu/ChucksFeedAndSeed on reddit')
+credits_label = customtkinter.CTkLabel(credits_frame, text='Utility created by fayaz\nhttps://ko-fi.com/fayaz12\nyoutube.com/fayaz\n\nBased on\nHUD Fix script by u/fruithapje21 on Reddit\n\nController Mods:\nAlerion921 on Gamebanana\nStavaasEVG on Gamebanana\n\nVisual Fixes by\nChuckFeedAndSeed, patchanon, somerandompeople, SweetMini, \ntheboy181, Wollnashorn, and Zeikken on GBAtemp\n\ndFPS Mod by\nu/ChucksFeedAndSeed on reddit')
 credits_label.place(relx=0.55, rely=0.3, anchor="center")
 
 notebook.add(credits_frame, text="Credits")
 
-credits_version_label = ttk.Label(credits_frame, text=f"Tool Version: {tool_version}")
+credits_version_label = customtkinter.CTkLabel(credits_frame, text=f"Tool Version: {tool_version}")
 
 def update_label_position4(event):
     credits_version_label.place(x=credits_frame.winfo_width()-10, y=credits_frame.winfo_height()-10, anchor="se")
