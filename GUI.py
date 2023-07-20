@@ -63,7 +63,7 @@ normal__dual_layout = "Normal Layout:  A > Circle, B > Cross, X > Triangle, Y > 
 PE__dual_layout = "PE Layout: B > Circle, A > Cross, Y > Triangle, X > Square"
 western_dual_layout = "Western Layout: B  > Circle,  A > Cross, X > Triangle, Y > Square"
 elden_dual_layout = "Elden Ring Layout: A > Triangle,  B > Square, X > Circle, Y > Cross"
-tool_version = "8.0.0"
+tool_version = "dev"
 patch_folder = None 
 blyt_folder = None  
 customwidth = 0
@@ -211,7 +211,7 @@ def apply_dynamicfps():
     shadow_entry.pack()
     FPS_label.pack()
     FPS_entry.pack()
-    camera_checkbox.pack()
+    camera_checkbox.pack(pady=10)
     
 def apply_cutscenefix():
     global do_cutscene_fix
@@ -425,10 +425,13 @@ def handle_focus_out(entry, default_text):
         entry.configure(text_color='gray')
 
 root = customtkinter.CTk()
-root.geometry("500x700")
+root.geometry("500x740")
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
 
-notebook = ttk.Notebook(root)
+style = ttk.Style()
+style.configure("Custom.TNotebook.Tab", padding=[25, 15], font=("Futura", 18), background='gray') 
+
+notebook = ttk.Notebook(root, style="Custom.TNotebook")
 notebook.pack(fill="both", expand=True)
 
 visuals_frame = customtkinter.CTkFrame(root)
