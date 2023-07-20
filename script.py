@@ -8,7 +8,7 @@ import subprocess
 def float_to_hex(f):
     return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0')
 
-def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
+def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutter):
     blyt_folder = unpacked_folder + "\\blyt"
     anim_folder = unpacked_folder + "\\anim"
     shift_numerator = (1 - float(scaling_factor))
@@ -16,6 +16,7 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
     shift_factor = (shift_numerator / shift_denominataor)
     print("Shift value", shift_factor)
     centered_HUD = ast.literal_eval(centered_HUD)
+    expand_shutter = ast.literal_eval(expand_shutter)
     print("Centered HUD value is set to ", centered_HUD)
     scaling_factor = float(scaling_factor)
     print("The scaling factor is ", scaling_factor)
@@ -297,11 +298,13 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
             content = content.replace(source_str.lower(), replace_str.lower())  
             
         if name == 'CameraPointer_00.bflyt':
-            # Scale N_InOutScope_00
-            x = float_to_hex(1/scaling_factor)
-            source_str = '4E5F496E4F757453636F70655F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
-            replace_str = '4E5F496E4F757453636F70655F30300000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
-            content = content.replace(source_str.lower(), replace_str.lower())
+            if expand_shutter == True:
+                print("Expanding Shutter")
+                # Scale N_InOutScope_00
+                x = float_to_hex(1/scaling_factor)
+                source_str = '4E5F496E4F757453636F70655F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
+                replace_str = '4E5F496E4F757453636F70655F30300000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
+                content = content.replace(source_str.lower(), replace_str.lower())
             
             # Scale S_Scissor_00
             x = float_to_hex(1/scaling_factor)
@@ -314,13 +317,13 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
             source_str = '4E5F547970655F303100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
             replace_str = '4E5F547970655F30310000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
-            
+
             # Scale W_shadow_01
             x = float_to_hex(1/scaling_factor)
             source_str = '575F536861646F775F30310000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
             replace_str = '575F536861646F775F3031000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
-            
+
             # Scale Pa_CameraFocus_00
             x = float_to_hex(1/scaling_factor)
             source_str = '50615F43616D657261466F6375735F30300000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'

@@ -46,6 +46,7 @@ from repack import pack
 from repack import pack_folder_to_blarc
 from compress import compress_zstd
 
+expand_shutter = False
 centered_HUD = False
 output_folder = None
 image_name = "switch_normal.jpeg"
@@ -58,7 +59,7 @@ normal__dual_layout = "Normal Layout:  A > Circle, B > Cross, X > Triangle, Y > 
 PE__dual_layout = "PE Layout: B > Circle, A > Cross, Y > Triangle, X > Square"
 western_dual_layout = "Western Layout: B  > Circle,  A > Cross, X > Triangle, Y > Square"
 elden_dual_layout = "Elden Ring Layout: A > Triangle,  B > Square, X > Circle, Y > Cross"
-tool_version = "7.0.0"
+tool_version = "7.0.1"
 patch_folder = None 
 blyt_folder = None  
 customwidth = 0
@@ -159,6 +160,10 @@ def update_corner_location():
     global centered_HUD
     centered_HUD = False
     center_checkbox.deselect()
+    
+def update_shutter():
+    global expand_shutter
+    expand_shutter = True
     
 def disable_fxaa():
     global do_disable_fxaa
@@ -326,6 +331,7 @@ def create_full():
     global customheight
     global customshadow
     global customfps
+    global expand_shutter
     dfps_output = os.path.join(output_folder, "dFPS")
     dfps_ini_output = os.path.join(output_folder, "AAR MOD", "romfs")
     if do_dynamicfps:
@@ -356,6 +362,7 @@ def create_full():
         extract_blarc(file, output_folder)
         centered_HUD = str(centered_HUD)  
         scaling_factor = str(scaling_factor)  
+        expand_shutter = str(expand_shutter)  
         print("Patching BLYT.")
         blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
         if float(ratio_value) < 1.7777778:
@@ -363,7 +370,7 @@ def create_full():
             perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder)
         else:
             print("Using horizontal stretch script")
-            perform_patching(scaling_factor, centered_HUD, unpacked_folder)
+            perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutter)
         repack_script_path = os.path.join(script_dir, "repack.py")
         os.remove(file)
         print("Deleted old blarc file.")
@@ -722,6 +729,10 @@ center_checkbox.pack()
 corner_checkbox_var = tk.BooleanVar()
 corner_checkbox = Checkbutton(hud_frame, text="Corner", variable=corner_checkbox_var, command=update_corner_location)
 corner_checkbox.pack()
+
+shutter_checkbox_var = tk.BooleanVar()
+shutter_checkbox = Checkbutton(hud_frame, text="Expand Shutter Size", variable=shutter_checkbox_var, command=update_shutter)
+shutter_checkbox.pack()
 
 notebook.add(hud_frame, text="HUD")
 
