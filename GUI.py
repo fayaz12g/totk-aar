@@ -277,6 +277,7 @@ def create_patch():
     t.start()
 
 def create_full():
+    progressbar.set(.01)
     global output_folder
     global zs_file_path
     global centered_HUD
@@ -294,13 +295,13 @@ def create_full():
         print("Select an emulator or output folder.")
         return
     folder_to_delete = os.path.join(output_folder, "AAR MOD")
-
+    progressbar.set(.05)
     if os.path.exists(folder_to_delete):
         print("Old mod found, deleting.")
         print("If you are stuck hanging here, be sure to close the emulator first and then hit generate again.")
         shutil.rmtree(folder_to_delete)
         print("Old mod deleted.")
-  
+    progressbar.set(.1)
     controller_type = controller_type_var.get()
     button_color = button_color_var.get()
     button_layout = button_layout_var.get()
@@ -323,11 +324,13 @@ def create_full():
     download_script_path = os.path.join(script_dir, "download.py")
     download_extract_copy(controller_id, output_folder)
     print("Extracting zip.")
+    progressbar.set(.2)
     ratio_value = create_ratio()
     scaling_factor = calculate_ratio()
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
     visual_fixes = create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck)
     create_patch_files(patch_folder, ratio_value, visual_fixes)
+    progressbar.set(.3)
     global dfps_folder
     global do_custom_ini
     global dfps_ini_folder
@@ -353,14 +356,15 @@ def create_full():
             print("Creating custom ini")
             cameramod = str(cameramod)
             create_custom_ini(customwidth, customheight, customshadow, customfps, cameramod, dfps_ini_output)
+    progressbar.set(.4)
     global zs_file_path
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
     print("Extracting ZS.")
-
     if zs_file_path:
         script_dir = os.path.dirname(os.path.abspath(__file__))
         decompress_script_path = os.path.join(script_dir, "decompress.py")
         decompress_zstd(zs_file_path, output_folder)
+        progressbar.set(.5)
         blarc_script_dir = os.path.dirname(os.path.abspath(__file__))
         temp_folder = os.path.join(output_folder, "AAR MOD", "temp")
         print("Extracting BLARC.")
@@ -368,6 +372,7 @@ def create_full():
         blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
         blarc_script_path = os.path.join(script_dir, "extract.py")
         extract_blarc(file, output_folder)
+        progressbar.set(.6)
         centered_HUD = str(centered_HUD)  
         scaling_factor = str(scaling_factor)  
         expand_shutter = str(expand_shutter)  
@@ -380,6 +385,7 @@ def create_full():
             print("Using horizontal stretch script")
             perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutter)
         repack_script_path = os.path.join(script_dir, "repack.py")
+        progressbar.set(.8)
         os.remove(file)
         print("Deleted old blarc file.")
         print("Repacking new blarc file. This step may take about 10 seconds")
@@ -390,6 +396,7 @@ def create_full():
         new_source_zs = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
         destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
         print("Repacked new zs file.")
+        progressbar.set(.9)
         os.remove(destination_zs)
         destination_directory = os.path.dirname(destination_zs)
         os.makedirs(destination_directory, exist_ok=True)
@@ -398,6 +405,7 @@ def create_full():
         shutil.rmtree(temp_folder)
         print("Removed temp folder.")
         global open_when_done
+        progressbar.set(1)
         if open_when_done == True:
             print ("Complete! Opening output folder.")
             os.startfile(output_folder)
@@ -768,8 +776,14 @@ create_patch_button.pack(pady=15)
 
 console_label = customtkinter.CTkLabel(console_frame, text='Console:')
 console_label.pack(padx=10, pady=5)
-scrolled_text = scrolledtext.ScrolledText(console_frame, width=50, height=23, font=("Helvetica", 20))
+scrolled_text = scrolledtext.ScrolledText(console_frame, width=50, height=22, font=("Helvetica", 20))
 scrolled_text.pack()
+
+progressbar = customtkinter.CTkProgressBar(console_frame, orientation="horizontal")
+progressbar.pack(pady=5)
+progressbar.set(0)
+
+progressbar.configure(mode="determinate", determinate_speed=0.1, progress_color="green", fg_color="lightgreen", height=6, width=400)
 
 console_version_label = customtkinter.CTkLabel(console_frame, text=f"Tool Version: {tool_version}")
 
