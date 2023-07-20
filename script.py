@@ -34,6 +34,7 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
 
     for name in file_names:
         file_loc = os.path.join(blyt_folder, name)
+        print("Modifying " + name)
         
         with open(file_loc, 'rb') as f:
             content = f.read().hex()
@@ -113,7 +114,7 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
             with open(file_loc, 'wb') as f:
                 f.write(bytes.fromhex(content))  
             continue
-        
+ 
         # Scale RootPane by scaling_factor
         x = float_to_hex(scaling_factor)
         source_str = '526F6F7450616E650000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
@@ -209,11 +210,11 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder):
             replace_str = '4E5F4F70656E5F30310000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
             
-            # # Scale N_Open_02
-            # x = float_to_hex(1/scaling_factor)
-            # source_str = '4E5F4F70656E5F303200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
-            # replace_str = '4E5F4F70656E5F30320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
-            # content = content.replace(source_str.lower(), replace_str.lower())
+            # Scale N_Open_02
+            x = float_to_hex(1/scaling_factor)
+            source_str = '4E5F4F70656E5F303200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
+            replace_str = '4E5F4F70656E5F30320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
             
             # Scale N_FadeInOut_00
             x = float_to_hex(scaling_factor)

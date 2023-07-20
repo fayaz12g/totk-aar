@@ -30,7 +30,7 @@ def perform_deck_patching(scaling_factor, centered_HUD, unpacked_folder):
 
     for name in file_names:
         file_loc = blyt_folder + "\\" + name
-        print("Modyfying " + name)
+        print("Modifying " + name)
         
         with open(file_loc, 'rb') as f:
             content = f.read().hex()
