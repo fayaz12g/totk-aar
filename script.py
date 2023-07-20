@@ -337,11 +337,11 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             replace_str = '4E5F496E4F75745F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
             
-            # Scale N_FirstOut_00
-            x = float_to_hex(scaling_factor)
-            source_str = '4E5F46697273744F75745F3030000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000803F'
-            replace_str = '4E5F46697273744F75745F303000000000000000000000000000000000000000000000000000004100000000000000000000000000000000' + x
-            content = content.replace(source_str.lower(), replace_str.lower())  
+            # # Scale N_FirstOut_00
+            # x = float_to_hex(scaling_factor)
+            # source_str = '4E5F46697273744F75745F3030000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000803F'
+            # replace_str = '4E5F46697273744F75745F303000000000000000000000000000000000000000000000000000004100000000000000000000000000000000' + x
+            # content = content.replace(source_str.lower(), replace_str.lower())  
             
         if name == 'AppMap_00.bflyt':
             # Scale N_BlurInOut_00
