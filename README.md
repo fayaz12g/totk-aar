@@ -24,12 +24,8 @@ It will then create a mod given all those parameters, including a HUD fix, a fix
 Known Issues
 - Customization:
   - Elden Ring only uses Colored button. Selecting White buttons uses colored buttons
-  - Aspect ratios below 16:9 dont support corner HUD, only center
 - In Game:
   - Cutscenes and videos are stretched
-  - Map
-    - The map in the loading screen is stretched
-    - Geogliphs are stretched and part of the map is duplicated in the quest menu
 
 
 Stretch Goals
