@@ -52,6 +52,12 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             source_str = '4E5F46616465496E4F75745F30310000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
             replace_str = '4E5F46616465496E4F75745F3031000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
+
+            # Scale N_Icon_00
+            x = float_to_hex(scaling_factor)
+            source_str = '4E5F49636F6E5F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
+            replace_str = '4E5F49636F6E5F30300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
             
             with open(file_loc, 'wb') as f:
                 f.write(bytes.fromhex(content))              
