@@ -25,7 +25,6 @@ def download_extract_copy(controller_id, output_folder):
     zip_url = f"https://github.com/fayaz12g/totk-controllers/raw/main/{controller_id}.zip"
 
     # Download the ZIP file
-    print("Controller type is", controller_id)
     print("Downloading zip file. This may take up to 10 seconds.")
     response = requests.get(zip_url)
     zip_file_path = os.path.join(output_folder, f"{controller_id}.zip")

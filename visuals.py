@@ -490,6 +490,6 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
                 visual_fixesd += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesd)
         if do_dynamicfps:
-            print("A future version will copy the dynamic fps file!")
+            print("DynamicFPS Custom INI Generated")
         
     return visual_fixes

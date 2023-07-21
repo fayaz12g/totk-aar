@@ -193,6 +193,11 @@ def create_patch():
     t.start()
 
 def create_full():
+    
+    #################
+    # Begin & Clean #
+    #################
+    
     global output_folder
     global zs_file_path
 
@@ -211,7 +216,7 @@ def create_full():
             Path(patch_folder).mkdir(parents=True, exist_ok=True) 
         except Exception as e:
             return
-    if not output_folder:
+    else:
         print("Select an emulator or output folder.")
         return
     folder_to_delete = os.path.join(output_folder, "AAR MOD")
@@ -226,10 +231,15 @@ def create_full():
   
     progressbar.set(.1)
 
+    ####################
+    # Download/Extract #
+    ####################
+    
     global controller_type
     global button_color
     global button_layout
     global controller_color
+    print("Getting Controller-ID")
     controller_type = controller_type.get()
     button_color = button_color.get()
     button_layout = button_layout.get()
@@ -248,10 +258,16 @@ def create_full():
         controller_id = f"dual-{controller_color}"
     else:
         controller_id = f"{controller_type}-{button_color}-{button_layout}"
+    print(f"Set Controller-ID to {controller_id}")
     progressbar.set(.15)
     download_extract_copy(controller_id, output_folder)
     progressbar.set(.25)
     print("Extracting zip.")
+    
+    #################
+    # Create PCHTXT #
+    #################
+    
     ratio_value = create_ratio()
     scaling_factor = calculate_ratio()
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
@@ -260,7 +276,7 @@ def create_full():
     global dfps_folder
     global do_custom_ini
     global dfps_ini_folder
-    dfps_default_ini = os.path.join(dfps_ini_folder, "default.ini")
+    dfps_default_ini = os.path.join(dfps_ini_folder)
     dfps_output = os.path.join(output_folder, "dFPS")
     dfps_ini_output = os.path.join(output_folder, "AAR MOD", "romfs")
     dfps_default_output = os.path.join(dfps_ini_output, "dfps")
@@ -271,64 +287,80 @@ def create_full():
         shutil.copytree(dfps_folder, dfps_output)
         print("Copied dynamicFPS mod.")
         if os.path.exists(dfps_default_output):
+            print("Removing old dFPS")
             shutil.rmtree(dfps_default_output)
-        shutil.copy2(dfps_default_ini, dfps_default_output)
+        shutil.copytree(dfps_default_ini, dfps_default_output)
         if do_custom_ini == True:
             print("Creating custom ini")
-            create_custom_ini(custom_width.get(), custom_height.get(), custom_shadow.get(), custom_fps.get(), str(camera_mod.get()), dfps_ini_output)
+            create_custom_ini(custom_width.get(), custom_height.get(), custom_shadow.get(), custom_fps.get(), str(camera_mod.get()), dfps_output)
     progressbar.set(.3)
+    
+    #################
+    # ZS Extraction #
+    #################
+    
     global zs_file_path
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
     print("Extracting ZS.")
-
-    if zs_file_path:
-        decompress_zstd(zs_file_path, output_folder)
-        progressbar.set(.35)
-        temp_folder = os.path.join(output_folder, "AAR MOD", "temp")
-        print("Extracting BLARC.")
-        file = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
-        blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
-        extract_blarc(file, output_folder)
-        progressbar.set(.5)
-        scaling_factor = str(scaling_factor)  
-        print("Patching BLYT.")
-        blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-        if float(ratio_value) < 1.7777778:
-            print("Using vertical stretch script")
-            perform_deck_patching(scaling_factor, str(centered_HUD.get()), unpacked_folder)
-        else:
-            print("Using horizontal stretch script")
-            perform_patching(scaling_factor, str(centered_HUD.get()), unpacked_folder, str(expand_shutter.get()))
-        os.remove(file)
-        print("Deleted old blarc file.")
-        print("Repacking new blarc file. This step may take about 10 seconds")
-        progressbar.set(.75)
-        pack_folder_to_blarc(blarc_folder, blarc_file_path)
-        progressbar.set(.9)
-        print("Repacked new blarc file.")
-        print("Repacking new zs file.")
-        compress_zstd(blarc_file_path)
-        progressbar.set(.95)
-        new_source_zs = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
-        destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
-        print("Repacked new zs file.")
-        os.remove(destination_zs)
-        destination_directory = os.path.dirname(destination_zs)
-        os.makedirs(destination_directory, exist_ok=True)
-        shutil.copy2(new_source_zs, destination_zs)
-        print("Copied new zs file to mod.")
-        shutil.rmtree(temp_folder)
-        progressbar.stop()
-        progressbar.set(1)
-        print("Removed temp folder.")
-        if open_when_done.get() == True:
-            print ("Complete! Opening output folder.")
-            os.startfile(output_folder)
-        else:
-            print("Complete! Enjoy the mod.")
+    decompress_zstd(zs_file_path, output_folder)
+    progressbar.set(.35)
+    
+    ####################
+    # BLARC Extraction #
+    ####################
+    
+    temp_folder = os.path.join(output_folder, "AAR MOD", "temp")
+    print("Extracting BLARC.")
+    file = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
+    blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
+    extract_blarc(file, output_folder)
+    progressbar.set(.5)
+    
+    #################
+    # File Patching #
+    #################
+    
+    scaling_factor = str(scaling_factor)  
+    print("Patching BLYT.")
+    blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
+    if float(ratio_value) < 1.7777778:
+        print("Using vertical stretch script")
+        perform_deck_patching(scaling_factor, str(centered_HUD.get()), unpacked_folder)
     else:
-        print("No .zs file selected.")
-
+        print("Using horizontal stretch script")
+        perform_patching(scaling_factor, str(centered_HUD.get()), unpacked_folder, str(expand_shutter.get()))
+    
+    ##########################
+    # Cleaning and Repacking #
+    ##########################
+    
+    os.remove(file)
+    print("Deleted old blarc file.")
+    print("Repacking new blarc file. This step may take about 10 seconds")
+    progressbar.set(.75)
+    pack_folder_to_blarc(blarc_folder, blarc_file_path)
+    progressbar.set(.9)
+    print("Repacked new blarc file.")
+    print("Repacking new zs file.")
+    compress_zstd(blarc_file_path)
+    progressbar.set(.95)
+    new_source_zs = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
+    destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
+    print("Repacked new zs file.")
+    os.remove(destination_zs)
+    destination_directory = os.path.dirname(destination_zs)
+    os.makedirs(destination_directory, exist_ok=True)
+    shutil.copy2(new_source_zs, destination_zs)
+    print("Copied new zs file to mod.")
+    shutil.rmtree(temp_folder)
+    progressbar.stop()
+    progressbar.set(1)
+    print("Removed temp folder.")
+    if open_when_done.get() == True:
+        print ("Complete! Opening output folder.")
+        os.startfile(output_folder)
+    else:
+        print("Complete! Enjoy the mod.")
 
 ################################
 ####### Layout Mangement #######
