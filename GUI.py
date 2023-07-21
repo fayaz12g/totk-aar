@@ -229,7 +229,7 @@ def create_full():
         shutil.rmtree(folder_to_delete)
         print("Old mod deleted.")
   
-    progressbar.set(.1)
+    progressbar.set(.7)
 
     ####################
     # Download/Extract #
@@ -259,9 +259,9 @@ def create_full():
     else:
         controller_id = f"{controller_type}-{button_color}-{button_layout}"
     print(f"Set Controller-ID to {controller_id}")
-    progressbar.set(.15)
+    progressbar.set(.1)
     download_extract_copy(controller_id, output_folder)
-    progressbar.set(.25)
+    progressbar.set(.15)
     print("Extracting zip.")
     
     #################
@@ -293,7 +293,21 @@ def create_full():
         if do_custom_ini == True:
             print("Creating custom ini")
             create_custom_ini(custom_width.get(), custom_height.get(), custom_shadow.get(), custom_fps.get(), str(camera_mod.get()), dfps_output)
-    progressbar.set(.3)
+    progressbar.set(.2)
+    
+    ##################
+    # 16/9 Edge Case #
+    ##################
+    
+    if int(numerator_entry.get()) == 16 and int(denominator_entry.get()) == 9:
+        progressbar.stop()
+        progressbar.set(1)
+        if open_when_done.get() == True:
+            print ("Complete! Opening output folder.")
+            os.startfile(output_folder)
+        else:
+            print("Complete! Enjoy the mod.")
+        return
     
     #################
     # ZS Extraction #
@@ -303,7 +317,7 @@ def create_full():
     zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
     print("Extracting ZS.")
     decompress_zstd(zs_file_path, output_folder)
-    progressbar.set(.35)
+    progressbar.set(.25)
     
     ####################
     # BLARC Extraction #
@@ -314,7 +328,7 @@ def create_full():
     file = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
     blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
     extract_blarc(file, output_folder)
-    progressbar.set(.5)
+    progressbar.set(.6)
     
     #################
     # File Patching #
@@ -337,16 +351,17 @@ def create_full():
     os.remove(file)
     print("Deleted old blarc file.")
     print("Repacking new blarc file. This step may take about 10 seconds")
-    progressbar.set(.75)
+    progressbar.set(.7)
     pack_folder_to_blarc(blarc_folder, blarc_file_path)
     progressbar.set(.9)
     print("Repacked new blarc file.")
     print("Repacking new zs file.")
     compress_zstd(blarc_file_path)
+    print("Repacked new zs file.")
     progressbar.set(.95)
     new_source_zs = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
     destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
-    print("Repacked new zs file.")
+    print("Copied zs file.")
     os.remove(destination_zs)
     destination_directory = os.path.dirname(destination_zs)
     os.makedirs(destination_directory, exist_ok=True)
