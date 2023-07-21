@@ -1,5 +1,3 @@
-import tkinter as tk
-from tkinter import ttk
 from tkinter import *
 from tkinter import scrolledtext
 from tkinter.filedialog import askdirectory
@@ -28,7 +26,7 @@ from repack import pack_folder_to_blarc
 tool_version = "dev"
 
 root = customtkinter.CTk()
-root.title(f"Any Aspect Ratio {tool_version} Settings")
+root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
 root.geometry("500x780")
 
 customtkinter.set_appearance_mode("dark")
@@ -135,12 +133,6 @@ def update_values(*args):
     global do_custom_ini
     do_custom_ini = True
     print (f"New values:{custom_width.get()} {custom_height.get()} {custom_fps.get()} {custom_shadow.get()}")
-
-# def change_menu(list, option_menu, option_var):
-#     option_menu['menu'].delete(0, 'end')
-#     for option in list:
-#         option_menu['menu'].add_command(label=option, command=tk._setit(option_var, option))
-#     option_var.set(list[0])
 
 def select_output_folder():
     global output_folder
@@ -367,10 +359,9 @@ def pack_widgets():
     dynamicfps_label.pack(pady=(20, 0))
     dynamicfps_checkbox.pack()
 
-    frame2.pack()
-
     if do_dynamicfps.get() is True:
         resolution_label.pack(pady=(10, 0))
+        frame2.pack()
         res_numerator_entry.pack(side="left")
         res_numerator_label.pack(side="left")
         res_denominator_entry.pack(side="left")
@@ -457,7 +448,6 @@ def forget_packing():
     FPS_entry.pack_forget()
     camera_checkbox.pack_forget()
 
-    master=notebook.tab("Controller").pack_forget()
     image_label.pack_forget()
     image_layout_label.pack_forget()
     
@@ -473,16 +463,12 @@ def forget_packing():
     button_layout_label.pack_forget()
     button_layout_dropdown.pack_forget()
 
-    master=notebook.tab("HUD").pack_forget()
-
     content_frame.pack_forget()
 
     hud_label.pack_forget()
     center_checkbox.pack_forget()
     corner_checkbox.pack_forget()
     shutter_checkbox.pack_forget()
-
-    master=notebook.tab("Generate").pack_forget()
 
     emulator_label.pack_forget()
     yuzu_checkbox.pack_forget()
@@ -507,16 +493,11 @@ def repack_widgets(*args):
     forget_packing()
     pack_widgets()
 
-
-notebook.add("Visuals")
-notebook.add("Controller")
-notebook.add("HUD")
-notebook.add("Generate")
-notebook.add("Credits")
-
 #######################
 ####### Visuals #######
 #######################
+
+notebook.add("Visuals")
 
 console_label3= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text='Enter Aspect Ratio or Screen Dimensions (ex: 21:9 or 3440x1440):')
 
@@ -545,9 +526,9 @@ dynamicres_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), 
 dynamicfps_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="DynamicFPS Settings:")
 dynamicfps_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Use Dynamic FPS", variable=do_dynamicfps, command=repack_widgets)
 
-frame2 = customtkinter.CTkFrame(master=notebook.tab("Visuals"))
+resolution_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom Resolution:")
 
-resolution_label= customtkinter.CTkLabel(frame2, text="Custom Resolution:")
+frame2 = customtkinter.CTkFrame(master=notebook.tab("Visuals"))
 
 res_numerator_entry = customtkinter.CTkEntry(frame2, textvariable=custom_height)
 res_numerator_entry.configure(text_color='gray')
@@ -578,10 +559,11 @@ custom_height.trace("w", update_values)
 ####### Controller #######
 ##########################
 
-def select_controller(event):
+notebook.add("Controller")
+
+def update_image(*args):
     selected_controller_type = controller_type.get().lower()
     selected_controller_color = controller_color.get().lower()
-    selected_button_color = button_color.get().lower()
     selected_button_layout = button_layout.get().lower()
 
     global image_name
@@ -612,27 +594,35 @@ def select_controller(event):
     else:
         image_name = "switch_normal.jpeg"
 
+    global controller_layout_label
+
     if selected_button_layout == "elden ring":
         image_name = image_name.replace("elden ring", "elden")
         if selected_controller_type == "playstation":
             controller_layout_label = elden_dual_layout
         else:
             controller_layout_label = elden_xbox_layout
-    if selected_button_layout == "western":
+    elif selected_button_layout == "western":
         if selected_controller_type == "playstation":
             controller_layout_label = western_dual_layout
         else:
             controller_layout_label = western_xbox_layout
-    if selected_button_layout == "PE":
+    elif selected_button_layout == "PE":
         if selected_controller_type == "playstation":
             controller_layout_label = PE__dual_layout
         else:
             controller_layout_label = PE__xbox_layout
-    if selected_button_layout == "normal":
+    elif selected_button_layout == "normal":
         if selected_controller_type == "playstation":
             controller_layout_label = normal__dual_layout
         else:
             controller_layout_label = normal__xbox_layout
+
+    if selected_controller_type != "playstation" and selected_controller_type != "xbox":
+        controller_layout_label = ""
+
+    image_layout_label.configure(text=controller_layout_label)
+    image_layout_label.update()
 
     image_path = os.path.join(script_directory, "images", image_name)
     
@@ -645,25 +635,32 @@ def select_controller(event):
     print(f"Controller image set to {image_name}")
     image_label.update()
 
-    # controller = controller_type.get()
+def select_controller(*args):
+    def change_menu(list, option_menu, option_var):
+        option_menu.configure(values=list)
+        option_var.set(list[0])
+    
+    controller = controller_type.get()
 
-    # if controller == "Xbox" or controller == "Playstation" or controller == "Steam Deck":
-    #     change_menu(full_button_layouts, button_layout_dropdown, button_layout)
+    if controller == "Xbox" or controller == "Playstation" or controller == "Steam Deck":
+        change_menu(full_button_layouts, button_layout_dropdown, button_layout)
         
-    # else:
-    #     change_menu(default_button_layouts, button_layout_dropdown, button_layout)
+    else:
+        change_menu(default_button_layouts, button_layout_dropdown, button_layout)
 
-    # if controller == "Colored Dualsense":
-    #     change_menu(dualsense_colors, controller_color_dropdown, controller_color)
-    # else:
-    #     change_menu(default_colors, controller_color_dropdown, controller_color)
+    if controller == "Colored Dualsense":
+        change_menu(dualsense_colors, controller_color_dropdown, controller_color)
+    else:
+        change_menu(default_colors, controller_color_dropdown, controller_color)
 
-    # if controller == "Xbox" or controller == "Playstation":
-    #     change_menu(colored_button_colors, button_color_dropdown, button_color)
-    # else:
-    #     change_menu(default_button_colors, button_color_dropdown, button_color)
+    if controller == "Xbox" or controller == "Playstation":
+        change_menu(colored_button_colors, button_color_dropdown, button_color)
+    else:
+        change_menu(default_button_colors, button_color_dropdown, button_color)
 
-image_label= customtkinter.CTkLabel(master=notebook.tab("Controller"))
+    update_image()
+
+image_label= customtkinter.CTkLabel(master=notebook.tab("Controller"), text="")
 
 image_layout_label= customtkinter.CTkLabel(master=notebook.tab("Controller"), text=f"{controller_layout_label}", font=("Roboto", 11, "bold"))
 
@@ -671,19 +668,22 @@ controller_type_label= customtkinter.CTkLabel(master=notebook.tab("Controller"),
 controller_type_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=controller_type, values=controller_types, command=select_controller)
 
 controller_color_label= customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Controller Color:")
-controller_color_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=controller_color, values=default_colors)
+controller_color_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=controller_color, values=default_colors, command=update_image)
 
 button_color_label= customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Button Color:")
-button_color_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=button_color, values=colored_button_colors)
+button_color_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=button_color, values=colored_button_colors, command=update_image)
 
 button_layout_label= customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Button Layout:")
-button_layout_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=button_layout, values=full_button_layouts)
+button_layout_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=button_layout, values=full_button_layouts, command=update_image)
 
-select_controller("initialize")
+select_controller()
+update_image()
 
 ###################
 ####### HUD #######
 ###################
+
+notebook.add("HUD")
 
 content_frame = customtkinter.CTkFrame(master=notebook.tab("HUD"))
 
@@ -695,6 +695,8 @@ shutter_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("HUD"), text="E
 ########################
 ####### GENERATE #######
 ########################
+
+notebook.add("Generate")
 
 emulator_label= customtkinter.CTkLabel(master=notebook.tab("Generate"), text="Select your Emulator OR choose a custom output folder, then click Generate.")
 yuzu_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("Generate"), text="Yuzu", value=1, variable=output_yuzu, command=lambda: [output_ryujinx.set(False), repack_widgets])
@@ -717,7 +719,26 @@ progressbar.set(0)
 ####### CREDITS #######
 #######################
 
-credits_label = customtkinter.CTkLabel(master=notebook.tab("Credits"), text='Utility created by fayaz\nhttps://ko-fi.com/fayaz12\nyoutube.com/fayaz\n\nBased on\nHUD Fix script by u/fruithapje21 on Reddit\n\nController Mods:\nAlerion921 on Gamebanana\nStavaasEVG on Gamebanana\n\nVisual Fixes by\nChuckFeedAndSeed, patchanon, somerandompeople, SweetMini, \ntheboy181, Wollnashorn, and Zeikken on GBAtemp\n\ndFPS Mod by\nu/ChucksFeedAndSeed on reddit')
+notebook.add("Credits")
+
+credits_label = customtkinter.CTkLabel(master=notebook.tab("Credits"), text=
+                    ('Utility created by fayaz\n'
+                     'https://ko-fi.com/fayaz12\n'
+                     'youtube.com/fayaz\n'
+                     '\n'
+                     'Based on\n'
+                     'HUD Fix script by u/fruithapje21 on Reddit\n'
+                     '\n'
+                     'Controller Mods:\n'
+                     'Alerion921 on Gamebanana\n'
+                     'StavaasEVG on Gamebanana\n'
+                     '\n'
+                     'Visual Fixes by\n'
+                     'ChuckFeedAndSeed, patchanon, somerandompeople, SweetMini, \n'
+                     'theboy181, Wollnashorn, and Zeikken on GBAtemp\n'
+                     '\n'
+                     'dFPS Mod by\n'
+                     'u/ChucksFeedAndSeed on reddit'))
 
 pack_widgets()
 

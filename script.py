@@ -135,6 +135,12 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
         content = content.replace(source_str.lower(), replace_str.lower()) 
                         
         if  name == 'SystemSaveLoad_00.bflyt':
+            # Scale N_SystemBG_00
+            x = float_to_hex(1/scaling_factor)
+            source_str = '4E5F53797374656D42475F3030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
+            replace_str = '4E5F53797374656D42475F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+
             # Scale N_Header_00
             x = float_to_hex(1/scaling_factor)
             source_str = '4E5F4865616465725F30300000000000000000000000000000000000000000000000000000C00344000000000000000000000000000000000000803F'
@@ -146,6 +152,32 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             source_str = '415F5469746C655F30300000000000000000000000000000000000000000000000000000000040C1000000000000000000000000000000000000803F'
             replace_str = '415F5469746C655F30300000000000000000000000000000000000000000000000000000000040C100000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Scale P_DecoL_00
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C40000CA42000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C40000CA4200000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Scale P_DecoR_00
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844000009C3000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844000009C300000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+
+            # Shift P_DecoL_00
+            x = float_to_hex(-675 - 285*(1-scaling_factor))
+            source_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C4'
+            replace_str = '505F4465636F4C5F303000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Shift P_DecoR_00
+            x = float_to_hex(737 + 223*(1-scaling_factor))
+            source_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844'
+            replace_str = '505F4465636F525F303000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+
+        if  name == 'SystemLoadList_00.bflyt':
             
             # Scale N_SystemBG_00
             x = float_to_hex(1/scaling_factor)
@@ -153,7 +185,6 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             replace_str = '4E5F53797374656D42475F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
                 
-        if  name == 'SystemLoadList_00.bflyt':
             # Scale N_Header_00
             x = float_to_hex(1/scaling_factor)
             source_str = '4E5F4865616465725F30300000000000000000000000000000000000000000000000000000C00344000000000000000000000000000000000000803F'
@@ -166,13 +197,37 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             replace_str = '415F5469746C655F30300000000000000000000000000000000000000000000000000000000040C100000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
             
+            # Scale P_DecoL_00
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C40000CA42000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C40000CA4200000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Scale P_DecoR_00
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844000009C3000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844000009C300000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+
+            # Shift P_DecoL_00
+            x = float_to_hex(-675 - 285*(1-scaling_factor))
+            source_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C4'
+            replace_str = '505F4465636F4C5F303000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Shift P_DecoR_00
+            x = float_to_hex(737 + 223*(1-scaling_factor))
+            source_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844'
+            replace_str = '505F4465636F525F303000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+
+        if  name == 'SystemOption_00.bflyt':
             # Scale N_SystemBG_00
             x = float_to_hex(1/scaling_factor)
             source_str = '4E5F53797374656D42475F3030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
             replace_str = '4E5F53797374656D42475F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
             
-        if  name == 'SystemOption_00.bflyt':
             # Scale N_Header_00
             x = float_to_hex(1/scaling_factor)
             source_str = '4E5F4865616465725F30300000000000000000000000000000000000000000000000000000000744000000000000000000000000000000000000803F'
@@ -184,14 +239,38 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             source_str = '415F5469746C655F30300000000000000000000000000000000000000000000000000000000040C1000000000000000000000000000000000000803F'
             replace_str = '415F5469746C655F30300000000000000000000000000000000000000000000000000000000040C100000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
-            
+
+            # Scale P_DecoL_00
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C40000CA42000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C40000CA4200000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Scale P_DecoR_00
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844000009C3000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844000009C300000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+
+            # Shift P_DecoL_00
+            x = float_to_hex(-675 - 285*(1-scaling_factor))
+            source_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C4'
+            replace_str = '505F4465636F4C5F303000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Shift P_DecoR_00
+            x = float_to_hex(737 + 223*(1-scaling_factor))
+            source_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844'
+            replace_str = '505F4465636F525F303000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+
+        if  name == 'SystemActionGuide_00.bflyt':            
             # Scale N_SystemBG_00
             x = float_to_hex(1/scaling_factor)
             source_str = '4E5F53797374656D42475F3030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
             replace_str = '4E5F53797374656D42475F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
             
-        if  name == 'SystemActionGuide_00.bflyt':
             # Scale N_Header_00
             x = float_to_hex(1/scaling_factor)
             source_str = '4E5F4865616465725F30300000000000000000000000000000000000000000000000000000C00344000000000000000000000000000000000000803F'
@@ -204,10 +283,28 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             replace_str = '415F5469746C655F30300000000000000000000000000000000000000000000000000000000040C100000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
             
-            # Scale N_SystemBG_00
-            x = float_to_hex(1/scaling_factor)
-            source_str = '4E5F53797374656D42475F3030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
-            replace_str = '4E5F53797374656D42475F303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
+            # Scale P_DecoL_01
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F4C5F30310000000000000000000000000000000000000000000000C028C40000CA42000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F4C5F30310000000000000000000000000000000000000000000000C028C40000CA4200000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Scale P_DecoL_02
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F4C5F30320000000000000000000000000000000000000000000000C028440000CA42000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F4C5F30320000000000000000000000000000000000000000000000C028440000CA4200000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+
+            # Shift P_DecoL_01
+            x = float_to_hex(-675 - 285*(1-scaling_factor))
+            source_str = '505F4465636F4C5F30310000000000000000000000000000000000000000000000C028C4'
+            replace_str = '505F4465636F4C5F303100000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Shift P_DecoL_02
+            x = float_to_hex(675 + 285*(1-scaling_factor))
+            source_str = '505F4465636F4C5F30320000000000000000000000000000000000000000000000C02844'
+            replace_str = '505F4465636F4C5F303200000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
 
         if  name == 'AppAlbum_00.bflyt':
@@ -215,12 +312,6 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             x = float_to_hex(1/scaling_factor)
             source_str = '4E5F4F70656E5F303100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
             replace_str = '4E5F4F70656E5F30310000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
-            content = content.replace(source_str.lower(), replace_str.lower())
-            
-            # Scale N_Open_02
-            x = float_to_hex(1/scaling_factor)
-            source_str = '4E5F4F70656E5F303200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803F'
-            replace_str = '4E5F4F70656E5F30320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
             
             # Scale N_FadeInOut_00
@@ -302,6 +393,30 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             source_str = '535F4465636F53636973736F725F303000000000000000000000000000000000000000000000F841000000000000000000000000000000000000803F'
             replace_str = '535F4465636F53636973736F725F303000000000000000000000000000000000000000000000F84100000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())  
+
+            # Scale P_DecoL_00
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C400009143000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C40000914300000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Scale P_DecoR_00
+            x = float_to_hex(scaling_factor)
+            source_str = '505F4465636F525F3030000000000000000000000000000000000000000000000040384400004543000000000000000000000000000000000000803F'
+            replace_str = '505F4465636F525F303000000000000000000000000000000000000000000000004038440000454300000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
+
+            # Shift P_DecoL_00
+            x = float_to_hex(-675 - 285*(1-scaling_factor))
+            source_str = '505F4465636F4C5F30300000000000000000000000000000000000000000000000C028C4'
+            replace_str = '505F4465636F4C5F303000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())       
+
+            # Shift P_DecoR_00
+            x = float_to_hex(737 + 223*(1-scaling_factor))
+            source_str = '505F4465636F525F30300000000000000000000000000000000000000000000000403844'
+            replace_str = '505F4465636F525F303000000000000000000000000000000000000000000000' + x
+            content = content.replace(source_str.lower(), replace_str.lower())
             
         if name == 'CameraPointer_00.bflyt':
             if expand_shutter == True:
@@ -375,7 +490,7 @@ def perform_patching(scaling_factor, centered_HUD, unpacked_folder, expand_shutt
             content = content.replace(source_str.lower(), replace_str.lower())
             
             # Shift N_MiniMap
-            x = float_to_hex(-200 * shift_factor * scaling_factor / 0.744) 
+            x = float_to_hex(-268 * (1-scaling_factor)) 
             source_str = '4E5F4D696E694D61705F3030000000000000000000000000000000000000000000000000'
             replace_str = '4E5F4D696E694D61705F30300000000000000000000000000000000000000000' + x
             content = content.replace(source_str.lower(), replace_str.lower())
