@@ -57,13 +57,11 @@ camera_mod = BooleanVar()
 controller_types = ["Xbox", "Playstation", "Colored Dualsense", "Switch", "Steam", "Steam Deck"]
 
 full_button_layouts = ["Western", "Normal", "PE", "Elden Ring"]
-default_button_layouts = ["Normal"]
+deck_button_layouts = ["Western", "Normal"]
 
 dualsense_colors = ["Red", "White", "Blue", "Pink", "Purple", "Black"]
-default_colors = ["Black"]
 
-colored_button_colors = ["Colored", "Monochrome"]
-default_button_colors = ["Monochrome"]
+colored_button_colors = ["Colored", "White"]
 
 controller_type = StringVar(value="Switch")
 button_color = StringVar()
@@ -378,14 +376,17 @@ def pack_widgets():
     controller_type_label.pack()
     controller_type_dropdown.pack()
 
-    controller_color_label.pack()
-    controller_color_dropdown.pack()
+    if controller_type.get() == "Colored Dualsense":
+        controller_color_label.pack()
+        controller_color_dropdown.pack()
     
-    button_color_label.pack()
-    button_color_dropdown.pack()
+    if controller_type.get() == "Xbox" or controller_type.get() == "Playstation":
+        button_color_label.pack()
+        button_color_dropdown.pack()
 
-    button_layout_label.pack()
-    button_layout_dropdown.pack()
+    if controller_type.get() == "Xbox" or controller_type.get() == "Playstation" or controller_type.get() == "Steam Deck":
+        button_layout_label.pack()
+        button_layout_dropdown.pack()
 
     content_frame.pack(padx=10, pady=10)
 
@@ -642,23 +643,19 @@ def select_controller(*args):
     
     controller = controller_type.get()
 
-    if controller == "Xbox" or controller == "Playstation" or controller == "Steam Deck":
+    if controller == "Xbox" or controller == "Playstation":
         change_menu(full_button_layouts, button_layout_dropdown, button_layout)
-        
-    else:
-        change_menu(default_button_layouts, button_layout_dropdown, button_layout)
+    elif controller == "Steam Deck":
+        change_menu(deck_button_layouts, button_layout_dropdown, button_layout) 
 
     if controller == "Colored Dualsense":
         change_menu(dualsense_colors, controller_color_dropdown, controller_color)
-    else:
-        change_menu(default_colors, controller_color_dropdown, controller_color)
 
     if controller == "Xbox" or controller == "Playstation":
         change_menu(colored_button_colors, button_color_dropdown, button_color)
-    else:
-        change_menu(default_button_colors, button_color_dropdown, button_color)
 
     update_image()
+    repack_widgets()
 
 image_label= customtkinter.CTkLabel(master=notebook.tab("Controller"), text="")
 
@@ -668,16 +665,13 @@ controller_type_label= customtkinter.CTkLabel(master=notebook.tab("Controller"),
 controller_type_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=controller_type, values=controller_types, command=select_controller)
 
 controller_color_label= customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Controller Color:")
-controller_color_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=controller_color, values=default_colors, command=update_image)
+controller_color_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=controller_color, values=dualsense_colors, command=update_image)
 
 button_color_label= customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Button Color:")
 button_color_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=button_color, values=colored_button_colors, command=update_image)
 
 button_layout_label= customtkinter.CTkLabel(master=notebook.tab("Controller"), text="Button Layout:")
 button_layout_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Controller"), variable=button_layout, values=full_button_layouts, command=update_image)
-
-select_controller()
-update_image()
 
 ###################
 ####### HUD #######
@@ -741,5 +735,8 @@ credits_label = customtkinter.CTkLabel(master=notebook.tab("Credits"), text=
                      'u/ChucksFeedAndSeed on reddit'))
 
 pack_widgets()
+
+select_controller()
+update_image()
 
 root.mainloop()
