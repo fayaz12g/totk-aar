@@ -443,7 +443,7 @@ def pack_widgets():
 
     progressbar.pack(pady=5)
 
-    credits_label.pack(padx=20, pady=50)
+    credits_label.pack(padx=20, pady=30)
 
 
 def forget_packing():
@@ -764,7 +764,17 @@ credits_label = customtkinter.CTkLabel(master=notebook.tab("Credits"), text=
                      'theboy181, Wollnashorn, and Zeikken on GBAtemp\n'
                      '\n'
                      'dFPS Mod by\n'
-                     'u/ChucksFeedAndSeed on reddit'))
+                     'u/ChucksFeedAndSeed on reddit'
+                     '\n'
+                     'BlackscreenFIX by\n'
+                     'MarethyuX'
+                     '\n'
+                     'Some ASM patches by\n'
+                     'theboy181'
+                     '\n\n\n'
+                     'With special help from\n'
+                     'Christopher Fields (cfields7)\n'
+                     'for code beautification and more :)'))
 
 pack_widgets()
 
