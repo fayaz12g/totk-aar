@@ -20,7 +20,7 @@ def create_custom_ini(customwidth, customheight, customshadow, customfps, camera
     if customwidth > 0 and customheight > 0:
         content += f"ResolutionWidth = {int(customwidth)}\n"
         content += f"ResolutionHeight = {int(customheight)}\n"
-    if customshadow > 0:
+    if customshadow > 0 or customshadow == -1:
         content += f"ResolutionShadows = {int(customshadow)}\n"
 
     content += "\n[Features]\n"

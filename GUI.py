@@ -23,7 +23,7 @@ from repack import pack_folder_to_blarc
 ###############################################
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
-tool_version = "dev"
+tool_version = "8.0.0"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
