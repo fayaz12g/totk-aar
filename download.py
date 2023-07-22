@@ -2,19 +2,9 @@ import os
 import sys
 import subprocess
 import requests
+import zipfile
+import shutil
 import sys
-
-
-
-def install_required_packages():
-    required_packages = ["requests", "zipfile"]
-
-    for package in required_packages:
-        try:
-            __import__(package)
-        except ImportError:
-            print(f"{package} package not found. Installing...")
-            subprocess.run(["pip", "install", package])
 
 def download_extract_copy(controller_id, output_folder):
     import requests
@@ -25,7 +15,6 @@ def download_extract_copy(controller_id, output_folder):
     zip_url = f"https://github.com/fayaz12g/totk-controllers/raw/main/{controller_id}.zip"
 
     # Download the ZIP file
-    print("Controller type is", controller_id)
     print("Downloading zip file. This may take up to 10 seconds.")
     response = requests.get(zip_url)
     zip_file_path = os.path.join(output_folder, f"{controller_id}.zip")
@@ -56,13 +45,3 @@ def download_extract_copy(controller_id, output_folder):
     os.remove(zip_file_path)
     shutil.rmtree(extract_folder)
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python script.py <controller_id> <output_folder>")
-        sys.exit(1)
-
-    controller_id = sys.argv[1]
-    output_folder = sys.argv[2]
-
-    install_required_packages()
-    download_extract_copy(controller_id, output_folder)

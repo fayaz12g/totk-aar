@@ -3,7 +3,7 @@ import subprocess
 import ast
 import os
 
-def create_custom_ini(customwidth, customheight, customshadow, customfps, cameramod, dfps_ini_output):
+def create_custom_ini(customwidth, customheight, customshadow, customfps, cameramod, dfps_output):
     # Convert values to floats or 0 if empty
     customwidth = float(customwidth) if customwidth else 0
     customheight = float(customheight) if customheight else 0
@@ -20,18 +20,18 @@ def create_custom_ini(customwidth, customheight, customshadow, customfps, camera
     if customwidth > 0 and customheight > 0:
         content += f"ResolutionWidth = {int(customwidth)}\n"
         content += f"ResolutionHeight = {int(customheight)}\n"
-    if customshadow > 0:
+    if customshadow > 0 or customshadow == -1:
         content += f"ResolutionShadows = {int(customshadow)}\n"
 
     content += "\n[Features]\n"
     content += f"EnableCameraQualityImprovement = {cameramod.lower()}\n"
     
     # Create the directories if they don't exist
-    dfps_dir = os.path.join(dfps_ini_output, "dfps")
+    dfps_dir = os.path.join(dfps_output, "romfs", "dfps")
     os.makedirs(dfps_dir, exist_ok=True)
 
     # Write the content to the default.ini file
-    ini_file_path = os.path.join(dfps_ini_output, "dfps", "default.ini")
+    ini_file_path = os.path.join(dfps_output, "romfs", "dfps", "60.ini")
     with open(ini_file_path, "w") as ini_file:
         ini_file.write(content)
 
