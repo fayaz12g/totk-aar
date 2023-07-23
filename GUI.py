@@ -23,7 +23,11 @@ from repack import pack_folder_to_blarc
 ###############################################
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
+<<<<<<< Updated upstream
 tool_version = "8.0.0"
+=======
+tool_version = "8.1.0"
+>>>>>>> Stashed changes
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
@@ -52,6 +56,18 @@ custom_shadow = StringVar()
 custom_height = StringVar(value="1080")
 custom_width = StringVar(value="1920")
 camera_mod = BooleanVar()
+do_camera = BooleanVar()
+lod_improve = BooleanVar()
+remove_flare = BooleanVar()
+staticfps = StringVar()
+shadow_quality = StringVar()
+res_multiplier = StringVar()
+
+
+# Visuals
+res_multipliers = ["2", "3", "4", "5", "6", "7"]
+shadow_qualities = ["8", "16", "32", "64", "128", "256", "512", "1024", "2048"]
+staticfpsoptions = ["20", "30", "60"]
 
 # Controller
 controller_types = ["Xbox", "Playstation", "Colored Dualsense", "Switch", "Steam", "Steam Deck"]
@@ -130,7 +146,6 @@ def handle_focus_out(entry, default_text):
 def update_values(*args):
     global do_custom_ini
     do_custom_ini = True
-    print (f"New values:{custom_width.get()} {custom_height.get()} {custom_fps.get()} {custom_shadow.get()}")
 
 def select_output_folder():
     global output_folder
@@ -271,7 +286,7 @@ def create_full():
     ratio_value = create_ratio()
     scaling_factor = calculate_ratio()
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    visual_fixes = create_visuals(do_dynamicfps.get(), do_disable_fxaa.get(), do_disable_fsr.get(), do_DOF.get(), do_disable_reduction.get(), do_disable_ansiotropic.get(), do_cutscene_fix.get(), do_disable_dynamicres.get(), do_force_trilinear.get(), do_chuck.get())
+    visual_fixes = create_visuals(do_camera.get(), res_multiplier.get(), lod_improve.get(), remove_flare.get(), staticfps.get(), shadow_quality.get(), do_dynamicfps.get(), do_disable_fxaa.get(), do_disable_fsr.get(), do_DOF.get(), do_disable_reduction.get(), do_disable_ansiotropic.get(), do_cutscene_fix.get(), do_disable_dynamicres.get(), do_force_trilinear.get(), do_chuck.get())
     create_patch_files(patch_folder, ratio_value, visual_fixes)
     global dfps_folder
     global do_custom_ini
@@ -416,6 +431,16 @@ def pack_widgets():
         FPS_entry.pack()
         camera_checkbox.pack(pady=10)
 
+    cameraspeed_checkbox.pack(padx=6, pady=6)
+    flare_checkbox.pack(padx=6, pady=6)
+    lod_checkbox.pack(padx=6, pady=6)
+    res_multiplier_label.pack(padx=6, pady=6)
+    res_multiplier_dropdown.pack(padx=6, pady=6)
+    staticfps_label.pack(padx=6, pady=6)
+    staticfps_dropdown.pack(padx=6, pady=6)
+    shadowres_label.pack(padx=6, pady=6)
+    shadowres_dropdown.pack(padx=6, pady=6)
+    
     image_label.pack()
 
     image_layout_label.pack(padx=5, pady=5)
@@ -495,6 +520,16 @@ def forget_packing():
     FPS_label.pack_forget()
     FPS_entry.pack_forget()
     camera_checkbox.pack_forget()
+    
+    cameraspeed_checkbox.pack_forget()
+    flare_checkbox.pack_forget()
+    lod_checkbox.pack_forget()
+    res_multiplier_label.pack_forget()
+    res_multiplier_dropdown.pack_forget()
+    staticfps_label.pack_forget()
+    staticfps_dropdown.pack_forget()
+    shadowres_label.pack_forget()
+    shadowres_dropdown.pack_forget()
 
     image_label.pack_forget()
     image_layout_label.pack_forget()
@@ -566,7 +601,7 @@ fsr_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="D
 DOF_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Targeting DOF", variable=do_DOF)
 chuck_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Use Chuck's 1008p", variable=do_chuck)
 fxaa_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable FXAA", variable=do_disable_fxaa)
-reduction_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable LOD Reduction", variable=do_disable_reduction)
+reduction_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Quality Reduction", variable=do_disable_reduction)
 ansiotropic_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Anisotropic Filtering Fix", variable=do_disable_ansiotropic)
 trilinear_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Force Trilinear Over Bilinear", variable=do_force_trilinear)
 dynamicres_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Dynamic Resolution", variable=do_disable_dynamicres)
@@ -603,6 +638,21 @@ custom_shadow.trace("w", update_values)
 custom_width.trace("w", update_values)
 custom_height.trace("w", update_values)  
 
+#########################
+####### Visuals 2 #######
+#########################
+
+notebook.add("Visuals 2")
+
+cameraspeed_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals 2"), text="Increase Camera Speed", variable=do_camera)
+lod_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals 2"), text="LOD Improvement", variable=lod_improve)
+flare_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals 2"), text="Remove Lens Flare", variable=remove_flare)
+res_multiplier_label= customtkinter.CTkLabel(master=notebook.tab("Visuals 2"), text="Sky Island Fix (Select Multiplier)")
+res_multiplier_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Visuals 2"), variable=res_multiplier, values=res_multipliers)
+staticfps_label= customtkinter.CTkLabel(master=notebook.tab("Visuals 2"), text="Set the Static FPS")
+staticfps_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Visuals 2"), variable=staticfps, values=staticfpsoptions)
+shadowres_label= customtkinter.CTkLabel(master=notebook.tab("Visuals 2"), text="Set the Shadow Resolution")
+shadowres_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Visuals 2"), variable=shadow_quality, values=shadow_qualities)
 ##########################
 ####### Controller #######
 ##########################
