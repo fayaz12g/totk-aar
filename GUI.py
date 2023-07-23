@@ -23,6 +23,7 @@ from repack import pack_folder_to_blarc
 ###############################################
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
+
 tool_version = "8.1.3"
 
 root = customtkinter.CTk()
@@ -514,8 +515,9 @@ def forget_packing():
     frame2.pack_forget()
 
     resolution_label.pack_forget()
-    res_numerator_entry.pack_forget()
+    res_denominator_entry.pack_forget()
     res_numerator_label.pack_forget()
+    res_numerator_entry.pack_forget()
     res_denominator_entry.pack_forget()
     shadow_label.pack_forget()
     shadow_entry.pack_forget()
