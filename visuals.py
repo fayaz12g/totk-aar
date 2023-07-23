@@ -2,21 +2,56 @@ import ast
 import sys
 import subprocess
 
-def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck):
+def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticfps, shadow_quality, do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_disable_reduction, do_disable_ansiotropic, do_cutscene_fix, do_disable_dynamicres, do_force_trilinear, do_chuck):
     DOF_replace = "C0035FD6"
+    do_island = False
     shadow2_replace = "17000014"
+    cam1_replace = "0000A03f"
+    cam2_replace = "09902E1E"
     reduction_replace = "C0000014"
     FSR_replace = "08008052"
     dynamic1_replace = "15000014"
     dynamic2_replace = "000080D2"
     trilinear_replace = "4A008052"
     ansiotropic_replace = "28E0A0F2"
+    lod_replace = "24000014"
     fxaa_replace = "08008052"
-    staticfps = "0"
-    shadow_quality = "0"
-    staticfps = float(staticfps)
-    shadow_quality = float(shadow_quality)
+    flare_replace = "1F2003D5"
+    if res_multiplier == "2" or res_multiplier == "3" or res_multiplier == "4" or res_multiplier == "5" or res_multiplier == "6" or res_multiplier == "7":
+        res_multiplier = float(res_multiplier)
+    else:
+        res_multiplier = 1
+        res_multiplier = float(res_multiplier)
+        island_replace = "1B10201E"
+    if staticfps == "20" or staticfps == "30" or staticfps == "60":
+        staticfps = float(staticfps)
+    else:
+        staticfps = 0.0
+        staticfps = float(staticfps)
+    if shadow_quality == "":
+        shadow_quality = 0
+        shadow_quality = float(shadow_quality)
+    else:
+        print(f"Shadow Quality set to {shadow_quality}")
+        shadow_quality = float(shadow_quality)
     visual_fixes = []
+    if res_multiplier > 0:
+        do_island = True
+    if res_multiplier == 2:
+        island_replace = "1B10201E"
+    if res_multiplier == 3:
+        island_replace = "1B10211E"
+    if res_multiplier == 4:
+        island_replace = "1B10221E"
+    if res_multiplier == 5:
+        island_replace = "1B90221E"
+    if res_multiplier == 6:
+        island_replace = "1B10231E"
+    if res_multiplier == 7:
+        island_replace = "1B90231E"
+    if res_multiplier == 8:
+        island_replace = "1B10241E"
+    
     
     version_variables = ["1.0.0", "1.1.0", "1.1.1", "1.1.2", "1.2.0"]
         
@@ -46,6 +81,15 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
         
         if version_variable == "1.0.0":
             DOF_value = "00BD0F14"
+            flare_value = "029ca250"
+            lod_value = "027D9448"
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+029d1510 {island_replace}
+029d1518 BF000014
+029d1814 00083B1E
+029d1818 21083B1E'''
+            cam1_value = "03775f6c"
+            cam2_value = "00d0531c"
             shadow1_value = "00B7214C"
             shadow2_value = "00B72150"
             reduction_value = "00C40A8C"
@@ -117,10 +161,19 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             if do_disable_dynamicres:
                 visual_fixese += f"\n// Disable Dynamic Resolution\n{dynamic1_value} {dynamic1_replace}\n"
                 visual_fixese += f"{dynamic2_value} {dynamic2_replace}\n"
+            if remove_flare:
+                visual_fixese += f"\n// Remove Lens Flare\n{flare_value} {flare_replace}\n"
             if do_force_trilinear:
                 visual_fixese += f"\n// Force Trilinear Scaling\n{trilinear_value} {trilinear_replace}\n"
             if do_cutscene_fix:
                 visual_fixese += f"\n{cutscene_code}\n"
+            if do_island:
+                visual_fixese += f"\n{island_code}\n"
+            if lod_improve:
+                visual_fixese += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+            if do_camera:
+                visual_fixese += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
+                visual_fixese += f"{cam2_value} {cam2_replace}\n"
             if do_chuck:
                 visual_fixese += f"\n{chuck_1008}\n"
             if staticfps == 60:
@@ -134,6 +187,15 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
                 visual_fixese += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixese)
         elif version_variable == "1.1.0":
+            flare_value = "02A42490"
+            lod_value = "027D9448"
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+02a498d0 {island_replace}
+02a498d8 BF000014
+02a49bd4 00083B1E
+02a49bd8 21083B1E'''
+            cam1_value = "0381648C"
+            cam2_value = "00D228DC"
             chuck_1008 = f'''// Set Internal Resolution to 1008            
 00CEA5BC F50300AA
 00CEA5C0 83F6FE97
@@ -193,6 +255,13 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             dynamic1_value = "010622C4"
             dynamic2_value = "027CA074"
             visual_fixesa = ""
+            if do_island:
+                visual_fixesa += f"\n{island_code}\n"
+            if lod_improve:
+                visual_fixesa += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+            if do_camera:
+                visual_fixesa += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
+                visual_fixesa += f"{cam2_value} {cam2_replace}\n"
             if do_disable_fxaa:
                 visual_fixesa += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
@@ -208,6 +277,8 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
                 visual_fixesa += f"{dynamic2_value} {dynamic2_replace}\n"
             if do_force_trilinear:
                 visual_fixesa += f"\n// Force Trilinear Scaling\n{trilinear_value} {trilinear_replace}\n"
+            if remove_flare:
+                visual_fixesa += f"\n// Remove Lens Flare\n{flare_value} {flare_replace}\n"
             if do_cutscene_fix:
                 visual_fixesa += f"\n{cutscene_code}\n"
             if do_chuck:
@@ -223,6 +294,15 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
                 visual_fixesa += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesa)
         elif version_variable == "1.1.1":
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+02a51630 {island_replace}
+02a51638 BF000014
+02a51934 00083B1E
+02a51938 21083B1E'''
+            lod_value = "027E07A8"
+            cam1_value = "0381f26c"
+            cam2_value = "00d01e4c"
+            flare_value = "02A4A1E0"
             DOF_value = "00C25898"
             shadow1_value = "00BF002C"
             shadow2_value = "00BF0030"
@@ -282,6 +362,13 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 0081FF10 75008052
 0081FF44 61008052'''
             visual_fixesb = ""
+            if do_island:
+                visual_fixesb += f"\n{island_code}\n"
+            if lod_improve:
+                visual_fixesb += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+            if do_camera:
+                visual_fixesb += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
+                visual_fixesb += f"{cam2_value} {cam2_replace}\n"
             if do_disable_fxaa:
                 visual_fixesb += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
@@ -297,6 +384,8 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
                 visual_fixesb += f"{dynamic2_value} {dynamic2_replace}\n"
             if do_force_trilinear:
                 visual_fixesb += f"\n// Force Trilinear Scaling\n{trilinear_value} {trilinear_replace}\n"
+            if remove_flare:
+                visual_fixesb += f"\n// Remove Lens Flare\n{flare_value} {flare_replace}\n"
             if do_cutscene_fix:
                 visual_fixesb += f"\n{cutscene_code}\n"
             if do_chuck:
@@ -312,7 +401,11 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
                 visual_fixesb += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesb)
         elif version_variable == "1.1.2":
+            lod_value = "027D04F8"
+            cam1_value = "0380ee6c"
+            cam2_value = "00d1411c"
             shadow1_value = "00BD2BFC"
+            flare_value = "02A395F0"
             shadow2_value = "00BD2C00"
             fxaa_value = "00C76FE0"
             reduction_value = "00C76FFC"
@@ -322,6 +415,11 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
             ansiotropic_value = "00BF21F0"
             dynamic1_value = "0104A704"
             dynamic2_value = "027C1124"
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+02A40A40 {island_replace}
+02A40A48 BF000014
+02A40D44 00083B1E
+02A40D48 21083B1E'''
             fps60_code = f'''// Set the Static FPS to 60
 00EAC370 21008052
 008F67A4 35008052
@@ -371,6 +469,13 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00C77588 F503092A
 00C7758C C0035FD6'''
             visual_fixesc = ""
+            if do_island:
+                visual_fixesc += f"\n{island_code}\n"
+            if lod_improve:
+                visual_fixesc += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+            if do_camera:
+                visual_fixesc += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
+                visual_fixesc += f"{cam2_value} {cam2_replace}\n"
             if do_disable_fxaa:
                 visual_fixesc += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
@@ -386,6 +491,8 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
                 visual_fixesc += f"{dynamic2_value} {dynamic2_replace}\n"
             if do_force_trilinear:
                 visual_fixesc += f"\n// Force Trilinear Scaling\n{trilinear_value} {trilinear_replace}\n"
+            if remove_flare:
+                visual_fixesc += f"\n// Remove Lens Flare\n{flare_value} {flare_replace}\n"
             if do_cutscene_fix:
                 visual_fixesc += f"\n{cutscene_code}\n"
             if do_chuck:
@@ -401,55 +508,64 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
                 visual_fixesc += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesc)
         elif version_variable == "1.2.0":
-            shadow1_value = "00BD2BFC"
-            shadow2_value = "00BD2C00"
-            fxaa_value = "00C76FE0"
-            reduction_value = "00C76FFC"
-            DOF_value = "00C4B934"
-            fsr_value = "00C76FF0"
-            trilinear_value = "00753AA4"
-            ansiotropic_value = "00BF21F0"
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+02A348A0 {island_replace}
+02A348A8 BF000014
+02A34BA4 00083B1E
+02A34BA8 21083B1E'''
+            lod_value = "027c3ea8"
+            cam1_value = "03802acc"
+            cam2_value = "00ce3834"
+            shadow1_value = "00ccd368"
+            shadow2_value = "00ccd36c"
+            fxaa_value = "00C42740"
+            flare_value = "02a2d460"
+            reduction_value = "00C4275c"
+            DOF_value = "00C07024"
+            fsr_value = "00C42750"
+            ansiotropic_value = "00B3BF24"
+            trilinear_value = "00723AE4"
             dynamic1_value = "0104A704"
             dynamic2_value = "027C1124"
             fps60_code = f'''// Set the Static FPS to 60
-00EAC370 21008052
-008F67A4 35008052
-008F6814 28008052
-008F67AC 2C008052
-008F66F8 EB031F2A
-019B1F84 1F2003D5
-019BD9E8 1F2003D5'''
+00ea28dc 21008052
+008a9460 35008052
+008a94d0 28008052
+008a9468 2C008052
+008a93b4 EB031F2A
+019a2374 1F2003D5
+019adbe8 1F2003D5'''
             fps30_code = f'''// Set the Static FPS to 30            
-00EAC370 41008052
-008F67A4 55008052
-008F6814 48008052
-008F67AC 4C008052
-008F66F8 EB031F2A
-019B1F84 1F2003D5
-019BD9E8 1F2003D5
-008F66FC 55008052
-008F6730 41008052'''
+00ea28dc 41008052
+008a9460 55008052
+008a94d0 48008052
+008a9468 4C008052
+008a93b4 EB031F2A
+019a2374 1F2003D5
+019adbe8 1F2003D5
+008a93b8 55008052
+008a93ec 41008052'''
             fps20_code = f'''// Set the Static FPS to 20         
-00EAC370 61008052
-008F67A4 75008052
-008F6814 68008052
-008F67AC 6C008052
-008F66F8 EB031F2A
-019B1F84 1F2003D5
-019BD9E8 1F2003D5
-008F66FC 75008052
-008F6730 61008052'''
+00ea28dc 61008052
+008a9460 75008052
+008a94d0 68008052
+008a9468 6C008052
+008a93b4 EB031F2A
+019a2374 1F2003D5
+019adbe8 1F2003D5
+008a93b8 75008052
+008a93ec 61008052'''
             chuck_1008 = f'''// Set Internal Resolution to 1008
-00CDD3C4 F50300AA
-00CDD3C8 2D52FE97
-00CDD3CC 140040B9
-00CDD3D0 E00315AA
-00CDD3DC F50700F9
-00CDD3E0 08E080D2
-00CDD3E4 097E80D2
-00CDD3E8 0001221E
-00CDD3EC 0001221E
-00CDD3F4 2101221E'''
+00c34598 F50300AA
+00c3459c 2D52FE97
+00c345a0 140040B9
+00c345a4 E00315AA
+00c345b0 F50700F9
+00c345b4 08E080D2
+00c345b8 097E80D2
+00c345bc 0001221E
+00c345c0 0001221E
+00c345c8 2101221E'''
             cutscene_code = f'''// Sync Cutscene FPS to Game FPS            
 008F66FC 9E030E94
 00C77574 77D201F0
@@ -460,6 +576,13 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
 00C77588 F503092A
 00C7758C C0035FD6'''
             visual_fixesd = ""
+            if do_island:
+                visual_fixesd += f"\n{island_code}\n"
+            if lod_improve:
+                visual_fixesd += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+            if do_camera:
+                visual_fixesd += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
+                visual_fixesd += f"{cam2_value} {cam2_replace}\n"
             if do_disable_fxaa:
                 visual_fixesd += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
@@ -475,6 +598,8 @@ def create_visuals(do_dynamicfps, do_disable_fxaa, do_disable_fsr, do_DOF, do_di
                 visual_fixesd += f"{dynamic2_value} {dynamic2_replace}\n"
             if do_force_trilinear:
                 visual_fixesd += f"\n// Force Trilinear Scaling\n{trilinear_value} {trilinear_replace}\n"
+            if remove_flare:
+                visual_fixesd += f"\n// Remove Lens Flare\n{flare_value} {flare_replace}\n"
             if do_cutscene_fix:
                 visual_fixesd += f"\n{cutscene_code}\n"
             if do_chuck:
