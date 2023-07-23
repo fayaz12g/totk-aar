@@ -24,7 +24,7 @@ from repack import pack_folder_to_blarc
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
 
-tool_version = "8.1.3"
+tool_version = "8.1.4"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
@@ -294,7 +294,8 @@ def create_full():
     global do_custom_ini
     global dfps_ini_folder
     dfps_default_ini = os.path.join(dfps_ini_folder)
-    dfps_output = os.path.join(output_folder, "AAR MOD")
+    dfps_output = os.path.join(output_folder, "dFPS")
+    customini_output = os.path.join(output_folder, "AAR MOD")
     dfps_ini_output = os.path.join(output_folder, "dFPS", "romfs")
     dfps_default_output = os.path.join(dfps_ini_output, "dfps")
     if do_dynamicfps.get():
@@ -309,7 +310,7 @@ def create_full():
         shutil.copytree(dfps_default_ini, dfps_default_output)
         if do_custom_ini == True:
             print("Creating custom ini")
-            create_custom_ini(custom_width.get(), custom_height.get(), custom_shadow.get(), custom_fps.get(), str(camera_mod.get()), dfps_output)
+            create_custom_ini(custom_width.get(), custom_height.get(), custom_shadow.get(), custom_fps.get(), str(camera_mod.get()), customini_output)
     progressbar.set(.2)
     
     ##################
