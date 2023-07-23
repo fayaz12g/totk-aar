@@ -23,7 +23,7 @@ from repack import pack_folder_to_blarc
 ###############################################
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
-tool_version = "8.1.2"
+tool_version = "8.1.3"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
@@ -616,17 +616,17 @@ resolution_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="C
 
 frame2 = customtkinter.CTkFrame(master=notebook.tab("Visuals"))
 
-res_numerator_entry = customtkinter.CTkEntry(frame2, textvariable=custom_height)
-res_numerator_entry.configure(text_color='gray')
-res_numerator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_numerator_entry, "1080"))
-res_numerator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_numerator_entry, "1080"))
-
-res_numerator_label= customtkinter.CTkLabel(frame2, text="x")
-
 res_denominator_entry = customtkinter.CTkEntry(frame2, textvariable=custom_width)
 res_denominator_entry.configure(text_color='gray')
 res_denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_denominator_entry, "1920"))
 res_denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_denominator_entry, "1920"))
+
+res_numerator_label= customtkinter.CTkLabel(frame2, text="x")
+
+res_numerator_entry = customtkinter.CTkEntry(frame2, textvariable=custom_height)
+res_numerator_entry.configure(text_color='gray')
+res_numerator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_numerator_entry, "1080"))
+res_numerator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_numerator_entry, "1080"))
 
 shadow_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom Shadow Resolution (Set to -1 to scale to resolution):")
 shadow_entry = customtkinter.CTkEntry(master=notebook.tab("Visuals"), textvariable=custom_shadow)
