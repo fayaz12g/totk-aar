@@ -418,9 +418,9 @@ def pack_widgets():
     if do_dynamicfps.get() is True:
         resolution_label.pack(pady=(10, 0))
         frame2.pack()
-        res_numerator_entry.pack(side="left")
-        res_numerator_label.pack(side="left")
         res_denominator_entry.pack(side="left")
+        res_numerator_label.pack(side="left")
+        res_numerator_entry.pack(side="left")
         shadow_label.pack()
         shadow_entry.pack()
         FPS_label.pack()
