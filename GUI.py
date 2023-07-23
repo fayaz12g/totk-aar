@@ -23,7 +23,7 @@ from repack import pack_folder_to_blarc
 ###############################################
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
-tool_version = "8.1.1"
+tool_version = "8.1.2"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
@@ -284,12 +284,17 @@ def create_full():
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
     visual_fixes = create_visuals(do_camera.get(), res_multiplier.get(), lod_improve.get(), remove_flare.get(), staticfps.get(), shadow_quality.get(), do_dynamicfps.get(), do_disable_fxaa.get(), do_disable_fsr.get(), do_DOF.get(), do_disable_reduction.get(), do_disable_ansiotropic.get(), do_cutscene_fix.get(), do_disable_dynamicres.get(), do_force_trilinear.get(), do_chuck.get())
     create_patch_files(patch_folder, ratio_value, visual_fixes)
+    
+    #######################
+    # dFPS ini Generation #
+    #######################
+    
     global dfps_folder
     global do_custom_ini
     global dfps_ini_folder
     dfps_default_ini = os.path.join(dfps_ini_folder)
-    dfps_output = os.path.join(output_folder, "dFPS")
-    dfps_ini_output = os.path.join(output_folder, "AAR MOD", "romfs")
+    dfps_output = os.path.join(output_folder, "AAR MOD")
+    dfps_ini_output = os.path.join(output_folder, "dFPS", "romfs")
     dfps_default_output = os.path.join(dfps_ini_output, "dfps")
     if do_dynamicfps.get():
         if os.path.exists(dfps_output):
