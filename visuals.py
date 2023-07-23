@@ -17,9 +17,23 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
     lod_replace = "24000014"
     fxaa_replace = "08008052"
     flare_replace = "1F2003D5"
-    res_multiplier = float(res_multiplier)
-    staticfps = float(staticfps)
-    shadow_quality = float(shadow_quality)
+    if res_multiplier == "2" or res_multiplier == "3" or res_multiplier == "4" or res_multiplier == "5" or res_multiplier == "6" or res_multiplier == "7":
+        res_multiplier = float(res_multiplier)
+    else:
+        res_multiplier = 1
+        res_multiplier = float(res_multiplier)
+        island_replace = "1B10201E"
+    if staticfps == "20" or staticfps == "30" or staticfps == "60":
+        staticfps = float(staticfps)
+    else:
+        staticfps = 0.0
+        staticfps = float(staticfps)
+    if shadow_quality == "":
+        shadow_quality = 0
+        shadow_quality = float(shadow_quality)
+    else:
+        print(f"Shadow Quality set to {shadow_quality}")
+        shadow_quality = float(shadow_quality)
     visual_fixes = []
     if res_multiplier > 0:
         do_island = True

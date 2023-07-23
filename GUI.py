@@ -23,7 +23,7 @@ from repack import pack_folder_to_blarc
 ###############################################
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
-tool_version = "8.1.0"
+tool_version = "8.1.1"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
@@ -403,16 +403,17 @@ def pack_widgets():
     aspect_ratio_divider.pack(side="left")
     denominator_entry.pack(side="left")
     
-    cutscene_checkbox.pack(padx=5, pady=5)
+    cameraspeed_checkbox.pack(padx=6, pady=6)
+    flare_checkbox.pack(padx=6, pady=6)
+    lod_checkbox.pack(padx=6, pady=6)
     fsr_checkbox.pack(padx=5, pady=5)
     DOF_checkbox.pack(padx=5, pady=5)
-    chuck_checkbox.pack(padx=5, pady=5)
     fxaa_checkbox.pack(padx=5, pady=5)
     reduction_checkbox.pack(padx=5, pady=5)
     ansiotropic_checkbox.pack(padx=5, pady=5)
     trilinear_checkbox.pack(padx=5, pady=5)
     dynamicres_checkbox.pack(padx=5, pady=5)
-    dynamicfps_label.pack(pady=(20, 0))
+    dynamicfps_label.pack(pady=(10, 0))
     dynamicfps_checkbox.pack()
 
     if do_dynamicfps.get() is True:
@@ -426,10 +427,10 @@ def pack_widgets():
         FPS_label.pack()
         FPS_entry.pack()
         camera_checkbox.pack(pady=10)
-
-    cameraspeed_checkbox.pack(padx=6, pady=6)
-    flare_checkbox.pack(padx=6, pady=6)
-    lod_checkbox.pack(padx=6, pady=6)
+        
+    # Legacy Visuals
+    chuck_checkbox.pack(padx=5, pady=5)
+    cutscene_checkbox.pack(padx=5, pady=5)
     res_multiplier_label.pack(padx=6, pady=6)
     res_multiplier_dropdown.pack(padx=6, pady=6)
     staticfps_label.pack(padx=6, pady=6)
@@ -592,10 +593,11 @@ denominator_entry.configure(text_color='gray')
 denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(denominator_entry, "9"))
 denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(denominator_entry, "9"))
 
-cutscene_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Cutscene FPS Fix", variable=do_cutscene_fix)
+cameraspeed_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Increase Camera Speed", variable=do_camera)
+lod_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="LOD Improvement", variable=lod_improve)
+flare_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Remove Lens Flare", variable=remove_flare)
 fsr_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable FSR", variable=do_disable_fsr)
 DOF_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Targeting DOF", variable=do_DOF)
-chuck_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Use Chuck's 1008p", variable=do_chuck)
 fxaa_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable FXAA", variable=do_disable_fxaa)
 reduction_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Quality Reduction", variable=do_disable_reduction)
 ansiotropic_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Anisotropic Filtering Fix", variable=do_disable_ansiotropic)
@@ -635,20 +637,20 @@ custom_width.trace("w", update_values)
 custom_height.trace("w", update_values)  
 
 #########################
-####### Visuals 2 #######
+####### Legacy Visuals #######
 #########################
 
-notebook.add("Visuals 2")
+notebook.add("Legacy Visuals")
 
-cameraspeed_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals 2"), text="Increase Camera Speed", variable=do_camera)
-lod_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals 2"), text="LOD Improvement", variable=lod_improve)
-flare_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals 2"), text="Remove Lens Flare", variable=remove_flare)
-res_multiplier_label= customtkinter.CTkLabel(master=notebook.tab("Visuals 2"), text="Sky Island Fix (Select Multiplier)")
-res_multiplier_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Visuals 2"), variable=res_multiplier, values=res_multipliers)
-staticfps_label= customtkinter.CTkLabel(master=notebook.tab("Visuals 2"), text="Set the Static FPS")
-staticfps_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Visuals 2"), variable=staticfps, values=staticfpsoptions)
-shadowres_label= customtkinter.CTkLabel(master=notebook.tab("Visuals 2"), text="Set the Shadow Resolution")
-shadowres_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Visuals 2"), variable=shadow_quality, values=shadow_qualities)
+chuck_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Legacy Visuals"), text="Use Chuck's 1008p", variable=do_chuck)
+cutscene_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Legacy Visuals"), text="Cutscene FPS Fix", variable=do_cutscene_fix)
+res_multiplier_label= customtkinter.CTkLabel(master=notebook.tab("Legacy Visuals"), text="Sky Island Fix (Select Multiplier)")
+res_multiplier_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Legacy Visuals"), variable=res_multiplier, values=res_multipliers)
+staticfps_label= customtkinter.CTkLabel(master=notebook.tab("Legacy Visuals"), text="Set the Static FPS")
+staticfps_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Legacy Visuals"), variable=staticfps, values=staticfpsoptions)
+shadowres_label= customtkinter.CTkLabel(master=notebook.tab("Legacy Visuals"), text="Set the Shadow Resolution")
+shadowres_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Legacy Visuals"), variable=shadow_quality, values=shadow_qualities)
+
 ##########################
 ####### Controller #######
 ##########################
