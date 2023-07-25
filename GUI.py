@@ -16,15 +16,14 @@ from custominiscript import create_custom_ini
 from decompress import decompress_zstd
 from compress import compress_zstd
 from extract import extract_blarc
-from scriptdeck import perform_deck_patching
-from script import perform_patching
+from script import patch_blarc
 from repack import pack_folder_to_blarc
 
 ###############################################
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
 
-tool_version = "8.1.4"
+tool_version = "8.2.0"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
@@ -252,24 +251,24 @@ def create_full():
     global button_layout
     global controller_color
     print("Getting Controller-ID")
-    controller_type = controller_type.get()
-    button_color = button_color.get()
-    button_layout = button_layout.get()
-    controller_color = controller_color.get()
-    if button_layout == "Elden Ring":
-        button_layout = "Elden"
-    if controller_type == "Switch":
+    controller_type1 = controller_type.get()
+    button_color1 = button_color.get()
+    button_layout1 = button_layout.get()
+    controller_color1 = controller_color.get()
+    if button_layout.get() == "Elden Ring":
+        button_layout1 = "Elden"
+    if controller_type.get() == "Switch":
         controller_id = "Switch"
-    elif controller_type == "Steam Deck":
-        controller_id = f"deck-White-{button_layout}"
-    elif controller_type == "Steam":
+    elif controller_type.get() == "Steam Deck":
+        controller_id = f"deck-White-{button_layout1}"
+    elif controller_type.get() == "Steam":
         controller_id = "steam"
-    elif controller_type == "":
+    elif controller_type.get() == "":
         controller_id = "Switch"
-    elif controller_type == "Colored Dualsense":
-        controller_id = f"dual-{controller_color}"
+    elif controller_type.get() == "Colored Dualsense":
+        controller_id = f"dual-{controller_color1}"
     else:
-        controller_id = f"{controller_type}-{button_color}-{button_layout}"
+        controller_id = f"{controller_type1}-{button_color1}-{button_layout1}"
     print(f"Set Controller-ID to {controller_id}")
     progressbar.set(.1)
     download_extract_copy(controller_id, output_folder)
@@ -352,15 +351,15 @@ def create_full():
     # File Patching #
     #################
     
+    if corner_HUD.get() == True:
+        HUD_pos = "corner"
+    else:
+        HUD_pos = "center"
+    aspect_ratio = str(ratio_value)
     scaling_factor = str(scaling_factor)  
     print("Patching BLYT.")
     blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    if float(ratio_value) < 1.7777778:
-        print("Using vertical stretch script")
-        perform_deck_patching(scaling_factor, str(centered_HUD.get()), unpacked_folder)
-    else:
-        print("Using horizontal stretch script")
-        perform_patching(scaling_factor, str(centered_HUD.get()), unpacked_folder, str(expand_shutter.get()))
+    patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter)
     
     ##########################
     # Cleaning and Repacking #
