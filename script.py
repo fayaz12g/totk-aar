@@ -77,6 +77,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('CameraPointer_00', 'W_Shadow_01', 'scale_x', 1/s1) 
         patch_blyt('CameraSystemWindow_00', 'N_InOut_00', 'scale_x', 1/s1)    
         # patch_blyt('CameraSystemWindow_00', 'N_PictureBook_00', 'scale_x', s1)
+        patch_blyt('CameraSystemWindow_00', 'T_Text_00', 'scale_x', s1)
         patch_blyt('CameraSystemWindow_00', 'Pa_BtnR_00', 'scale_x', s1)
         patch_blyt('CameraSystemWindow_00', 'N_Choose_00', 'scale_x', s1)
         patch_blyt('CameraSystemWindow_00', 'N_New_00', 'scale_x', 1/s1)
