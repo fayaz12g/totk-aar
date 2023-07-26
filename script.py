@@ -97,7 +97,6 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('LoadingFade_00', 'Pa_LargeDungeonMap_01', 'scale_x', s1)
         patch_blyt('LoadingFade_00', 'Pa_Map_00', 'scale_x', s1)
         patch_blyt('LoadingFade_00', 'Pa_Map_01', 'scale_x', s1)
-        patch_blyt('LoadingFade_00', 'LoadingSideBG_00', 'scale_x', s1)
         patch_blyt('LoadingFade_00', 'LoadingSideBG_00^s', 'scale_x', s1)
         patch_blyt('MessageLog_01', 'P_Capture_00', 'scale_x', 1/s1) 
         patch_blyt('OwnedHorseList_00', 'N_BG_00', 'scale_x', 1/s1)
