@@ -84,8 +84,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 03774590 E0C35FF8
 03774594 0008211E
 03774598 010540BD
-0377459c C0035FD6
-'''
+0377459c C0035FD6'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 037745a0 {hex_factor}
@@ -143,9 +142,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 03774590 E0C35FF8
 03774594 2108201E
 03774598 000140BD
-0377459c C0035FD6
-@stop
-'''
+0377459c C0035FD6'''
             replacement_value = "0377AC54"
             inventory_value = "01968C2C"
             hestu_value = "01E5EAE8"
@@ -199,8 +196,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d1110 E0C35FF8
 036d1114 0008211E
 036d1118 010540BD
-036d111c C0035FD6
-'''
+036d111c C0035FD6'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 036d1120 {hex_factor}
@@ -258,8 +254,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d1110 E0C35FF8
 036d1114 2108201E
 036d1118 000140BD
-036d111c C0035FD6
-'''  
+036d111c C0035FD6'''  
             replacement_value = "0381B344"
             inventory_value = "019C2260"
             hestu_value = "01ED8FA4"
@@ -316,8 +311,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d9f70 E0C35FF8
 036d9f74 0008211E
 036d9f78 010540BD
-036d9f7c C0035FD6
-'''
+036d9f7c C0035FD6'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 036d9f80 {hex_factor}
@@ -375,8 +369,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d9f70 E0C35FF8
 036d9f74 2108201E
 036d9f78 000140BD
-036d9f7c C0035FD6
-'''  
+036d9f7c C0035FD6'''  
         elif version_variable == "1.1.2":
             nsobidid = "9A10ED9435C06733DA597D8094D9000AB5D3EE60"
             visual_fix = visual_fixesc
@@ -430,8 +423,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036c9b10 E0C35FF8
 036c9b14 0008211E
 036c9b18 010540BD
-036c9b1c C0035FD6
-'''
+036c9b1c C0035FD6'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 036c9b20 {hex_factor}
@@ -489,8 +481,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036c9b10 E0C35FF8
 036c9b14 2108201E
 036c9b18 000140BD
-036c9b1c C0035FD6 
-'''   
+036c9b1c C0035FD6 '''   
         elif version_variable == "1.2.0":
             nsobidid = "6F32C68DD3BC7D77AA714B80E92A096A737CDA77"
             replacement_value = "0380794c"
@@ -544,8 +535,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd4c0 E0C35FF8
 036bd4c4 0008211E
 036bd4c8 010540BD
-036bd4cc C0035FD6
-'''
+036bd4cc C0035FD6'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 036bd770 {hex_factor}
@@ -603,8 +593,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd4c0 E0C35FF8
 036bd4c4 2108201E
 036bd4c8 000140BD
-036bd4cc C0035FD6
-'''
+036bd4cc C0035FD6'''
         patch_content = f'''@nsobid-{nsobidid}
 
 @flag print_values
@@ -616,8 +605,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 {hestu_value} {hex_value}
 
 {text_fix}
-{visual_fix}
-@stop
+{visual_fix}@stop
 
 // Generated using TOTK-AAR by Fayaz (github.com/fayaz12g/totk-aar)'''
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
