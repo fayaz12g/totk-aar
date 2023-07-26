@@ -133,7 +133,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('SystemLoadList_00', 'A_Title_00', 'scale_x', s1)
         patch_blyt('SystemLoadList_00', 'N_All_00', 'scale_x', 1/s1) # new
         patch_blyt('SystemLoadList_00', 'N_Guide_00', 'scale_x', s1) # new
-        patch_anim('PaDataFileBtn_00', 0, s1) # new        
+        patch_anim('PaDataFileBtn_00_PicLoad', 0, s1) # new        
         patch_blyt('SystemLoadList_00', 'N_Header_00', 'scale_x', 1/s1)
         patch_blyt('SystemLoadList_00', 'N_SystemBG_00', 'scale_x', 1/s1)
         patch_blyt('SystemLoadList_00', 'P_DecoL_00', 'scale_x', s1)
