@@ -148,14 +148,16 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
 00CEA5E4 0001221E
 00CEA5EC 2101221E'''
             visual_fixese = ""
+            if do_disable_reduction:
+                visual_fixese += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
+            if lod_improve:
+                visual_fixese += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
             if do_disable_fxaa:
                 visual_fixese += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
             if do_DOF:
                 visual_fixese += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
                 visual_fixese += f"\n// Disable FSR\n{fsr_value} {FSR_replace}\n"
-            if do_disable_reduction:
-                visual_fixese += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
                 visual_fixese += f"\n// Disable Ansiiotropic Filtering\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
@@ -169,8 +171,6 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
                 visual_fixese += f"\n{cutscene_code}\n"
             if do_island:
                 visual_fixese += f"\n{island_code}\n"
-            if lod_improve:
-                visual_fixese += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
             if do_camera:
                 visual_fixese += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
                 visual_fixese += f"{cam2_value} {cam2_replace}\n"
@@ -257,6 +257,8 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             visual_fixesa = ""
             if do_island:
                 visual_fixesa += f"\n{island_code}\n"
+            if do_disable_reduction:
+                visual_fixesa += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
             if lod_improve:
                 visual_fixesa += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
             if do_camera:
@@ -268,8 +270,6 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
                 visual_fixesa += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
                 visual_fixesa += f"\n// Disable FSR\n{fsr_value} {FSR_replace}\n"
-            if do_disable_reduction:
-                visual_fixesa += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
                 visual_fixesa += f"\n// Disable Ansiiotropic Filtering\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
@@ -364,6 +364,8 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             visual_fixesb = ""
             if do_island:
                 visual_fixesb += f"\n{island_code}\n"
+            if do_disable_reduction:
+                visual_fixesb += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
             if lod_improve:
                 visual_fixesb += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
             if do_camera:
@@ -375,8 +377,6 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
                 visual_fixesb += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
                 visual_fixesb += f"\n// Disable FSR\n{fsr_value} {FSR_replace}\n"
-            if do_disable_reduction:
-                visual_fixesb += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
                 visual_fixesb += f"\n// Disable Ansiiotropic Filtering\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
@@ -471,6 +471,8 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             visual_fixesc = ""
             if do_island:
                 visual_fixesc += f"\n{island_code}\n"
+            if do_disable_reduction:
+                visual_fixesc += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
             if lod_improve:
                 visual_fixesc += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
             if do_camera:
@@ -482,8 +484,6 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
                 visual_fixesc += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
                 visual_fixesc += f"\n// Disable FSR\n{fsr_value} {FSR_replace}\n"
-            if do_disable_reduction:
-                visual_fixesc += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
                 visual_fixesc += f"\n// Disable Ansiiotropic Filtering\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
@@ -578,6 +578,8 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             visual_fixesd = ""
             if do_island:
                 visual_fixesd += f"\n{island_code}\n"
+            if do_disable_reduction:
+                visual_fixesd += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
             if lod_improve:
                 visual_fixesd += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
             if do_camera:
@@ -589,8 +591,6 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
                 visual_fixesd += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
                 visual_fixesd += f"\n// Disable FSR\n{fsr_value} {FSR_replace}\n"
-            if do_disable_reduction:
-                visual_fixesd += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
             if do_disable_ansiotropic:
                 visual_fixesd += f"\n// Disable Ansiiotropic Filtering\n{ansiotropic_value} {ansiotropic_replace}\n"
             if do_disable_dynamicres:
