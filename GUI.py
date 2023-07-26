@@ -737,7 +737,6 @@ def update_image(*args):
     photo = ImageTk.PhotoImage(image)
     image_label.configure(image=photo)
     image_label.image = photo  # Keep a reference to the photo to prevent garbage collection
-    print(f"Controller image set to {image_name}")
     image_label.update()
 
 def select_controller(*args):
