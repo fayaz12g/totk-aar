@@ -613,8 +613,6 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @enabled
 {reduction_value} {reduction_replace}
 {lod_value} {lod_replace}
-
-// Core Game Fixes
 {replacement_value} {ratiotohex.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
