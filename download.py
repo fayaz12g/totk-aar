@@ -1,3 +1,6 @@
+import sys
+import os
+
 def download_extract_copy(controller_id, output_folder):
     import requests
     import zipfile
