@@ -599,13 +599,15 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @flag print_values
 @flag offset_shift 0x100
 
-@enabled
 {visual_fix}
 // Core Game Fixes
+@enabled
 {replacement_value} {ratiotohex.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
+@stop
 
+@enabled
 {text_fix}
 @stop
 

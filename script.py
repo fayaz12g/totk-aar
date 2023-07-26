@@ -79,6 +79,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_x', s1)    
         patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_x', 1/s1)   
         if expand_shutter == "True":
+            patch_blyt('CameraPointer_00', 'RootPane', 'scale_y', 1/s1) 
             patch_blyt('CameraPointer_00', 'W_Shadow_01', 'scale_x', 1/s1) 
             patch_blyt('CameraPointer_00', 'W_Shadow_01', 'scale_y', 1/s1)
             patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 1/s1)   
@@ -100,8 +101,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('LoadingFade_00', 'N_Status', 'shift_x', 960*s3)
         patch_blyt('LoadingFade_00', 'N_Tips', 'shift_x', -960*s3)
         patch_blyt('LoadingFade_00', 'P_BG_00', 'scale_x', 1/s1)
-        # patch_blyt('LoadingFade_00', 'P_SideBGDeco_00', 'scale_x', s1)
-        patch_blyt('LoadingFade_00', 'N_BarInOut_00', 'scale_x', s1) # new
+        patch_blyt('LoadingFade_00', 'P_SideBGDeco_00', 'scale_x', s1)
         patch_blyt('LoadingFade_00', 'Pa_IconPlayer_00', 'scale_x', s1)
         patch_blyt('LoadingFade_00', 'Pa_LargeDungeonMap_00', 'scale_x', s1)
         patch_blyt('LoadingFade_00', 'Pa_LargeDungeonMap_01', 'scale_x', s1)

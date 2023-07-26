@@ -149,11 +149,11 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
 00CEA5EC 2101221E'''
             visual_fixese = ""
             if do_disable_reduction:
-                visual_fixese += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
+                visual_fixese += f"\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n@stop\n"
             if lod_improve:
-                visual_fixese += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+                visual_fixese += f"\n// Improve the LOD (Level of Detail)\n@enabled\n{lod_value} {lod_replace}\n@stop\n"
             if do_disable_fxaa:
-                visual_fixese += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixese += f"\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n@stop\n"
             if do_DOF:
                 visual_fixese += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
@@ -258,14 +258,14 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             if do_island:
                 visual_fixesa += f"\n{island_code}\n"
             if do_disable_reduction:
-                visual_fixesa += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
+                visual_fixesa += f"\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n@stop\n"
             if lod_improve:
-                visual_fixesa += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+                visual_fixesa += f"\n// Improve the LOD (Level of Detail)\n@enabled\n{lod_value} {lod_replace}\n@stop\n"
             if do_camera:
                 visual_fixesa += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
                 visual_fixesa += f"{cam2_value} {cam2_replace}\n"
             if do_disable_fxaa:
-                visual_fixesa += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixesa += f"\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n@stop\n"
             if do_DOF:
                 visual_fixesa += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
@@ -365,14 +365,14 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             if do_island:
                 visual_fixesb += f"\n{island_code}\n"
             if do_disable_reduction:
-                visual_fixesb += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
+                visual_fixesb += f"\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n@stop\n"
             if lod_improve:
-                visual_fixesb += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+                visual_fixesb += f"\n// Improve the LOD (Level of Detail)\n@enabled\n{lod_value} {lod_replace}\n@stop\n"
             if do_camera:
                 visual_fixesb += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
                 visual_fixesb += f"{cam2_value} {cam2_replace}\n"
             if do_disable_fxaa:
-                visual_fixesb += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixesb += f"\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n@stop\n"
             if do_DOF:
                 visual_fixesb += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
@@ -472,14 +472,14 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             if do_island:
                 visual_fixesc += f"\n{island_code}\n"
             if do_disable_reduction:
-                visual_fixesc += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
+                visual_fixesc += f"\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n@stop\n"
             if lod_improve:
-                visual_fixesc += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+                visual_fixesc += f"\n// Improve the LOD (Level of Detail)\n@enabled\n{lod_value} {lod_replace}\n@stop\n"
             if do_camera:
                 visual_fixesc += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
                 visual_fixesc += f"{cam2_value} {cam2_replace}\n"
             if do_disable_fxaa:
-                visual_fixesc += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixesc += f"\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n@stop\n"
             if do_DOF:
                 visual_fixesc += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
@@ -579,14 +579,14 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             if do_island:
                 visual_fixesd += f"\n{island_code}\n"
             if do_disable_reduction:
-                visual_fixesd += f"\n// Disable Quality Reduction\n{reduction_value} {reduction_replace}\n"
+                visual_fixesd += f"\n// Disable Quality Reduction\n@enabled\n{reduction_value} {reduction_replace}\n@stop\n"
             if lod_improve:
-                visual_fixesd += f"\n// Improve the LOD (Level of Detail)\n{lod_value} {lod_replace}\n"
+                visual_fixesd += f"\n// Improve the LOD (Level of Detail)\n@enabled\n{lod_value} {lod_replace}\n@stop\n"
             if do_camera:
                 visual_fixesd += f"\n// Increase the Camera Speed\n{cam1_value} {cam1_replace}\n"
                 visual_fixesd += f"{cam2_value} {cam2_replace}\n"
             if do_disable_fxaa:
-                visual_fixesd += f"\n// Disable FXAA\n{fxaa_value} {fxaa_replace}\n"
+                visual_fixesd += f"\n// Disable FXAA\n@enabled\n{fxaa_value} {fxaa_replace}\n@stop\n"
             if do_DOF:
                 visual_fixesd += f"\n// Disable DOF Targeting\n{DOF_value} {DOF_replace}\n"
             if do_disable_fsr:
