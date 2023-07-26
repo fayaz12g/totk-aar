@@ -75,12 +75,11 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('AppMenuOverlay_00', 'N_TitleOne_01', 'scale_x', s1)
         patch_blyt('AppOpenDemoWindow_00', 'P_BG_00', 'scale_x', 1/s1)
         patch_blyt('AutoBuilder_00', 'N_BG_00', 'scale_x', 1/s1)
-        patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_x', 1/s1)
         patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_x', s1)    
         patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_x', 1/s1)   
         if expand_shutter == "True":
             patch_blyt('CameraPointer_00', 'RootPane', 'scale_y', 1/s1) 
-            patch_blyt('CameraPointer_00', 'W_Shadow_01', 'scale_x', 1/s1) 
+            patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_x', 1/s1)
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_y', 1/s1)
             patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 1/s1)
             patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_y', s1)
@@ -136,7 +135,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('SystemLoadList_00', 'A_Title_00', 'scale_x', s1)
         patch_blyt('SystemLoadList_00', 'N_All_00', 'scale_x', 1/s1) # new
         patch_blyt('SystemLoadList_00', 'N_Guide_00', 'scale_x', s1) # new
-        patch_anim('PaDataFileBtn_00_PicLoad', 0, s1) # new        
+        patch_anim('PaDataFileBtn_00_PicLoad', 500, s1) # new        
         patch_blyt('SystemLoadList_00', 'N_Header_00', 'scale_x', 1/s1)
         patch_blyt('SystemLoadList_00', 'N_SystemBG_00', 'scale_x', 1/s1)
         patch_blyt('SystemLoadList_00', 'P_DecoL_00', 'scale_x', s1)
@@ -159,8 +158,8 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('SystemSaveLoad_00', 'P_DecoR_00', 'shift_x', (737 + 960*s3)*s1)
         patch_blyt('SystemSaveLoad_00', 'N_InOut_00', 'scale_x', 1/s1) # new
         patch_blyt('SystemSaveLoad_00', 'N_SavePos_00', 'scale_x', s1) # new
-        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 600) # new
-        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'shift_x', 400) # new
+        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 200) # new
+        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'shift_x', 133) # new
         
         if HUD_pos == 'corner':
             print("Shifitng elements for corner HUD")
