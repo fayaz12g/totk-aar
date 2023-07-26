@@ -83,7 +83,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             DOF_value = "00BD0F14"
             flare_value = "029ca250"
             lod_value = "027D9448"
-            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multiplier)}x
 029d1510 {island_replace}
 029d1518 BF000014
 029d1814 00083B1E
@@ -189,7 +189,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
         elif version_variable == "1.1.0":
             flare_value = "02A42490"
             lod_value = "027D9448"
-            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multiplier)}x
 02a498d0 {island_replace}
 02a498d8 BF000014
 02a49bd4 00083B1E
@@ -294,7 +294,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
                 visual_fixesa += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesa)
         elif version_variable == "1.1.1":
-            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multiplier)}x
 02a51630 {island_replace}
 02a51638 BF000014
 02a51934 00083B1E
@@ -415,7 +415,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             ansiotropic_value = "00BF21F0"
             dynamic1_value = "0104A704"
             dynamic2_value = "027C1124"
-            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multiplier)}x
 02A40A40 {island_replace}
 02A40A48 BF000014
 02A40D44 00083B1E
@@ -508,7 +508,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
                 visual_fixesc += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesc)
         elif version_variable == "1.2.0":
-            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {res_multiplier}x
+            island_code = f'''// Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multiplier)}x
 02A348A0 {island_replace}
 02A348A8 BF000014
 02A34BA4 00083B1E
