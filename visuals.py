@@ -183,7 +183,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             if staticfps == 20:
                 visual_fixese += f"\n{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixese += f"\n// Set the Shadow Resolution to {shadow_quality}\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixese += f"\n// Set the Shadow Resolution to {int(shadow_quality)}\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixese += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixese)
         elif version_variable == "1.1.0":
@@ -290,7 +290,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             if staticfps == 20:
                 visual_fixesa += f"\n{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixesa += f"\n// Set the Shadow Resolution to {shadow_quality}\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixesa += f"\n// Set the Shadow Resolution to {int(shadow_quality)}\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixesa += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesa)
         elif version_variable == "1.1.1":
@@ -397,7 +397,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             if staticfps == 20:
                 visual_fixesb += f"\n{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixesb += f"\n// Set the Shadow Resolution to {shadow_quality}\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixesb += f"\n// Set the Shadow Resolution to {int(shadow_quality)}\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixesb += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesb)
         elif version_variable == "1.1.2":
@@ -504,7 +504,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             if staticfps == 20:
                 visual_fixesc += f"\n{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixesc += f"\n// Set the Shadow Resolution to {shadow_quality}\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixesc += f"\n// Set the Shadow Resolution to {int(shadow_quality)}\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixesc += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesc)
         elif version_variable == "1.2.0":
@@ -611,7 +611,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             if staticfps == 20:
                 visual_fixesd += f"\n{fps20_code}\n"
             if shadow_quality > 0:
-                visual_fixesd += f"\n// Set the Shadow Resolution to {shadow_quality}\n{shadow1_value} {shadow1_replace}\n"
+                visual_fixesd += f"\n// Set the Shadow Resolution to {int(shadow_quality)}\n{shadow1_value} {shadow1_replace}\n"
                 visual_fixesd += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesd)
         if do_dynamicfps:
