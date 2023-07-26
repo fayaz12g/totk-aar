@@ -9,6 +9,8 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
     aspect_ratio = float(aspect_ratio)
     HUD_pos = str(HUD_pos)
     # expand_shutter = ast.literal_eval(expand_shutter)
+    expand_shutter = str(expand_shutter)
+    print(f"Expand shutter is set to {expand_shutter}")
     
     def float2hex(f):
         return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0').upper()
@@ -83,7 +85,6 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         if expand_shutter == "false":
             patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 1/s1)   
             #code to make CameraCircle_00^s fit the aspect ratio
-              
         patch_blyt('CameraSystemWindow_00', 'N_InOut_00', 'scale_x', 1/s1) # new
         patch_blyt('CameraSystemWindow_00', 'T_Text_00', 'scale_x', s1) # new
         patch_blyt('CameraSystemWindow_00', 'Pa_BtnR_00', 'scale_x', s1) # new
@@ -132,9 +133,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('SystemLoadList_00', 'A_Title_00', 'scale_x', s1)
         patch_blyt('SystemLoadList_00', 'N_All_00', 'scale_x', 1/s1) # new
         patch_blyt('SystemLoadList_00', 'N_Guide_00', 'scale_x', s1) # new
-        patch_blyt('SystemLoadList_00', 'N_Slide_00', 'scale_x', s1) # new (remove if using anim patch)
-        patch_blyt('SystemLoadList_00', 'N_PicLoad_00', 'scale_x', 1/s1) # new (remove if using anim patch)
-        # patch_anim('Pa_DataFileBtn_00_PicLoad', 0, 1/s1) # new        
+        patch_anim('Pa_DataFileBtn_00_PicLoad', 0, 1/s1) # new        
         patch_blyt('SystemLoadList_00', 'N_Header_00', 'scale_x', 1/s1)
         patch_blyt('SystemLoadList_00', 'N_SystemBG_00', 'scale_x', 1/s1)
         patch_blyt('SystemLoadList_00', 'P_DecoL_00', 'scale_x', s1)

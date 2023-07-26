@@ -1,26 +1,7 @@
-import os
-import sys
-import subprocess
-import requests
-import zipfile
-import shutil
-import sys
-
 def download_extract_copy(controller_id, output_folder):
     import requests
     import zipfile
     import shutil
-    import logging
-    
-    import http.client
-    http.client.HTTPConnection.debuglevel = 1
-
-    # You must initialize logging, otherwise you'll not see debug output.
-    logging.basicConfig()
-    logging.getLogger().setLevel(logging.DEBUG)
-    requests_log = logging.getLogger("requests.packages.urllib3")
-    requests_log.setLevel(logging.DEBUG)
-    requests_log.propagate = True
 
     # URL of the ZIP file
     zip_url = f"https://github.com/fayaz12g/totk-controllers/raw/main/{controller_id}.zip"

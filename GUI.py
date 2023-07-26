@@ -84,7 +84,7 @@ button_layout = StringVar()
 # HUD
 centered_HUD = BooleanVar()
 corner_HUD = BooleanVar(value=True)
-expand_shutter = BooleanVar()
+expand_shutter = BooleanVar(value=True)
 
 # Generation
 output_yuzu = BooleanVar()
@@ -363,6 +363,7 @@ def create_full():
         HUD_pos = "center"
     aspect_ratio = str(ratio_value)
     scaling_factor = str(scaling_factor)  
+    expand_shutter = str(expand_shutter)
     print("Patching BLYT.")
     blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
     patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter)
