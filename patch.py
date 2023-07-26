@@ -601,13 +601,13 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 
 @enabled
 {visual_fix}
-
 // Core Game Fixes
 {replacement_value} {ratiotohex.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
 
-{text_fix}@stop
+{text_fix}
+@stop
 
 // Generated using TOTK-AAR by Fayaz (github.com/fayaz12g/totk-aar)'''
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
