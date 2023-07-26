@@ -236,8 +236,10 @@ def create_full():
 
     if os.path.exists(folder_to_delete):
         print("Old mod found, deleting.")
+        progressbar.stop()
         print("If you are stuck hanging here, be sure to close the emulator first and then hit generate again.")
         shutil.rmtree(folder_to_delete)
+        progressbar.start()
         print("Old mod deleted.")
   
     progressbar.set(.7)
