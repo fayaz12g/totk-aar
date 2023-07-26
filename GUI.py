@@ -9,6 +9,7 @@ import getpass
 from pathlib import Path
 import sys
 import shutil
+import requests
 from download import download_extract_copy
 from visuals import create_visuals
 from patch import create_patch_files
@@ -23,7 +24,7 @@ from repack import pack_folder_to_blarc
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
 
-tool_version = "8.2.1"
+tool_version = "8.3.0"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
