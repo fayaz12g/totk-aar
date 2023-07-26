@@ -76,8 +76,14 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_x', 1/s1)
         patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_x', s1)    
         patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_x', 1/s1)   
-        patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 1/s1)   
-        patch_blyt('CameraPointer_00', 'W_Shadow_01', 'scale_x', 1/s1) 
+        if expand_shutter == "true":
+            patch_blyt('CameraPointer_00', 'W_Shadow_01', 'scale_x', 1/s1) 
+            patch_blyt('CameraPointer_00', 'W_Shadow_01', 'scale_y', 1/s1)
+            patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 1/s1)   
+        if expand_shutter == "false":
+            patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 1/s1)   
+            #code to make CameraCircle_00^s fit the aspect ratio
+              
         patch_blyt('CameraSystemWindow_00', 'N_InOut_00', 'scale_x', 1/s1) # new
         patch_blyt('CameraSystemWindow_00', 'T_Text_00', 'scale_x', s1) # new
         patch_blyt('CameraSystemWindow_00', 'Pa_BtnR_00', 'scale_x', s1) # new
