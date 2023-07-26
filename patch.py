@@ -22,6 +22,8 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
     rounded_ratio = ratiotohex.calculate_rounded_ratio(float(ratio_value))
     asm_code = ratiotohex.generate_asm_code(rounded_ratio)
     ratio_value = float(ratio_value)
+    reduction_replace = "C0000014"
+    lod_replace = "24000014"
     hex_value = ratiotohex.convert_asm_to_arm64_hex(ratio_value)
     print(hex_value)
     visual_fixese = visual_fixes[0]
@@ -37,6 +39,8 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
         if version_variable == "1.0.0":
             nsobidid = "082CE09B06E33A123CB1E2770F5F9147709033DB"
             visual_fix = visual_fixese
+            reduction_value = "00C40A8C"
+            lod_value = "027D9448"
             if stretch == "horizontal":
                 text_fix = f'''// Text UI Fixes
 037745a0 {hex_factor}
@@ -149,6 +153,8 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
         elif version_variable == "1.1.0":
             nsobidid = "D5AD6AC71EF53E3E52417C1B81DBC9B4142AA3B3"
             visual_fix = visual_fixesa
+            reduction_value = "00CAD34C"
+            lod_value = "027D9448"
             if stretch == "horizontal":
                 text_fix = f'''// Text UI Fixes
 036d1120 {hex_factor}
@@ -261,6 +267,8 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
         elif version_variable == "1.1.1":
             nsobidid = "168DD518D925C7A327677286E72FEDA833314919"
             visual_fix = visual_fixesb
+            reduction_value = "00CC1C2C"
+            lod_value = "027E07A8"
             replacement_value = "0382413C"
             inventory_value = "019C013C"
             hestu_value = "01ED6710"
@@ -373,6 +381,8 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
         elif version_variable == "1.1.2":
             nsobidid = "9A10ED9435C06733DA597D8094D9000AB5D3EE60"
             visual_fix = visual_fixesc
+            reduction_value = "00C76FFC"
+            lod_value = "027D04F8"
             replacement_value = "03813D0C"
             inventory_value = "019B5480"
             hestu_value = "01ECE314"
@@ -486,6 +496,8 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
             nsobidid = "6F32C68DD3BC7D77AA714B80E92A096A737CDA77"
             replacement_value = "0380794c"
             inventory_value = "019a5870"
+            lod_value = "027c3ea8"
+            reduction_value = "00C4275c"
             hestu_value = "01EC1918"
             visual_fix = visual_fixesd
             if stretch == "horizontal":
@@ -599,8 +611,11 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @flag print_values
 @flag offset_shift 0x100
 @enabled
-
+{reduction_value} {reduction_replace}
+{lod_value} {lod_replace}
+@stop
 // Core Game Fixes
+@enabled
 {replacement_value} {ratiotohex.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}

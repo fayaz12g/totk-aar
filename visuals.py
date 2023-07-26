@@ -401,6 +401,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
                 visual_fixesb += f"{shadow2_value} {shadow2_replace}\n"
             visual_fixes.append(visual_fixesb)
         elif version_variable == "1.1.2":
+            reduction_value = "00C76FFC"
             lod_value = "027D04F8"
             cam1_value = "0380ee6c"
             cam2_value = "00d1411c"
@@ -408,7 +409,6 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             flare_value = "02A395F0"
             shadow2_value = "00BD2C00"
             fxaa_value = "00C76FE0"
-            reduction_value = "00C76FFC"
             DOF_value = "00C4B934"
             fsr_value = "00C76FF0"
             trilinear_value = "00753AA4"
@@ -514,13 +514,13 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
 02A34BA4 00083B1E
 02A34BA8 21083B1E'''
             lod_value = "027c3ea8"
+            reduction_value = "00C4275c"
             cam1_value = "03802acc"
             cam2_value = "00ce3834"
             shadow1_value = "00ccd368"
             shadow2_value = "00ccd36c"
             fxaa_value = "00C42740"
             flare_value = "02a2d460"
-            reduction_value = "00C4275c"
             DOF_value = "00C07024"
             fsr_value = "00C42750"
             ansiotropic_value = "00B3BF24"
