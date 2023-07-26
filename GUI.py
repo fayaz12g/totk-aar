@@ -183,7 +183,10 @@ def calculate_ratio():
         print("Invalid numerator value. Please provide a valid number.")
         return
 
-    denominator = float(ar_denominator.get())
+    if ar_denominator.get() == '':
+        denominator = 9
+    else:
+        denominator = float(ar_denominator.get())
 
     if denominator == 0:
         print("Denominator value cannot be zero.")
