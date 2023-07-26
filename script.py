@@ -63,6 +63,9 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('AppMap_00', 'N_BlurInOut_01', 'scale_x', 1/s1) 
         patch_blyt('AppMap_00', 'N_BlurInOut_02', 'scale_x', 1/s1) 
         patch_blyt('AppMap_00', 'N_BlurInOut_03', 'scale_x', 1/s1)
+        patch_blyt('AppMap_00', 'S_Sunaarashi_00', 'scale_x', 1/s1) # new
+        patch_blyt('AppMap_00', 'N_Capture_00', 'scale_x', 1/s1) # new
+        patch_blyt('AppMap_00', 'N_Capture_00', 'scale_y', 1/s1) # new
         patch_blyt('AppMap_00', 'N_MiniMap_00', 'shift_x', -270*s2) 
         patch_blyt('AppMenuOverlay_00', 'N_FadeInOut_00', 'scale_x', s1)
         patch_blyt('AppMenuOverlay_00', 'N_FadeInOut_01', 'scale_x', s1)
