@@ -1,30 +1,40 @@
+import sys
 import os
-import sys
-import subprocess
-import requests
-import zipfile
-import shutil
-import sys
 
 def download_extract_copy(controller_id, output_folder):
     import requests
     import zipfile
     import shutil
+    import getpass
 
     # URL of the ZIP file
     zip_url = f"https://github.com/fayaz12g/totk-controllers/raw/main/{controller_id}.zip"
 
-    # Download the ZIP file
-    print("Downloading zip file. This may take up to 10 seconds.")
-    response = requests.get(zip_url)
-    zip_file_path = os.path.join(output_folder, f"{controller_id}.zip")
-    with open(zip_file_path, "wb") as file:
-        file.write(response.content)
+    username = getpass.getuser()
+    directory_path = f"C:/Users/{username}/AppData/Roaming/totk-aar/controllers"
+    # Check if the directory exists
+    if not os.path.exists(directory_path):
+        # Create the directory if it doesn't exist
+        os.makedirs(directory_path)
+        print(f"Directory {directory_path} created successfully.")
+    else:
+        print(f"Directory {directory_path} already exists.")
+    totk_folder = f"C:/Users/{username}/AppData/Roaming/totk-aar/controllers"
+    zip_file_source = os.path.join(totk_folder, f"{controller_id}.zip")
+
+    if not os.path.isfile(zip_file_source):
+        # Download the ZIP file
+        print("Downloading zip file. This may take up to 10 seconds.")
+        response = requests.get(zip_url)
+        print("Zip file downloaded.")
+        with open(zip_file_source, "wb") as file:
+            print("Writing contents to temp folder.")
+            file.write(response.content)
 
     # Extract the ZIP file
-    print("Extracting zip file. This can also take a few seconds.")
     extract_folder = os.path.join(output_folder, "AAR MOD", "temp")
-    with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
+    print(f"Extracting zip to {extract_folder}. This can also take a few seconds.")
+    with zipfile.ZipFile(zip_file_source, "r") as zip_ref:
         zip_ref.extractall(extract_folder)
 
     # Copy the extracted file
@@ -42,6 +52,4 @@ def download_extract_copy(controller_id, output_folder):
 
     # Clean up
     print("Cleaning up old files")
-    os.remove(zip_file_path)
     shutil.rmtree(extract_folder)
-

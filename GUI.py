@@ -9,6 +9,7 @@ import getpass
 from pathlib import Path
 import sys
 import shutil
+import requests
 from download import download_extract_copy
 from visuals import create_visuals
 from patch import create_patch_files
@@ -23,7 +24,7 @@ from repack import pack_folder_to_blarc
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
 
-tool_version = "8.2.0"
+tool_version = "8.4.0"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
@@ -42,7 +43,7 @@ do_disable_fsr = BooleanVar()
 do_DOF = BooleanVar()
 do_chuck = BooleanVar()
 do_disable_fxaa = BooleanVar()
-do_disable_reduction = BooleanVar()
+do_disable_reduction = BooleanVar(value=True)
 do_disable_ansiotropic = BooleanVar()
 do_force_trilinear = BooleanVar()
 do_disable_dynamicres = BooleanVar()
@@ -53,7 +54,7 @@ custom_height = StringVar(value="1080")
 custom_width = StringVar(value="1920")
 camera_mod = BooleanVar()
 do_camera = BooleanVar()
-lod_improve = BooleanVar()
+lod_improve = BooleanVar(value=True)
 remove_flare = BooleanVar()
 staticfps = StringVar()
 shadow_quality = StringVar()
@@ -83,7 +84,7 @@ button_layout = StringVar()
 # HUD
 centered_HUD = BooleanVar()
 corner_HUD = BooleanVar(value=True)
-expand_shutter = BooleanVar()
+expand_shutter = BooleanVar(value=False)
 
 # Generation
 output_yuzu = BooleanVar()
@@ -128,6 +129,9 @@ class PrintRedirector:
     def write(self, text):
         self.text_widget.insert("end", text)
         self.text_widget.see("end")  
+
+    def flush(self):
+        pass
 
 def handle_focus_in(entry, default_text):
     if entry.get() == default_text:
@@ -182,7 +186,10 @@ def calculate_ratio():
         print("Invalid numerator value. Please provide a valid number.")
         return
 
-    denominator = float(ar_denominator.get())
+    if ar_denominator.get() == '':
+        denominator = 9
+    else:
+        denominator = float(ar_denominator.get())
 
     if denominator == 0:
         print("Denominator value cannot be zero.")
@@ -236,8 +243,10 @@ def create_full():
 
     if os.path.exists(folder_to_delete):
         print("Old mod found, deleting.")
+        progressbar.stop()
         print("If you are stuck hanging here, be sure to close the emulator first and then hit generate again.")
         shutil.rmtree(folder_to_delete)
+        progressbar.start()
         print("Old mod deleted.")
   
     progressbar.set(.7)
@@ -355,11 +364,13 @@ def create_full():
         HUD_pos = "corner"
     else:
         HUD_pos = "center"
+    global expand_shutter
     aspect_ratio = str(ratio_value)
     scaling_factor = str(scaling_factor)  
+    expand_shutter2 = str(expand_shutter.get())
     print("Patching BLYT.")
     blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter)
+    patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2)
     
     ##########################
     # Cleaning and Repacking #
@@ -409,13 +420,13 @@ def pack_widgets():
     aspect_ratio_divider.pack(side="left")
     denominator_entry.pack(side="left")
     
+    reduction_checkbox.pack(padx=5, pady=5)
+    lod_checkbox.pack(padx=6, pady=6)
     cameraspeed_checkbox.pack(padx=6, pady=6)
     flare_checkbox.pack(padx=6, pady=6)
-    lod_checkbox.pack(padx=6, pady=6)
     fsr_checkbox.pack(padx=5, pady=5)
     DOF_checkbox.pack(padx=5, pady=5)
     fxaa_checkbox.pack(padx=5, pady=5)
-    reduction_checkbox.pack(padx=5, pady=5)
     ansiotropic_checkbox.pack(padx=5, pady=5)
     trilinear_checkbox.pack(padx=5, pady=5)
     dynamicres_checkbox.pack(padx=5, pady=5)
@@ -731,11 +742,9 @@ def update_image(*args):
     
     # Load and display the image
     image = Image.open(image_path)
-    image = image.resize((500, 300))  # Adjust the size as needed
-    photo = ImageTk.PhotoImage(image)
+    photo = customtkinter.CTkImage(image, size=(500,300))
     image_label.configure(image=photo)
     image_label.image = photo  # Keep a reference to the photo to prevent garbage collection
-    print(f"Controller image set to {image_name}")
     image_label.update()
 
 def select_controller(*args):
@@ -786,7 +795,7 @@ content_frame = customtkinter.CTkFrame(master=notebook.tab("HUD"))
 hud_label= customtkinter.CTkLabel(content_frame, text='Hud Location:')
 center_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("HUD"), text="Center", variable=centered_HUD, value=1, command=lambda: [corner_HUD.set(False), repack_widgets])
 corner_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("HUD"), text="Corner", variable=corner_HUD, value=2, command=lambda: [centered_HUD.set(False), repack_widgets])
-shutter_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("HUD"), text="Expand Shutter Size", variable=expand_shutter)
+shutter_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("HUD"), text="Hide Scope Border", variable=expand_shutter)
 
 ########################
 ####### GENERATE #######
