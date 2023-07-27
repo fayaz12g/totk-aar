@@ -130,6 +130,9 @@ class PrintRedirector:
         self.text_widget.insert("end", text)
         self.text_widget.see("end")  
 
+    def flush(self):
+        pass
+
 def handle_focus_in(entry, default_text):
     if entry.get() == default_text:
         entry.delete(0, "end")
@@ -739,8 +742,7 @@ def update_image(*args):
     
     # Load and display the image
     image = Image.open(image_path)
-    image = image.resize((500, 300))  # Adjust the size as needed
-    photo = ImageTk.PhotoImage(image)
+    photo = customtkinter.CTkImage(image, size=(500,300))
     image_label.configure(image=photo)
     image_label.image = photo  # Keep a reference to the photo to prevent garbage collection
     image_label.update()
