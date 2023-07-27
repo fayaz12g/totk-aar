@@ -11,7 +11,7 @@ import sys
 import shutil
 import requests
 from download import download_extract_copy
-from visuals import create_visuals
+from visualfixes import create_visualsnew
 from patch import create_patch_files
 from custominiscript import create_custom_ini
 from decompress import decompress_zstd
@@ -24,7 +24,7 @@ from repack import pack_folder_to_blarc
 ###########    GLOBAL SETTINGS      ###########
 ###############################################
 
-tool_version = "8.3.0"
+tool_version = "8.4.0"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
@@ -291,7 +291,7 @@ def create_full():
     ratio_value = create_ratio()
     scaling_factor = calculate_ratio()
     unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    visual_fixes = create_visuals(do_camera.get(), res_multiplier.get(), lod_improve.get(), remove_flare.get(), staticfps.get(), shadow_quality.get(), do_dynamicfps.get(), do_disable_fxaa.get(), do_disable_fsr.get(), do_DOF.get(), do_disable_reduction.get(), do_disable_ansiotropic.get(), do_cutscene_fix.get(), do_disable_dynamicres.get(), do_force_trilinear.get(), do_chuck.get())
+    visual_fixes = create_visualsnew(do_camera.get(), res_multiplier.get(), lod_improve.get(), remove_flare.get(), staticfps.get(), shadow_quality.get(), do_dynamicfps.get(), do_disable_fxaa.get(), do_disable_fsr.get(), do_DOF.get(), do_disable_reduction.get(), do_disable_ansiotropic.get(), do_cutscene_fix.get(), do_disable_dynamicres.get(), do_force_trilinear.get(), do_chuck.get())
     create_patch_files(patch_folder, ratio_value, visual_fixes)
     
     #######################
