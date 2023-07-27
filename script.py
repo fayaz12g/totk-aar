@@ -48,6 +48,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
     
     if aspect_ratio >= 16/9:
         s1 = (16/9) / aspect_ratio
+        print(f"Scaling factor is set to {s1}")
         s2 = 1-s1
         s3 = s2/s1
         
