@@ -95,6 +95,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
                 text_fix = f'''// Text UI Fixes
 @enabled
 037745a0 {hex_factor}
+@stop
 
 // NPC Marker Fix
 @enabled
