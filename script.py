@@ -3,14 +3,15 @@ import struct
 import math
 import ast
 
-def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
+def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
     
     unpacked_folder = str(unpacked_folder)
     aspect_ratio = float(aspect_ratio)
+    print(f"Aspect ratio is {aspect_ratio}")
     HUD_pos = str(HUD_pos)
-    # expand_shutter = ast.literal_eval(expand_shutter)
-    expand_shutter = str(expand_shutter)
-    print(f"Expand shutter is set to {expand_shutter}")
+    # expand_shutter2 = ast.literal_eval(expand_shutter2)
+    expand_shutter2 = str(expand_shutter2)
+    print(f"Expand shutter is set to {expand_shutter2}")
     
     def float2hex(f):
         return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0').upper()
@@ -47,6 +48,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
     
     if aspect_ratio >= 16/9:
         s1 = (16/9) / aspect_ratio
+        print(f"Scaling factor is set to {s1}")
         s2 = 1-s1
         s3 = s2/s1
         
@@ -75,9 +77,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('AppMenuOverlay_00', 'N_TitleOne_01', 'scale_x', s1)
         patch_blyt('AppOpenDemoWindow_00', 'P_BG_00', 'scale_x', 1/s1)
         patch_blyt('AutoBuilder_00', 'N_BG_00', 'scale_x', 1/s1)
-        patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_x', s1)    
-        patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_x', 1/s1)   
-        if expand_shutter == "True":
+        if expand_shutter2 == "True":
             patch_blyt('CameraPointer_00', 'RootPane', 'scale_y', 500) 
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_x', 500)
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_y', 500)
@@ -87,8 +87,16 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
             patch_blyt('CameraPointer_00', 'N_InOutScope_02', 'scale_y', 1/500)
             patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_y', 1/500)    
             patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_y', 1/500)         
-        if expand_shutter == "False":
-            patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 1/s1)   
+        if expand_shutter2 == "False":
+            patch_blyt('CameraPointer_00', 'RootPane', 'scale_y', 1/s1) 
+            patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_x', 1/s1)
+            patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_y', 1/s1)
+            patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 1/s1)
+            patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_y', s1)
+            patch_blyt('CameraPointer_00', 'N_InOutScope_01', 'scale_y', s1)
+            patch_blyt('CameraPointer_00', 'N_InOutScope_02', 'scale_y', s1)
+            patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_y', s1)    
+            patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_y', 1/s1)   
             #code to make CameraCircle_00^s fit the aspect ratio
         patch_blyt('CameraSystemWindow_00', 'N_InOut_00', 'scale_x', 1/s1) # new
         patch_blyt('CameraSystemWindow_00', 'T_Text_00', 'scale_x', s1) # new
@@ -160,8 +168,8 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('SystemSaveLoad_00', 'P_DecoR_00', 'shift_x', (737 + 960*s3)*s1)
         patch_blyt('SystemSaveLoad_00', 'N_InOut_00', 'scale_x', 1/s1) # new
         patch_blyt('SystemSaveLoad_00', 'N_SavePos_00', 'scale_x', s1) # new
-        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 170) # new
-        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'shift_x', 5) # new
+        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 140) # new
+        # patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'shift_x', 2) # new
         
         if HUD_pos == 'corner':
             print("Shifitng elements for corner HUD")
