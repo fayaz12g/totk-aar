@@ -136,7 +136,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
 00C40F98 29050011
 00C40F9C F503092A
 00C40FA0 C0035FD6'''
-            chuck_1008 = f'''// Set Internal Resolution to 1008
+            chuck_1008 = f'''// Set Internal Resolution to 1008p
 00CEA5BC F50300AA
 00CEA5C0 83F6FE97
 00CEA5C4 140040B9
@@ -196,7 +196,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
 02a49bd8 21083B1E'''
             cam1_value = "0381648C"
             cam2_value = "00D228DC"
-            chuck_1008 = f'''// Set Internal Resolution to 1008            
+            chuck_1008 = f'''// Set Internal Resolution to 1008p            
 00CEA5BC F50300AA
 00CEA5C0 83F6FE97
 00CEA5C4 140040B9
@@ -313,7 +313,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
             ansiotropic_value = "008714D0"
             dynamic1_value = "01063774"
             dynamic2_value = "027D13D4"
-            chuck_1008 = f'''// Set Internal Resolution to 1008
+            chuck_1008 = f'''// Set Internal Resolution to 1008p
 00CECA44 F50300AA
 00CECA48 993FFF97
 00CECA4C 140040B9
@@ -448,7 +448,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
 019BD9E8 1F2003D5
 008F66FC 75008052
 008F6730 61008052'''
-            chuck_1008 = f'''// Set Internal Resolution to 1008
+            chuck_1008 = f'''// Set Internal Resolution to 1008p
 00CDD3C4 F50300AA
 00CDD3C8 2D52FE97
 00CDD3CC 140040B9
@@ -555,7 +555,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
 019adbe8 1F2003D5
 008a93b8 75008052
 008a93ec 61008052'''
-            chuck_1008 = f'''// Set Internal Resolution to 1008
+            chuck_1008 = f'''// Set Internal Resolution to 1008p
 00c34598 F50300AA
 00c3459c 2D52FE97
 00c345a0 140040B9
