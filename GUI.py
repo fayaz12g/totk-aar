@@ -125,13 +125,17 @@ root.iconbitmap(icon_path)
 class PrintRedirector:
     def __init__(self, text_widget):
         self.text_widget = text_widget
+        self.buffer = ""
 
     def write(self, text):
+        self.buffer += text
         self.text_widget.insert("end", text)
-        self.text_widget.see("end")  
+        self.text_widget.see("end")
 
     def flush(self):
-        pass
+        self.text_widget.insert("end", self.buffer)
+        self.text_widget.see("end")
+        self.buffer = ""
 
 def handle_focus_in(entry, default_text):
     if entry.get() == default_text:
