@@ -795,7 +795,7 @@ content_frame = customtkinter.CTkFrame(master=notebook.tab("HUD"))
 hud_label= customtkinter.CTkLabel(content_frame, text='Hud Location:')
 center_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("HUD"), text="Center", variable=centered_HUD, value=1, command=lambda: [corner_HUD.set(False), repack_widgets])
 corner_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("HUD"), text="Corner", variable=corner_HUD, value=2, command=lambda: [centered_HUD.set(False), repack_widgets])
-shutter_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("HUD"), text="Show Scope Border", variable=expand_shutter)
+shutter_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("HUD"), text="Hide Scope Border", variable=expand_shutter)
 
 ########################
 ####### GENERATE #######
