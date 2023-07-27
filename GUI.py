@@ -367,10 +367,10 @@ def create_full():
     global expand_shutter
     aspect_ratio = str(ratio_value)
     scaling_factor = str(scaling_factor)  
-    expand_shutter = str(expand_shutter.get())
+    expand_shutter2 = str(expand_shutter.get())
     print("Patching BLYT.")
     blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter)
+    patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2)
     
     ##########################
     # Cleaning and Repacking #

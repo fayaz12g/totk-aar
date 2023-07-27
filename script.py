@@ -3,14 +3,14 @@ import struct
 import math
 import ast
 
-def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
+def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
     
     unpacked_folder = str(unpacked_folder)
     aspect_ratio = float(aspect_ratio)
     HUD_pos = str(HUD_pos)
-    # expand_shutter = ast.literal_eval(expand_shutter)
-    expand_shutter = str(expand_shutter)
-    print(f"Expand shutter is set to {expand_shutter}")
+    # expand_shutter2 = ast.literal_eval(expand_shutter2)
+    expand_shutter2 = str(expand_shutter2)
+    print(f"Expand shutter is set to {expand_shutter2}")
     
     def float2hex(f):
         return hex(struct.unpack('>I', struct.pack('<f', f))[0]).lstrip('0x').rjust(8,'0').upper()
@@ -75,7 +75,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
         patch_blyt('AppMenuOverlay_00', 'N_TitleOne_01', 'scale_x', s1)
         patch_blyt('AppOpenDemoWindow_00', 'P_BG_00', 'scale_x', 1/s1)
         patch_blyt('AutoBuilder_00', 'N_BG_00', 'scale_x', 1/s1)
-        if expand_shutter == "True":
+        if expand_shutter2 == "True":
             patch_blyt('CameraPointer_00', 'RootPane', 'scale_y', 500) 
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_x', 500)
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_y', 500)
@@ -85,7 +85,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter):
             patch_blyt('CameraPointer_00', 'N_InOutScope_02', 'scale_y', 1/500)
             patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_y', 1/500)    
             patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_y', 1/500)         
-        if expand_shutter == "False":
+        if expand_shutter2 == "False":
             patch_blyt('CameraPointer_00', 'RootPane', 'scale_y', 1/s1) 
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_x', 1/s1)
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_y', 1/s1)
