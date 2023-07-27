@@ -681,8 +681,6 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @flag print_values
 @flag offset_shift 0x100
 @enabled
-{reduction_value} {reduction_replace}
-{lod_value} {lod_replace}
 {replacement_value} {ratiotohex.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
