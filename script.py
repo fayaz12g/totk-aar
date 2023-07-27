@@ -7,6 +7,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
     
     unpacked_folder = str(unpacked_folder)
     aspect_ratio = float(aspect_ratio)
+    print(f"Aspect ratio is {aspect_ratio}")
     HUD_pos = str(HUD_pos)
     # expand_shutter2 = ast.literal_eval(expand_shutter2)
     expand_shutter2 = str(expand_shutter2)
