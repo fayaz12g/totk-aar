@@ -136,7 +136,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
 00C40A70 08008052
 @stop
 
-// Disable Ansiiotropic Filtering
+// Anisotropic Filtering Fix
 @{disableansiotropic}
 00895558 28E0A0F2
 @stop
@@ -280,7 +280,7 @@ e // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multip
 00CAD340 08008052
 @stop
 
-// Disable Ansiiotropic Filtering
+// Anisotropic Filtering Fix
 @{disableansiotropic}
 00C7F700 28E0A0F2
 @stop
@@ -410,7 +410,7 @@ e // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multip
 00CC1C20 08008052
 @stop
 
-// Disable Ansiiotropic Filtering
+// Anisotropic Filtering Fix
 @{disableansiotropic}
 008714D0 28E0A0F2
 @stop
@@ -542,7 +542,7 @@ e // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multip
 00C76FF0 08008052
 @stop
 
-// Disable Ansiiotropic Filtering
+// Anisotropic Filtering Fix
 @{disableansiotropic}
 00BF21F0 28E0A0F2
 @stop
@@ -672,7 +672,7 @@ e // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multip
 00C42750 08008052
 @stop
 
-// Disable Ansiiotropic Filtering
+// Anisotropic Filtering Fix
 @{disableansiotropic}
 00B3BF24 28E0A0F2
 @stop
