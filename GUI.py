@@ -127,6 +127,9 @@ class PrintRedirector:
         self.text_widget = text_widget
         self.buffer = ""
 
+        # Set the default style for the text widget
+        self.text_widget.configure(background='gray', foreground='white')
+
     def write(self, text):
         self.buffer += text
         self.text_widget.insert("end", text)
