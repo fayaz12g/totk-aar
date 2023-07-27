@@ -84,7 +84,7 @@ button_layout = StringVar()
 # HUD
 centered_HUD = BooleanVar()
 corner_HUD = BooleanVar(value=True)
-expand_shutter = BooleanVar(value=True)
+expand_shutter = BooleanVar(value=False)
 
 # Generation
 output_yuzu = BooleanVar()
