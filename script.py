@@ -289,7 +289,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         patch_blyt('SaveLoadIcon_00', 'RootPane', 'shift_y', -540*s2)
         patch_blyt('ShopMenu_00', 'A_AlignGuide_00', 'shift_y', -(477+540*s3))
         patch_blyt('ShopMenu_00', 'N_BG_00', 'scale_y', 1/s1)
-        patch_blyt('ShopMenu_00', 'RootPane', 'scale_y', 540*s2)
+        patch_blyt('ShopMenu_00', 'RootPane', 'shift_y', 540*s2)
         patch_blyt('StaffRoll_00', 'N_BG_00', 'scale_y', 1/s1)
         patch_blyt('SystemActionGuide_00', 'N_SystemBG_00', 'scale_y', 1/s1)
         patch_blyt('SystemActionGuide_00', 'N_SystemBG_00', 'shift_y', -540*s3)
