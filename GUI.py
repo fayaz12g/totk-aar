@@ -710,6 +710,9 @@ shadow_entry = customtkinter.CTkEntry(master=notebook.tab("Visuals"), textvariab
 
 FPS_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom FPS:")
 FPS_entry = customtkinter.CTkEntry(master=notebook.tab("Visuals"), textvariable=custom_fps)
+FPS_entry.configure(text_color='gray')
+FPS_entry.bind("<FocusIn>", lambda event: handle_focus_in(FPS_entry, "60"))
+FPS_entry.bind("<FocusOut>", lambda event: handle_focus_out(FPS_entry, "60"))
 
 camera_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Increase Camera Quality", variable=camera_mod)
 
@@ -717,6 +720,7 @@ custom_fps.trace("w", update_values)
 custom_shadow.trace("w", update_values)
 custom_width.trace("w", update_values)
 custom_height.trace("w", update_values)  
+custom_fps.trace("w", update_values)
 
 ##############################
 ####### Legacy Visuals #######
