@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import scrolledtext
 from tkinter.filedialog import askdirectory
 import customtkinter
+from customtkinter import *
 from PIL import Image, ImageTk
 import os
 from threading import Thread
@@ -21,20 +22,23 @@ from extract import extract_blarc
 from script import patch_blarc
 from repack import pack_folder_to_blarc
 
-###############################################
-###########    GLOBAL SETTINGS      ###########
-###############################################
+#######################
+#### Create Window ####
+#######################
 
 tool_version = "8.5.0"
 
 root = customtkinter.CTk()
 root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
-root.geometry("500x780")
+root.geometry("500x720")
 
-customtkinter.set_appearance_mode("dark")
+customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")  
+windowtitle = customtkinter.CTkLabel(master=root, font=(CTkFont, 20), text="Fayaz's TOTK Utility {tool_version}")
 
-notebook = customtkinter.CTkTabview(root, width=10, height=10)
+###############################################
+###########    GLOBAL SETTINGS      ###########
+###############################################
 
 # Visuals
 ar_numerator = StringVar(value="16")
@@ -615,6 +619,12 @@ def repack_widgets(*args):
     pack_widgets()
 
 #######################
+######## Tabs #########
+#######################
+
+notebook = customtkinter.CTkTabview(root, width=10, height=10)
+
+#######################
 ####### Visuals #######
 #######################
 
@@ -675,9 +685,9 @@ custom_shadow.trace("w", update_values)
 custom_width.trace("w", update_values)
 custom_height.trace("w", update_values)  
 
-#########################
+##############################
 ####### Legacy Visuals #######
-#########################
+##############################
 
 notebook.add("Legacy Visuals")
 
