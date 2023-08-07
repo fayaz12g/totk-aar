@@ -102,7 +102,6 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         patch_blyt('PauseMenuOverlay_00', 'P_DecoR_00', 'shift_x', (737 + 960*s3)*s1)
         patch_blyt('PauseMenuOverlay_00', 'P_FooterBase', 'scale_x', 1/s1)
         patch_blyt('PauseMenuOverlay_00', 'S_DecoScissor', 'scale_x', 1/s1)
-        patch_blyt('SaveLoadIcon_00', 'RootPane', 'shift_x', -960*s2) 
         patch_blyt('ShopMenu_00', 'N_BG_00', 'scale_x', 1/s1)
         patch_blyt('StaffRoll_00', 'N_BG_00', 'scale_x', 1/s1)
         patch_blyt('SystemActionGuide_00', 'A_Title_00', 'scale_x', s1)
@@ -171,6 +170,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
             patch_blyt('LoadingFade_00', 'N_Logo', 'shift_x', 960*s3)
             patch_blyt('LoadingFade_00', 'N_Status', 'shift_x', 960*s3)
             patch_blyt('LoadingFade_00', 'N_Tips', 'shift_x', -960*s3)
+            patch_blyt('SaveLoadIcon_00', 'RootPane', 'shift_x', -960*s2) 
             
     else:
         s1 = aspect_ratio / (16/9)
