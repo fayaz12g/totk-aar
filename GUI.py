@@ -264,6 +264,8 @@ def create_full():
         if output_ryujinx.get() is True:
             output_folder = f"C:/Users/{username}/AppData/Roaming/Ryujinx/mods/contents/0100f2c0115b6000"
             process_name = "ryujinx.exe"
+        else:
+            process_name = "yuzu.exe"
 
         if output_folder:
             patch_folder = os.path.join(output_folder, mod_name, "exefs")
