@@ -1,7 +1,7 @@
 # Any Aspect Ratio for Tears of the Kingdom!
 A utility that dynamically creates a mod with a custom aspect ratio with HUD fix, custom controller merge, blackscreenfix, dfps, and more!
 
-Download Link: [https://github.com/fayaz12g/totk-aar/releases/latest](https://github.com/fayaz12g/totk-aar/releases/download/auto/AAR_Launcher.exe)
+[Click here to Download!](https://github.com/fayaz12g/totk-aar/releases/download/auto/AAR_Launcher.exe)
 
 If you want to donate to support this utility, you can here: https://ko-fi.com/fayaz12
 
