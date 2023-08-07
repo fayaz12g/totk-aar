@@ -4,8 +4,6 @@ import math
 import ast
 
 def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
-    from functions import patch_blyt
-    from functions import patch_anim
     from functions import float2hex
     
     unpacked_folder = str(unpacked_folder)
