@@ -1,3 +1,4 @@
+import webbrowser
 from tkinter import *
 from tkinter import scrolledtext
 from tkinter.filedialog import askdirectory
@@ -122,12 +123,23 @@ root.iconbitmap(icon_path)
 ###########    HELPER FUNCTIONS      ###########
 ################################################
 
+class ClickableLabel(customtkinter.CTkLabel):
+    def __init__(self, master, text, **kwargs):
+        super().__init__(master, text=text, cursor="hand2", **kwargs)
+        self.bind("<Button-1>", self._on_click)
+
+    def _on_click(self, event):
+        text = self.cget("text")
+        lines = text.split("\n")
+        for line in lines:
+            if line.startswith("http"):
+                webbrowser.open_new(line)
+
 class PrintRedirector:
     def __init__(self, text_widget):
         self.text_widget = text_widget
         self.buffer = ""
 
-        # Set the default style for the text widget
         self.text_widget.configure(background='gray', foreground='white')
 
     def write(self, text):
@@ -429,14 +441,13 @@ def pack_widgets():
     
     reduction_checkbox.pack(padx=5, pady=5)
     lod_checkbox.pack(padx=6, pady=6)
+    fxaa_checkbox.pack(padx=5, pady=5)
+    fsr_checkbox.pack(padx=5, pady=5)
     cameraspeed_checkbox.pack(padx=6, pady=6)
     flare_checkbox.pack(padx=6, pady=6)
-    fsr_checkbox.pack(padx=5, pady=5)
     DOF_checkbox.pack(padx=5, pady=5)
     fxaa_checkbox.pack(padx=5, pady=5)
-    ansiotropic_checkbox.pack(padx=5, pady=5)
     trilinear_checkbox.pack(padx=5, pady=5)
-    dynamicres_checkbox.pack(padx=5, pady=5)
     dynamicfps_label.pack(pady=(10, 0))
     dynamicfps_checkbox.pack()
 
@@ -453,14 +464,17 @@ def pack_widgets():
         camera_checkbox.pack(pady=10)
         
     # Legacy Visuals
-    chuck_checkbox.pack(padx=5, pady=5)
-    cutscene_checkbox.pack(padx=5, pady=5)
+    legacy_label.pack(padx=10, pady=10)
     res_multiplier_label.pack(padx=6, pady=6)
     res_multiplier_dropdown.pack(padx=6, pady=6)
     staticfps_label.pack(padx=6, pady=6)
     staticfps_dropdown.pack(padx=6, pady=6)
     shadowres_label.pack(padx=6, pady=6)
     shadowres_dropdown.pack(padx=6, pady=6)
+    chuck_checkbox.pack(padx=10, pady=10)
+    cutscene_checkbox.pack(padx=10, pady=10)
+    ansiotropic_checkbox.pack(padx=10, pady=10)
+    dynamicres_checkbox.pack(padx=10, pady=10)
     
     image_label.pack()
 
@@ -518,10 +532,8 @@ def forget_packing():
     aspect_ratio_divider.pack_forget()
     denominator_entry.pack_forget()
     
-    cutscene_checkbox.pack_forget()
     fsr_checkbox.pack_forget()
     DOF_checkbox.pack_forget()
-    chuck_checkbox.pack_forget()
     fxaa_checkbox.pack_forget()
     reduction_checkbox.pack_forget()
     ansiotropic_checkbox.pack_forget()
@@ -529,6 +541,10 @@ def forget_packing():
     dynamicres_checkbox.pack_forget()
     dynamicfps_label.pack_forget()
     dynamicfps_checkbox.pack_forget()
+
+    legacy_label.pack_forget()
+    cutscene_checkbox.pack_forget()
+    chuck_checkbox.pack_forget()
 
     frame2.pack_forget()
 
@@ -625,9 +641,7 @@ fsr_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="D
 DOF_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Targeting DOF", variable=do_DOF)
 fxaa_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable FXAA", variable=do_disable_fxaa)
 reduction_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Quality Reduction", variable=do_disable_reduction)
-ansiotropic_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Anisotropic Filtering Fix", variable=do_disable_ansiotropic)
 trilinear_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Force Trilinear Over Bilinear", variable=do_force_trilinear)
-dynamicres_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Disable Dynamic Resolution", variable=do_disable_dynamicres)
 
 dynamicfps_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="DynamicFPS Settings:")
 dynamicfps_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Use Dynamic FPS", variable=do_dynamicfps, command=repack_widgets)
@@ -667,14 +681,19 @@ custom_height.trace("w", update_values)
 
 notebook.add("Legacy Visuals")
 
-chuck_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Legacy Visuals"), text="Use Chuck's 1008p", variable=do_chuck)
-cutscene_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Legacy Visuals"), text="Cutscene FPS Fix", variable=do_cutscene_fix)
+legacy_label= customtkinter.CTkLabel(master=notebook.tab("Legacy Visuals"), text=f"These are not reccommended with the latest mods. \nBe sure to know what you are doing if you use any of these.")
+
 res_multiplier_label= customtkinter.CTkLabel(master=notebook.tab("Legacy Visuals"), text="Sky Island Fix (Select Multiplier)")
 res_multiplier_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Legacy Visuals"), variable=res_multiplier, values=res_multipliers)
 staticfps_label= customtkinter.CTkLabel(master=notebook.tab("Legacy Visuals"), text="Set the Static FPS")
 staticfps_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Legacy Visuals"), variable=staticfps, values=staticfpsoptions)
 shadowres_label= customtkinter.CTkLabel(master=notebook.tab("Legacy Visuals"), text="Set the Shadow Resolution")
 shadowres_dropdown = customtkinter.CTkOptionMenu(master=notebook.tab("Legacy Visuals"), variable=shadow_quality, values=shadow_qualities)
+
+chuck_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Legacy Visuals"), text="Use Chuck's 1008p", variable=do_chuck)
+cutscene_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Legacy Visuals"), text="Cutscene FPS Fix", variable=do_cutscene_fix)
+ansiotropic_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Legacy Visuals"), text="Anisotropic Filtering Fix", variable=do_disable_ansiotropic)
+dynamicres_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Legacy Visuals"), text="Disable Dynamic Resolution (Broken in 1.2.0)", variable=do_disable_dynamicres)
 
 ##########################
 ####### Controller #######
@@ -802,6 +821,7 @@ content_frame = customtkinter.CTkFrame(master=notebook.tab("HUD"))
 hud_label= customtkinter.CTkLabel(content_frame, text='Hud Location:')
 center_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("HUD"), text="Center", variable=centered_HUD, value=1, command=lambda: [corner_HUD.set(False), repack_widgets])
 corner_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("HUD"), text="Corner", variable=corner_HUD, value=2, command=lambda: [centered_HUD.set(False), repack_widgets])
+corner_checkbox.select()
 shutter_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("HUD"), text="Hide Scope Border", variable=expand_shutter)
 
 ########################
@@ -833,34 +853,37 @@ progressbar.set(0)
 
 notebook.add("Credits")
 
-credits_label = customtkinter.CTkLabel(master=notebook.tab("Credits"), text=
+credits_label = ClickableLabel(master=notebook.tab("Credits"), text=
                     ('Utility created by fayaz\n'
-                     'https://ko-fi.com/fayaz12\n'
-                     'youtube.com/fayaz\n'
+                     'https://github.com/fayaz12g/totk-aar\n'
+                     'ko-fi.com/fayaz12\n'
                      '\n'
                      'Based on\n'
                      'HUD Fix script by u/fruithapje21 on Reddit\n'
                      '\n'
                      'Controller Mods:\n'
-                     'Alerion921 on Gamebanana\n'
-                     'StavaasEVG on Gamebanana\n'
+                     'Alerion921 on Gamebanana\ngamebanana.com/members/1944248\n'
+                     '\nStavaasEVG on Gamebanana\ngamebanana.com/members/1578286\n'
                      '\n'
                      'Visual Fixes by\n'
                      'ChuckFeedAndSeed, patchanon, somerandompeople, SweetMini, \n'
                      'theboy181, Wollnashorn, and Zeikken on GBAtemp\n'
                      '\n'
                      'dFPS Mod by\n'
-                     'u/ChucksFeedAndSeed on reddit'
-                     '\n'
+                     'reddit.com/user/ChucksFeedAndSeed/'
+                     '\n\n'
                      'BlackscreenFIX by\n'
                      'MarethyuX'
-                     '\n'
+                     '\n\n'
                      'Some ASM patches by\n'
                      'theboy181'
-                     '\n\n\n'
+                     '\n\n'
+                     'And thanks for extensive testing and reports by\n'
+                     'InterClaw'
+                     '\n\n\n\n'
                      'With special help from\n'
                      'Christopher Fields (cfields7)\n'
-                     'for code beautification and more :)'))
+                     'for code beautification and being a great best friend :)'))
 
 pack_widgets()
 
