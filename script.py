@@ -160,7 +160,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         # patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'scale_x', s1) # new
         # patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'scale_x', s1) # new
         patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 150) # new
-        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'shift_x', 0.2) # new
+        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'shift_x', -3) # new
         
         if HUD_pos == 'corner':
             print("Shifitng elements for corner HUD")
