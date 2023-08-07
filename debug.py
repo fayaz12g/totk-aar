@@ -6,7 +6,7 @@ import ctypes
 from pathlib import Path
 import subprocess
 import tkinter as tk
-import ratiotohex
+import functions
 import extract
 import decompress
 import patch

@@ -1,11 +1,11 @@
 import os
 import sys
 import subprocess
-import ratiotohex
+import functions
 import struct
 import math
 
-from ratiotohex import calculate_rounded_ratio, convert_asm_to_arm64_hex, float2hex
+from functions import calculate_rounded_ratio, convert_asm_to_arm64_hex, float2hex
 
 def create_patch_files(patch_folder, ratio_value, visual_fixes):
     if float(ratio_value) > (16/9):
@@ -18,13 +18,13 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
         stretch = "vertical"
         
     print(f"Ratio value is set to {ratio_value} and the scaling factor is {scaling_factor}.")
-    hex_factor = ratiotohex.float2hex(scaling_factor)
-    rounded_ratio = ratiotohex.calculate_rounded_ratio(float(ratio_value))
-    asm_code = ratiotohex.generate_asm_code(rounded_ratio)
+    hex_factor = functions.float2hex(scaling_factor)
+    rounded_ratio = functions.calculate_rounded_ratio(float(ratio_value))
+    asm_code = functions.generate_asm_code(rounded_ratio)
     ratio_value = float(ratio_value)
     reduction_replace = "C0000014"
     lod_replace = "24000014"
-    hex_value = ratiotohex.convert_asm_to_arm64_hex(ratio_value)
+    hex_value = functions.convert_asm_to_arm64_hex(ratio_value)
     print(hex_value)
     visual_fixese = visual_fixes[0]
     visual_fixesa = visual_fixes[1]
@@ -681,7 +681,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @flag print_values
 @flag offset_shift 0x100
 @enabled
-{replacement_value} {ratiotohex.float2hex(ratio_value)}
+{replacement_value} {functions.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
 @stop
