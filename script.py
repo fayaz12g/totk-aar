@@ -161,7 +161,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         patch_blyt('SystemSaveLoad_00', 'Pa_CheckButton_01', 'scale_x', s1)
         patch_blyt('SystemSaveLoad_00', 'T_CheckText_00', 'scale_x', s1)
         # patch_blyt('SystemSaveLoad_00', 'W_CheckCover_00', 'scale_x', s1)
-        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 101*s1)
+        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 117*s1)
         patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'scale_x', s1)
         patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'scale_x', s1)
         patch_blyt('SystemSaveLoad_00', 'N_AutoSaveIcon_00', 'scale_x', s1)

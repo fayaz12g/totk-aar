@@ -27,7 +27,7 @@ from repack import pack_folder_to_blarc
 #### Create Window ####
 #######################
 
-tool_version = "8.5.3"
+tool_version = "8.6.0"
 
 root = customtkinter.CTk()
 root.title(f"Fayaz's Settings {tool_version} for TLOZ: Tears of the Kingdom")
@@ -353,6 +353,7 @@ def create_full():
         dfps_ini_output = os.path.join(output_folder, "dFPS", "romfs")
         dfps_default_output = os.path.join(dfps_ini_output, "dfps")
         if do_dynamicfps.get():
+            do_custom_ini = True
             if os.path.exists(dfps_output):
                 shutil.rmtree(dfps_output)
             print("Copying dynamicFPS mod.")
