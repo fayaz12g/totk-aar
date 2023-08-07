@@ -126,19 +126,26 @@ class PrintRedirector:
     def __init__(self, text_widget):
         self.text_widget = text_widget
         self.buffer = ""
-
-        # Set the default style for the text widget
-        self.text_widget.configure(background='gray', foreground='white')
+        self.text_widget.configure(state='disabled')  # Disable user input
+        self.text_widget.tag_configure("custom_tag", background='lightgray', foreground='black')
 
     def write(self, text):
         self.buffer += text
-        self.text_widget.insert("end", text)
+        self.text_widget.configure(state='normal')  # Enable writing
+        self.text_widget.insert("end", text, "custom_tag")  # Apply custom_tag to the inserted text
         self.text_widget.see("end")
+        self.text_widget.configure(state='disabled')  # Disable user input again
 
     def flush(self):
-        self.text_widget.insert("end", self.buffer)
-        self.text_widget.see("end")
-        self.buffer = ""
+        self.text_widget.configure(state='normal')  # Enable writing
+        try:
+            self.text_widget.insert("end", self.buffer, "custom_tag")  # Apply custom_tag to the buffered text
+        except Exception as e:
+            self.text_widget.insert("end", f"Error: {e}\n", "custom_tag")  # Display the exception message with custom_tag
+        finally:
+            self.text_widget.see("end")
+            self.text_widget.configure(state='disabled')  # Disable user input again
+            self.buffer = ""
 
 def handle_focus_in(entry, default_text):
     if entry.get() == default_text:
@@ -210,207 +217,207 @@ def calculate_ratio():
     return scaling_factor
 
 def create_patch():
-    global output_folder
-    global zs_file_path
-    global zs_file_path
     sys.stdout = PrintRedirector(scrolled_text)
     t = Thread(target=create_full)
     t.start()
 
 def create_full():
-    
-    #################
-    # Begin & Clean #
-    #################
-    
-    global output_folder
-    global zs_file_path
-
-    progressbar.start()
-
-    username = getpass.getuser()
-    if output_yuzu.get() is True:
-        output_folder = f"C:/Users/{username}/AppData/Roaming/yuzu/load/0100F2C0115B6000"
-    if output_ryujinx.get() is True:
-        output_folder = f"C:/Users/{username}/AppData/Roaming/Ryujinx/mods/contents/0100f2c0115b6000"
-
-    if output_folder:
-        patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
-        try:
-            os.makedirs(output_folder, exist_ok=True)
-            Path(patch_folder).mkdir(parents=True, exist_ok=True) 
-        except Exception as e:
-            return
-    else:
-        print("Select an emulator or output folder.")
-        return
-    folder_to_delete = os.path.join(output_folder, "AAR MOD")
-
-    progressbar.set(.05)
-
-    if os.path.exists(folder_to_delete):
-        print("Old mod found, deleting.")
-        progressbar.stop()
-        print("If you are stuck hanging here, be sure to close the emulator first and then hit generate again.")
-        shutil.rmtree(folder_to_delete)
+    try:
+        #################
+        # Begin & Clean #
+        #################
+        
+        global output_folder
+        global zs_file_path
+        
         progressbar.start()
-        print("Old mod deleted.")
-  
-    progressbar.set(.7)
+        
+        username = getpass.getuser()
+        if output_yuzu.get() is True:
+            output_folder = f"C:/Users/{username}/AppData/Roaming/yuzu/load/0100F2C0115B6000"
+        if output_ryujinx.get() is True:
+            output_folder = f"C:/Users/{username}/AppData/Roaming/Ryujinx/mods/contents/0100f2c0115b6000"
 
-    ####################
-    # Download/Extract #
-    ####################
+        if output_folder:
+            patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
+            try:
+                os.makedirs(output_folder, exist_ok=True)
+                Path(patch_folder).mkdir(parents=True, exist_ok=True) 
+            except Exception as e:
+                print(f"Error: {e}")
+                return
+        else:
+            print("Select an emulator or output folder.")
+            return
+        folder_to_delete = os.path.join(output_folder, "AAR MOD")
+
+        progressbar.set(.05)
+
+        if os.path.exists(folder_to_delete):
+            print("Old mod found, deleting.")
+            progressbar.stop()
+            print("If you are stuck hanging here, be sure to close the emulator first and then hit generate again.")
+            shutil.rmtree(folder_to_delete)
+            progressbar.start()
+            print("Old mod deleted.")
     
-    global controller_type
-    global button_color
-    global button_layout
-    global controller_color
-    print("Getting Controller-ID")
-    controller_type1 = controller_type.get()
-    button_color1 = button_color.get()
-    button_layout1 = button_layout.get()
-    controller_color1 = controller_color.get()
-    if button_layout.get() == "Elden Ring":
-        button_layout1 = "Elden"
-    if controller_type.get() == "Switch":
-        controller_id = "Switch"
-    elif controller_type.get() == "Steam Deck":
-        controller_id = f"deck-White-{button_layout1}"
-    elif controller_type.get() == "Steam":
-        controller_id = "steam"
-    elif controller_type.get() == "":
-        controller_id = "Switch"
-    elif controller_type.get() == "Colored Dualsense":
-        controller_id = f"dual-{controller_color1}"
-    else:
-        controller_id = f"{controller_type1}-{button_color1}-{button_layout1}"
-    print(f"Set Controller-ID to {controller_id}")
-    progressbar.set(.1)
-    download_extract_copy(controller_id, output_folder)
-    progressbar.set(.15)
-    print("Extracting zip.")
-    
-    #################
-    # Create PCHTXT #
-    #################
-    
-    ratio_value = create_ratio()
-    scaling_factor = calculate_ratio()
-    unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    visual_fixes = create_visuals(do_camera.get(), res_multiplier.get(), lod_improve.get(), remove_flare.get(), staticfps.get(), shadow_quality.get(), do_dynamicfps.get(), do_disable_fxaa.get(), do_disable_fsr.get(), do_DOF.get(), do_disable_reduction.get(), do_disable_ansiotropic.get(), do_cutscene_fix.get(), do_disable_dynamicres.get(), do_force_trilinear.get(), do_chuck.get())
-    create_patch_files(patch_folder, ratio_value, visual_fixes)
-    
-    #######################
-    # dFPS ini Generation #
-    #######################
-    
-    global dfps_folder
-    global do_custom_ini
-    global dfps_ini_folder
-    dfps_default_ini = os.path.join(dfps_ini_folder)
-    dfps_output = os.path.join(output_folder, "dFPS")
-    customini_output = os.path.join(output_folder, "AAR MOD")
-    dfps_ini_output = os.path.join(output_folder, "dFPS", "romfs")
-    dfps_default_output = os.path.join(dfps_ini_output, "dfps")
-    if do_dynamicfps.get():
-        if os.path.exists(dfps_output):
-            shutil.rmtree(dfps_output)
-        print("Copying dynamicFPS mod.")
-        shutil.copytree(dfps_folder, dfps_output)
-        print("Copied dynamicFPS mod.")
-        if os.path.exists(dfps_default_output):
-            print("Removing old dFPS")
-            shutil.rmtree(dfps_default_output)
-        shutil.copytree(dfps_default_ini, dfps_default_output)
-        if do_custom_ini == True:
-            print("Creating custom ini")
-            create_custom_ini(custom_width.get(), custom_height.get(), custom_shadow.get(), custom_fps.get(), str(camera_mod.get()), customini_output)
-    progressbar.set(.2)
-    
-    ##################
-    # 16/9 Edge Case #
-    ##################
-    
-    if int(numerator_entry.get()) == 16 and int(denominator_entry.get()) == 9:
+        progressbar.set(.7)
+
+        ####################
+        # Download/Extract #
+        ####################
+        
+        global controller_type
+        global button_color
+        global button_layout
+        global controller_color
+        print("Getting Controller-ID")
+        controller_type1 = controller_type.get()
+        button_color1 = button_color.get()
+        button_layout1 = button_layout.get()
+        controller_color1 = controller_color.get()
+        if button_layout.get() == "Elden Ring":
+            button_layout1 = "Elden"
+        if controller_type.get() == "Switch":
+            controller_id = "Switch"
+        elif controller_type.get() == "Steam Deck":
+            controller_id = f"deck-White-{button_layout1}"
+        elif controller_type.get() == "Steam":
+            controller_id = "steam"
+        elif controller_type.get() == "":
+            controller_id = "Switch"
+        elif controller_type.get() == "Colored Dualsense":
+            controller_id = f"dual-{controller_color1}"
+        else:
+            controller_id = f"{controller_type1}-{button_color1}-{button_layout1}"
+        print(f"Set Controller-ID to {controller_id}")
+        progressbar.set(.1)
+        download_extract_copy(controller_id, output_folder)
+        progressbar.set(.15)
+        print("Extracting zip.")
+        
+        #################
+        # Create PCHTXT #
+        #################
+        
+        ratio_value = create_ratio()
+        scaling_factor = calculate_ratio()
+        unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
+        visual_fixes = create_visuals(do_camera.get(), res_multiplier.get(), lod_improve.get(), remove_flare.get(), staticfps.get(), shadow_quality.get(), do_dynamicfps.get(), do_disable_fxaa.get(), do_disable_fsr.get(), do_DOF.get(), do_disable_reduction.get(), do_disable_ansiotropic.get(), do_cutscene_fix.get(), do_disable_dynamicres.get(), do_force_trilinear.get(), do_chuck.get())
+        create_patch_files(patch_folder, ratio_value, visual_fixes)
+        
+        #######################
+        # dFPS ini Generation #
+        #######################
+        
+        global dfps_folder
+        global do_custom_ini
+        global dfps_ini_folder
+        dfps_default_ini = os.path.join(dfps_ini_folder)
+        dfps_output = os.path.join(output_folder, "dFPS")
+        customini_output = os.path.join(output_folder, "AAR MOD")
+        dfps_ini_output = os.path.join(output_folder, "dFPS", "romfs")
+        dfps_default_output = os.path.join(dfps_ini_output, "dfps")
+        if do_dynamicfps.get():
+            if os.path.exists(dfps_output):
+                shutil.rmtree(dfps_output)
+            print("Copying dynamicFPS mod.")
+            shutil.copytree(dfps_folder, dfps_output)
+            print("Copied dynamicFPS mod.")
+            if os.path.exists(dfps_default_output):
+                print("Removing old dFPS")
+                shutil.rmtree(dfps_default_output)
+            shutil.copytree(dfps_default_ini, dfps_default_output)
+            if do_custom_ini == True:
+                print("Creating custom ini")
+                create_custom_ini(custom_width.get(), custom_height.get(), custom_shadow.get(), custom_fps.get(), str(camera_mod.get()), customini_output)
+        progressbar.set(.2)
+        
+        ##################
+        # 16/9 Edge Case #
+        ##################
+        
+        if int(numerator_entry.get()) == 16 and int(denominator_entry.get()) == 9:
+            progressbar.stop()
+            progressbar.set(1)
+            if open_when_done.get() == True:
+                print ("Complete! Opening output folder.")
+                os.startfile(output_folder)
+            else:
+                print("Complete! Enjoy the mod.")
+            return
+        
+        #################
+        # ZS Extraction #
+        #################
+        
+        global zs_file_path
+        zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
+        print("Extracting ZS.")
+        decompress_zstd(zs_file_path, output_folder)
+        progressbar.set(.25)
+        
+        ####################
+        # BLARC Extraction #
+        ####################
+        
+        temp_folder = os.path.join(output_folder, "AAR MOD", "temp")
+        print("Extracting BLARC.")
+        file = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
+        blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
+        extract_blarc(file, output_folder)
+        progressbar.set(.6)
+        
+        #################
+        # File Patching #
+        #################
+        
+        if corner_HUD.get() == True:
+            HUD_pos = "corner"
+        else:
+            HUD_pos = "center"
+        global expand_shutter
+        aspect_ratio = str(ratio_value)
+        scaling_factor = str(scaling_factor)  
+        expand_shutter2 = str(expand_shutter.get())
+        print("Patching BLYT.")
+        blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
+        patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2)
+        
+        ##########################
+        # Cleaning and Repacking #
+        ##########################
+        
+        os.remove(file)
+        print("Deleted old blarc file.")
+        print("Repacking new blarc file. This step may take about 10 seconds")
+        progressbar.set(.7)
+        pack_folder_to_blarc(blarc_folder, blarc_file_path)
+        progressbar.set(.9)
+        print("Repacked new blarc file.")
+        print("Repacking new zs file.")
+        compress_zstd(blarc_file_path)
+        print("Repacked new zs file.")
+        progressbar.set(.95)
+        new_source_zs = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
+        destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
+        print("Copied zs file.")
+        os.remove(destination_zs)
+        destination_directory = os.path.dirname(destination_zs)
+        os.makedirs(destination_directory, exist_ok=True)
+        shutil.copy2(new_source_zs, destination_zs)
+        print("Copied new zs file to mod.")
+        shutil.rmtree(temp_folder)
         progressbar.stop()
         progressbar.set(1)
+        print("Removed temp folder.")
         if open_when_done.get() == True:
             print ("Complete! Opening output folder.")
             os.startfile(output_folder)
         else:
             print("Complete! Enjoy the mod.")
-        return
-    
-    #################
-    # ZS Extraction #
-    #################
-    
-    global zs_file_path
-    zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
-    print("Extracting ZS.")
-    decompress_zstd(zs_file_path, output_folder)
-    progressbar.set(.25)
-    
-    ####################
-    # BLARC Extraction #
-    ####################
-    
-    temp_folder = os.path.join(output_folder, "AAR MOD", "temp")
-    print("Extracting BLARC.")
-    file = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
-    blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
-    extract_blarc(file, output_folder)
-    progressbar.set(.6)
-    
-    #################
-    # File Patching #
-    #################
-    
-    if corner_HUD.get() == True:
-        HUD_pos = "corner"
-    else:
-        HUD_pos = "center"
-    global expand_shutter
-    aspect_ratio = str(ratio_value)
-    scaling_factor = str(scaling_factor)  
-    expand_shutter2 = str(expand_shutter.get())
-    print("Patching BLYT.")
-    blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
-    patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2)
-    
-    ##########################
-    # Cleaning and Repacking #
-    ##########################
-    
-    os.remove(file)
-    print("Deleted old blarc file.")
-    print("Repacking new blarc file. This step may take about 10 seconds")
-    progressbar.set(.7)
-    pack_folder_to_blarc(blarc_folder, blarc_file_path)
-    progressbar.set(.9)
-    print("Repacked new blarc file.")
-    print("Repacking new zs file.")
-    compress_zstd(blarc_file_path)
-    print("Repacked new zs file.")
-    progressbar.set(.95)
-    new_source_zs = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
-    destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
-    print("Copied zs file.")
-    os.remove(destination_zs)
-    destination_directory = os.path.dirname(destination_zs)
-    os.makedirs(destination_directory, exist_ok=True)
-    shutil.copy2(new_source_zs, destination_zs)
-    print("Copied new zs file to mod.")
-    shutil.rmtree(temp_folder)
-    progressbar.stop()
-    progressbar.set(1)
-    print("Removed temp folder.")
-    if open_when_done.get() == True:
-        print ("Complete! Opening output folder.")
-        os.startfile(output_folder)
-    else:
-        print("Complete! Enjoy the mod.")
+    except Exception as e:
+        print(f"Error: {e}")
 
 ################################
 ####### Layout Mangement #######
