@@ -16,6 +16,28 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
     expand_shutter2 = str(expand_shutter2)
     print(f"Expand shutter is set to {expand_shutter2}")
      
+    def patch_blyt(filename, pane, operation, value):
+        offset_dict = {'shift_x': 0x40, 'shift_y': 0x48, 'scale_x': 0x70, 'scale_y': 0x78} 
+        full_path = os.path.join(unpacked_folder, 'blyt', f'{filename}.bflyt')
+        with open(full_path, 'rb') as f:
+            content = f.read().hex()
+        start_rootpane = content.index(b'RootPane'.hex())
+        pane_hex = str(pane).encode('utf-8').hex()
+        start_pane = content.index(pane_hex, start_rootpane)
+        idx = start_pane + offset_dict[operation]
+        content_new = content[:idx] + float2hex(value) + content[idx+8:]
+        with open(full_path, 'wb') as f:
+            f.write(bytes.fromhex(content_new))  
+
+    def patch_anim(filename, offset, value):
+        full_path = os.path.join(unpacked_folder, 'anim', f'{filename}.bflan')
+        with open(full_path, 'rb') as f:
+            content = f.read().hex()
+        idx = offset
+        content_new = content[:idx] + float2hex(value) + content[idx+8:]
+        with open(full_path, 'wb') as f:
+            f.write(bytes.fromhex(content_new))  
+            
     blyt_folder = os.path.join(unpacked_folder, 'blyt')
     file_names = os.listdir(blyt_folder)
     file_names_stripped = [s.strip('.bflyt') for s in file_names]

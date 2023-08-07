@@ -1,7 +1,7 @@
 import sys
 import os
 
-def download_extract_copy(controller_id, output_folder):
+def download_extract_copy(controller_id, output_folder, mod_name):
     import requests
     import zipfile
     import shutil
@@ -32,14 +32,14 @@ def download_extract_copy(controller_id, output_folder):
             file.write(response.content)
 
     # Extract the ZIP file
-    extract_folder = os.path.join(output_folder, "AAR MOD", "temp")
+    extract_folder = os.path.join(output_folder, mod_name, "temp")
     print(f"Extracting zip to {extract_folder}. This can also take a few seconds.")
     with zipfile.ZipFile(zip_file_source, "r") as zip_ref:
         zip_ref.extractall(extract_folder)
 
     # Copy the extracted file
     print("Copying extracted files")
-    romfs_folder = os.path.join(output_folder, "AAR MOD", "romfs")
+    romfs_folder = os.path.join(output_folder, mod_name, "romfs")
     extracted_folder = os.path.join(extract_folder)
     src_file_path = os.path.join(extracted_folder, "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
     dst_file_path = os.path.join(romfs_folder, "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")

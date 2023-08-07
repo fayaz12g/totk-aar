@@ -4,7 +4,7 @@ import time
 import SarcLib
 import libyaz0
 
-def extract_blarc(file, output_folder):
+def extract_blarc(file, output_folder, mod_name):
     """
     Extract the given archive.
     """
@@ -24,7 +24,7 @@ def extract_blarc(file, output_folder):
         arc = SarcLib.SARC_Archive()
         arc.load(inb)
 
-        root = os.path.join(output_folder, "AAR MOD", "temp", name)  # Update the construction of the output path
+        root = os.path.join(output_folder, mod_name, "temp", name)  # Update the construction of the output path
         if not os.path.isdir(root):
             os.mkdir(root)
 
@@ -66,7 +66,7 @@ def main(blarc_file_path, output_folder):
         print("Invalid output folder path.")
         sys.exit(1)
 
-    extracted_file_path = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc")
+    extracted_file_path = os.path.join(output_folder, mod_name, "temp", "Common.Product.110.Nin_NX_NVN.blarc")
     extract(extracted_file_path, output_folder)
 
 if __name__ == '__main__':

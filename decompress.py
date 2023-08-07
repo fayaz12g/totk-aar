@@ -16,7 +16,7 @@ def install_zstandard():
             print("Failed to install zstandard library. Please install it manually.")
             sys.exit(1)
 
-def decompress_zstd(input_file, output_folder):
+def decompress_zstd(input_file, output_folder, mod_name):
     # Check if zstandard library is installed
     try:
         import zstandard as zstd
@@ -35,7 +35,7 @@ def decompress_zstd(input_file, output_folder):
         sys.exit(1)
 
     # Create the output folder path
-    aar_mod_folder = os.path.join(output_folder, "AAR MOD")
+    aar_mod_folder = os.path.join(output_folder, mod_name)
     temp_folder = os.path.join(aar_mod_folder, "temp")
     os.makedirs(temp_folder, exist_ok=True)
 

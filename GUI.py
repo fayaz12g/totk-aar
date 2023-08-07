@@ -12,6 +12,7 @@ from pathlib import Path
 import sys
 import shutil
 import requests
+import psutil
 from download import download_extract_copy
 from visuals import create_visuals
 from patch import create_patch_files
@@ -26,10 +27,10 @@ from repack import pack_folder_to_blarc
 #### Create Window ####
 #######################
 
-tool_version = "8.5.0"
+tool_version = "8.5.1"
 
 root = customtkinter.CTk()
-root.title(f"Any Aspect Ratio for Tears of the Kingdom {tool_version}")
+root.title(f"Fayaz's Settings {tool_version} for TLOZ: Tears of the Kingdom")
 root.geometry("500x720")
 
 customtkinter.set_appearance_mode("system")
@@ -66,7 +67,7 @@ shadow_quality = StringVar()
 res_multiplier = StringVar()
 
 
-# Visuals
+# Legacy Visuals
 res_multipliers = ["2", "3", "4", "5", "6", "7"]
 shadow_qualities = ["8", "16", "32", "64", "128", "256", "512", "1024", "2048"]
 staticfpsoptions = ["20", "30", "60"]
@@ -95,6 +96,7 @@ expand_shutter = BooleanVar(value=False)
 output_yuzu = BooleanVar()
 output_ryujinx = BooleanVar()
 open_when_done = BooleanVar()
+mod_name_var = StringVar(value="Fayaz's Settings")
 
 output_folder = None
 
@@ -183,7 +185,6 @@ def select_output_folder():
     global patch_folder
     output_folder = askdirectory()
     if output_folder:
-        patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
         try:
             os.makedirs(output_folder, exist_ok=True)
             Path(patch_folder).mkdir(parents=True, exist_ok=True) 
@@ -233,6 +234,12 @@ def calculate_ratio():
         scaling_factor = (16 / 9) / scaling_component
     return scaling_factor
 
+def check_process_running(process_name):
+    for process in psutil.process_iter(['name']):
+        if process.info['name'] == process_name:
+            return True
+    return False
+
 def create_patch():
     sys.stdout = PrintRedirector(scrolled_text)
     t = Thread(target=create_full)
@@ -246,17 +253,20 @@ def create_full():
         
         global output_folder
         global zs_file_path
+        mod_name = str(mod_name_var.get())
         
         progressbar.start()
         
         username = getpass.getuser()
         if output_yuzu.get() is True:
             output_folder = f"C:/Users/{username}/AppData/Roaming/yuzu/load/0100F2C0115B6000"
+            process_name = "yuzu.exe"
         if output_ryujinx.get() is True:
             output_folder = f"C:/Users/{username}/AppData/Roaming/Ryujinx/mods/contents/0100f2c0115b6000"
+            process_name = "ryujinx.exe"
 
         if output_folder:
-            patch_folder = os.path.join(output_folder, "AAR MOD", "exefs")
+            patch_folder = os.path.join(output_folder, mod_name, "exefs")
             try:
                 os.makedirs(output_folder, exist_ok=True)
                 Path(patch_folder).mkdir(parents=True, exist_ok=True) 
@@ -266,16 +276,23 @@ def create_full():
         else:
             print("Select an emulator or output folder.")
             return
-        folder_to_delete = os.path.join(output_folder, "AAR MOD")
+        folder_to_delete = os.path.join(output_folder, mod_name)
+        old_mod = os.path.join(output_folder, "AAR MOD")
 
         progressbar.set(.05)
 
+        if check_process_running(process_name):
+            progressbar.stop()
+            print(f"{process_name} is running. Please close it and try again.")
+            return
+
         if os.path.exists(folder_to_delete):
             print("Old mod found, deleting.")
-            progressbar.stop()
-            print("If you are stuck hanging here, be sure to close the emulator first and then hit generate again.")
             shutil.rmtree(folder_to_delete)
-            progressbar.start()
+            print("Old mod deleted.")
+        if os.path.exists(old_mod):
+            print('Old "AAR MOD" found, deleting.')
+            shutil.rmtree(old_mod)
             print("Old mod deleted.")
     
         progressbar.set(.7)
@@ -309,7 +326,7 @@ def create_full():
             controller_id = f"{controller_type1}-{button_color1}-{button_layout1}"
         print(f"Set Controller-ID to {controller_id}")
         progressbar.set(.1)
-        download_extract_copy(controller_id, output_folder)
+        download_extract_copy(controller_id, output_folder, mod_name)
         progressbar.set(.15)
         print("Extracting zip.")
         
@@ -319,7 +336,7 @@ def create_full():
         
         ratio_value = create_ratio()
         scaling_factor = calculate_ratio()
-        unpacked_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
+        unpacked_folder = os.path.join(output_folder, mod_name, "temp", "Common.Product.110.Nin_NX_NVN")
         visual_fixes = create_visuals(do_camera.get(), res_multiplier.get(), lod_improve.get(), remove_flare.get(), staticfps.get(), shadow_quality.get(), do_dynamicfps.get(), do_disable_fxaa.get(), do_disable_fsr.get(), do_DOF.get(), do_disable_reduction.get(), do_disable_ansiotropic.get(), do_cutscene_fix.get(), do_disable_dynamicres.get(), do_force_trilinear.get(), do_chuck.get())
         create_patch_files(patch_folder, ratio_value, visual_fixes)
         
@@ -332,7 +349,7 @@ def create_full():
         global dfps_ini_folder
         dfps_default_ini = os.path.join(dfps_ini_folder)
         dfps_output = os.path.join(output_folder, "dFPS")
-        customini_output = os.path.join(output_folder, "AAR MOD")
+        customini_output = os.path.join(output_folder, mod_name)
         dfps_ini_output = os.path.join(output_folder, "dFPS", "romfs")
         dfps_default_output = os.path.join(dfps_ini_output, "dfps")
         if do_dynamicfps.get():
@@ -369,20 +386,20 @@ def create_full():
         #################
         
         global zs_file_path
-        zs_file_path = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
+        zs_file_path = os.path.join(output_folder, mod_name, "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
         print("Extracting ZS.")
-        decompress_zstd(zs_file_path, output_folder)
+        decompress_zstd(zs_file_path, output_folder, mod_name)
         progressbar.set(.25)
         
         ####################
         # BLARC Extraction #
         ####################
         
-        temp_folder = os.path.join(output_folder, "AAR MOD", "temp")
+        temp_folder = os.path.join(output_folder, mod_name, "temp")
         print("Extracting BLARC.")
         file = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
         blarc_file_path = os.path.join(temp_folder, "Common.Product.110.Nin_NX_NVN.blarc")
-        extract_blarc(file, output_folder)
+        extract_blarc(file, output_folder, mod_name)
         progressbar.set(.6)
         
         #################
@@ -398,7 +415,7 @@ def create_full():
         scaling_factor = str(scaling_factor)  
         expand_shutter2 = str(expand_shutter.get())
         print("Patching BLYT.")
-        blarc_folder = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN")
+        blarc_folder = os.path.join(output_folder, mod_name, "temp", "Common.Product.110.Nin_NX_NVN")
         patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2)
         
         ##########################
@@ -416,8 +433,8 @@ def create_full():
         compress_zstd(blarc_file_path)
         print("Repacked new zs file.")
         progressbar.set(.95)
-        new_source_zs = os.path.join(output_folder, "AAR MOD", "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
-        destination_zs = os.path.join(output_folder, "AAR MOD", "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
+        new_source_zs = os.path.join(output_folder, mod_name, "temp", "Common.Product.110.Nin_NX_NVN.blarc.zs")
+        destination_zs = os.path.join(output_folder, mod_name, "romfs", "UI", "LayoutArchive", "Common.Product.110.Nin_NX_NVN.blarc.zs")
         print("Copied zs file.")
         os.remove(destination_zs)
         destination_directory = os.path.dirname(destination_zs)
@@ -435,6 +452,8 @@ def create_full():
             print("Complete! Enjoy the mod.")
     except Exception as e:
         print(f"Error: {e}")
+        progressbar.stop()
+        progressbar.configure(progress_color="red")
 
 ################################
 ####### Layout Mangement #######
@@ -523,6 +542,9 @@ def pack_widgets():
 
     open_checkbox.pack(pady=10, side="top")
 
+    mod_name_label.pack()
+    mod_name_entry.pack()
+
     create_patch_button.pack(pady=15)
 
     console_label.pack(padx=10, pady=5)
@@ -609,6 +631,9 @@ def forget_packing():
 
     output_folder_button.pack_forget()
     output_folder_button.pack_forget()
+
+    mod_name_label.pack_forget()
+    mod_name_entry.pack_forget()
 
     open_checkbox.pack_forget()
 
@@ -854,12 +879,15 @@ ryujinx_checkbox = customtkinter.CTkRadioButton(master=notebook.tab("Generate"),
 
 output_folder_button = customtkinter.CTkButton(master=notebook.tab("Generate"), text="Custom Output Folder", fg_color="gray", hover_color="black", command=select_output_folder)
 
+mod_name_label = customtkinter.CTkLabel(master=notebook.tab("Generate"), text="Enter a name for the generated mod:")
+mod_name_entry = customtkinter.CTkEntry(master=notebook.tab("Generate"), textvariable=mod_name_var)
+
 open_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Generate"), text="Open Output Folder When Done", variable=open_when_done)
 
 create_patch_button = customtkinter.CTkButton(master=notebook.tab("Generate"), text="Generate", command=create_patch)
 
 console_label= customtkinter.CTkLabel(master=notebook.tab("Generate"), text='Console:')
-scrolled_text = scrolledtext.ScrolledText(master=notebook.tab("Generate"), width=50, height=22, font=("Helvetica", 10))
+scrolled_text = scrolledtext.ScrolledText(master=notebook.tab("Generate"), width=50, height=18, font=("Helvetica", 10))
 
 progressbar = customtkinter.CTkProgressBar(master=notebook.tab("Generate"), orientation="horizontal")
 progressbar.configure(mode="determinate", determinate_speed=.01, progress_color="green", fg_color="lightgreen", height=6, width=400)
