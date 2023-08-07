@@ -78,26 +78,19 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         patch_blyt('AppOpenDemoWindow_00', 'P_BG_00', 'scale_x', 1/s1)
         patch_blyt('AutoBuilder_00', 'N_BG_00', 'scale_x', 1/s1)
         if expand_shutter2 == "True":
-            patch_blyt('CameraPointer_00', 'RootPane', 'scale_y', 500) 
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_x', 500)
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_y', 500)
             patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 500)
-            patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_y', 1/500)
-            patch_blyt('CameraPointer_00', 'N_InOutScope_01', 'scale_y', 1/500)
-            patch_blyt('CameraPointer_00', 'N_InOutScope_02', 'scale_y', 1/500)
-            patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_y', 1/500)    
-            patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_y', 1/500)         
+            patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_x', 1/500)  
+            patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_x', 1/s1)
+            patch_blyt('CameraPointer_00', 'W_Shadow_01', 'scale_x', 1/s1)          
         if expand_shutter2 == "False":
-            patch_blyt('CameraPointer_00', 'RootPane', 'scale_y', 1/s1) 
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_x', 1/s1)
             patch_blyt('CameraPointer_00', 'N_InOutScope_00', 'scale_y', 1/s1)
             patch_blyt('CameraPointer_00', 'S_Scissor_00', 'scale_x', 1/s1)
-            patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_y', s1)
-            patch_blyt('CameraPointer_00', 'N_InOutScope_01', 'scale_y', s1)
-            patch_blyt('CameraPointer_00', 'N_InOutScope_02', 'scale_y', s1)
-            patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_y', s1)    
-            patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_y', 1/s1)   
-            #code to make CameraCircle_00^s fit the aspect ratio
+            patch_blyt('CameraPointer_00', 'N_Type_01', 'scale_x', s1)  
+            patch_blyt('CameraPointer_00', 'Pa_CameraFocus_00', 'scale_x', 1/s1)
+            patch_blyt('CameraPointer_00', 'W_Shadow_01', 'scale_x', 1/s1)   
         patch_blyt('CameraSystemWindow_00', 'N_InOut_00', 'scale_x', 1/s1) # new
         patch_blyt('CameraSystemWindow_00', 'T_Text_00', 'scale_x', s1) # new
         patch_blyt('CameraSystemWindow_00', 'Pa_BtnR_00', 'scale_x', s1) # new
@@ -105,6 +98,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         patch_blyt('CameraSystemWindow_00', 'N_Now_00', 'scale_x', 1/s1) # new
         patch_blyt('CameraSystemWindow_00', 'N_New_00', 'scale_x', 1/s1) # new
         patch_blyt('CameraSystemWindow_00', 'N_AlbumCon_00', 'scale_x', s1)  # new
+        #code to make robbie photos fit aspect ratio
         patch_blyt('ChallengeLog_00', 'C_CaptureUp_00', 'shift_x', 10000)
         patch_blyt('ChallengeLog_00', 'C_CaptureUp_01', 'shift_x', 10000)
         patch_blyt('GameOver_00', 'P_BG_00', 'scale_x', 1/s1)
@@ -168,8 +162,10 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         patch_blyt('SystemSaveLoad_00', 'P_DecoR_00', 'shift_x', (737 + 960*s3)*s1)
         patch_blyt('SystemSaveLoad_00', 'N_InOut_00', 'scale_x', 1/s1) # new
         patch_blyt('SystemSaveLoad_00', 'N_SavePos_00', 'scale_x', s1) # new
-        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 160) # new
-        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'shift_x', 0.5) # new
+        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'scale_x', s1) # new
+        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'scale_x', s1) # new
+        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 150) # new
+        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'shift_x', -3) # new
         
         if HUD_pos == 'corner':
             print("Shifitng elements for corner HUD")
@@ -289,7 +285,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         patch_blyt('SaveLoadIcon_00', 'RootPane', 'shift_y', -540*s2)
         patch_blyt('ShopMenu_00', 'A_AlignGuide_00', 'shift_y', -(477+540*s3))
         patch_blyt('ShopMenu_00', 'N_BG_00', 'scale_y', 1/s1)
-        patch_blyt('ShopMenu_00', 'RootPane', 'scale_y', 540*s2)
+        patch_blyt('ShopMenu_00', 'RootPane', 'shift_y', 540*s2)
         patch_blyt('StaffRoll_00', 'N_BG_00', 'scale_y', 1/s1)
         patch_blyt('SystemActionGuide_00', 'N_SystemBG_00', 'scale_y', 1/s1)
         patch_blyt('SystemActionGuide_00', 'N_SystemBG_00', 'shift_y', -540*s3)
