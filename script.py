@@ -15,6 +15,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
     print(f"Expand shutter is set to {expand_shutter2}")
      
     def patch_blyt(filename, pane, operation, value):
+        print(f"Performng {operation} by {value} on the {pane} pane in {filename}")
         offset_dict = {'shift_x': 0x40, 'shift_y': 0x48, 'scale_x': 0x70, 'scale_y': 0x78} 
         full_path = os.path.join(unpacked_folder, 'blyt', f'{filename}.bflyt')
         with open(full_path, 'rb') as f:
@@ -132,9 +133,8 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         patch_blyt('SystemActionGuide_00', 'P_DecoL_02', 'scale_x', s1)
         patch_blyt('SystemActionGuide_00', 'P_DecoL_02', 'shift_x', (675 + 960*s3)*s1)
         patch_blyt('SystemLoadList_00', 'A_Title_00', 'scale_x', s1)
-        patch_blyt('SystemLoadList_00', 'N_All_00', 'scale_x', 1/s1) # new
-        patch_blyt('SystemLoadList_00', 'S_Scissor_00', 'scale_x', s1) # new
-        patch_blyt('SystemLoadList_00', 'N_Guide_00', 'scale_x', s1) # new     
+        patch_blyt('SystemLoadList_00', 'N_Slide_00', 'scale_x', 1/s1) # new
+        patch_blyt('SystemLoadList_00', 'C_CaptureUp_00', 'scale_x', s1) # new 
         patch_blyt('SystemLoadList_00', 'N_Header_00', 'scale_x', 1/s1)
         patch_blyt('SystemLoadList_00', 'N_SystemBG_00', 'scale_x', 1/s1)
         patch_blyt('SystemLoadList_00', 'P_DecoL_00', 'scale_x', s1)
@@ -155,12 +155,17 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
         patch_blyt('SystemSaveLoad_00', 'P_DecoL_00', 'shift_x', -(675 + 960*s3)*s1)
         patch_blyt('SystemSaveLoad_00', 'P_DecoR_00', 'scale_x', s1)
         patch_blyt('SystemSaveLoad_00', 'P_DecoR_00', 'shift_x', (737 + 960*s3)*s1)
-        patch_blyt('SystemSaveLoad_00', 'N_InOut_00', 'scale_x', 1/s1) # new
-        patch_blyt('SystemSaveLoad_00', 'N_SavePos_00', 'scale_x', s1) # new
-        # patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'scale_x', s1) # new
-        # patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'scale_x', s1) # new
-        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 150) # new
-        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'shift_x', -3) # new
+        patch_blyt('SystemSaveLoad_00', 'N_InOut_00', 'scale_x', 1/s1)
+        patch_blyt('SystemSaveLoad_00', 'N_Save_00', 'scale_x', s1)
+        patch_blyt('SystemSaveLoad_00', 'Pa_CheckButton_00', 'scale_x', s1)
+        patch_blyt('SystemSaveLoad_00', 'Pa_CheckButton_01', 'scale_x', s1)
+        patch_blyt('SystemSaveLoad_00', 'T_CheckText_00', 'scale_x', s1)
+        # patch_blyt('SystemSaveLoad_00', 'W_CheckCover_00', 'scale_x', s1)
+        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'shift_x', 135*s1)
+        patch_blyt('SystemSaveLoad_00', 'A_DayAndClear_00', 'scale_x', s1)
+        patch_blyt('SystemSaveLoad_00', 'T_Place_00', 'scale_x', s1)
+        patch_blyt('SystemSaveLoad_00', 'N_AutoSaveIcon_00', 'scale_x', s1)
+        patch_blyt('SystemSaveLoad_00', 'N_PopupBase_00', 'scale_x', ((1/s1)*.759))
         
         if HUD_pos == 'corner':
             print("Shifitng elements for corner HUD")

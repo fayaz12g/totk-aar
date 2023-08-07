@@ -27,7 +27,7 @@ from repack import pack_folder_to_blarc
 #### Create Window ####
 #######################
 
-tool_version = "8.5.2"
+tool_version = "8.6.0"
 
 root = customtkinter.CTk()
 root.title(f"Fayaz's Settings {tool_version} for TLOZ: Tears of the Kingdom")
@@ -54,10 +54,10 @@ do_disable_ansiotropic = BooleanVar()
 do_force_trilinear = BooleanVar()
 do_disable_dynamicres = BooleanVar()
 do_dynamicfps = BooleanVar(value=True)
-custom_fps = StringVar()
-custom_shadow = StringVar()
-custom_height = StringVar(value="1080")
-custom_width = StringVar(value="1920")
+custom_fps = StringVar(value="60")
+custom_shadow = StringVar(value="-1")
+custom_height = StringVar(value="2160")
+custom_width = StringVar(value="3840")
 camera_mod = BooleanVar()
 do_camera = BooleanVar()
 lod_improve = BooleanVar(value=True)
@@ -264,6 +264,8 @@ def create_full():
         if output_ryujinx.get() is True:
             output_folder = f"C:/Users/{username}/AppData/Roaming/Ryujinx/mods/contents/0100f2c0115b6000"
             process_name = "ryujinx.exe"
+        else:
+            process_name = "yuzu.exe"
 
         if output_folder:
             patch_folder = os.path.join(output_folder, mod_name, "exefs")
@@ -353,6 +355,7 @@ def create_full():
         dfps_ini_output = os.path.join(output_folder, "dFPS", "romfs")
         dfps_default_output = os.path.join(dfps_ini_output, "dfps")
         if do_dynamicfps.get():
+            do_custom_ini = True
             if os.path.exists(dfps_output):
                 shutil.rmtree(dfps_output)
             print("Copying dynamicFPS mod.")
@@ -695,21 +698,27 @@ frame2 = customtkinter.CTkFrame(master=notebook.tab("Visuals"))
 
 res_denominator_entry = customtkinter.CTkEntry(frame2, textvariable=custom_width)
 res_denominator_entry.configure(text_color='gray')
-res_denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_denominator_entry, "1920"))
-res_denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_denominator_entry, "1920"))
+res_denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_denominator_entry, "3840"))
+res_denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_denominator_entry, "3840"))
 
 res_numerator_label= customtkinter.CTkLabel(frame2, text="x")
 
 res_numerator_entry = customtkinter.CTkEntry(frame2, textvariable=custom_height)
 res_numerator_entry.configure(text_color='gray')
-res_numerator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_numerator_entry, "1080"))
-res_numerator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_numerator_entry, "1080"))
+res_numerator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_numerator_entry, "2160"))
+res_numerator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_numerator_entry, "2160"))
 
 shadow_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom Shadow Resolution (Set to -1 to scale to resolution):")
 shadow_entry = customtkinter.CTkEntry(master=notebook.tab("Visuals"), textvariable=custom_shadow)
+shadow_entry.configure(text_color='gray')
+shadow_entry.bind("<FocusIn>", lambda event: handle_focus_in(shadow_entry, "-1"))
+shadow_entry.bind("<FocusOut>", lambda event: handle_focus_out(shadow_entry, "-1"))
 
 FPS_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom FPS:")
 FPS_entry = customtkinter.CTkEntry(master=notebook.tab("Visuals"), textvariable=custom_fps)
+FPS_entry.configure(text_color='gray')
+FPS_entry.bind("<FocusIn>", lambda event: handle_focus_in(FPS_entry, "60"))
+FPS_entry.bind("<FocusOut>", lambda event: handle_focus_out(FPS_entry, "60"))
 
 camera_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Visuals"), text="Increase Camera Quality", variable=camera_mod)
 
@@ -717,6 +726,7 @@ custom_fps.trace("w", update_values)
 custom_shadow.trace("w", update_values)
 custom_width.trace("w", update_values)
 custom_height.trace("w", update_values)  
+custom_fps.trace("w", update_values)
 
 ##############################
 ####### Legacy Visuals #######
