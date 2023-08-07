@@ -15,6 +15,7 @@ def patch_blarc(aspect_ratio, HUD_pos, unpacked_folder, expand_shutter2):
     print(f"Expand shutter is set to {expand_shutter2}")
      
     def patch_blyt(filename, pane, operation, value):
+        print(f"Performng {operation} by {value} on the {pane} pane in {filename}")
         offset_dict = {'shift_x': 0x40, 'shift_y': 0x48, 'scale_x': 0x70, 'scale_y': 0x78} 
         full_path = os.path.join(unpacked_folder, 'blyt', f'{filename}.bflyt')
         with open(full_path, 'rb') as f:
