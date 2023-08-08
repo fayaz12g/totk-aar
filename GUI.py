@@ -169,7 +169,7 @@ class PrintRedirector:
 def handle_focus_in(entry, default_text):
     if entry.get() == default_text:
         entry.delete(0, "end")
-        entry.configure(text_color='white')
+        entry.configure(text_color=("#000000", "#FFFFFF"))
 
 def handle_focus_out(entry, default_text):
     if entry.get() == "":
@@ -697,26 +697,26 @@ resolution_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="C
 frame2 = customtkinter.CTkFrame(master=notebook.tab("Visuals"))
 
 res_denominator_entry = customtkinter.CTkEntry(frame2, textvariable=custom_width)
-res_denominator_entry.configure(text_color='gray')
+res_denominator_entry.configure(text_color=("#404040", "#a9a9a9"))
 res_denominator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_denominator_entry, "3840"))
 res_denominator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_denominator_entry, "3840"))
 
 res_numerator_label= customtkinter.CTkLabel(frame2, text="x")
 
 res_numerator_entry = customtkinter.CTkEntry(frame2, textvariable=custom_height)
-res_numerator_entry.configure(text_color='gray')
+res_numerator_entry.configure(text_color=("#404040", "#a9a9a9"))
 res_numerator_entry.bind("<FocusIn>", lambda event: handle_focus_in(res_numerator_entry, "2160"))
 res_numerator_entry.bind("<FocusOut>", lambda event: handle_focus_out(res_numerator_entry, "2160"))
 
 shadow_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom Shadow Resolution (Set to -1 to scale to resolution):")
 shadow_entry = customtkinter.CTkEntry(master=notebook.tab("Visuals"), textvariable=custom_shadow)
-shadow_entry.configure(text_color='gray')
+shadow_entry.configure(text_color=("#404040", "#a9a9a9"))
 shadow_entry.bind("<FocusIn>", lambda event: handle_focus_in(shadow_entry, "-1"))
 shadow_entry.bind("<FocusOut>", lambda event: handle_focus_out(shadow_entry, "-1"))
 
 FPS_label= customtkinter.CTkLabel(master=notebook.tab("Visuals"), text="Custom FPS:")
 FPS_entry = customtkinter.CTkEntry(master=notebook.tab("Visuals"), textvariable=custom_fps)
-FPS_entry.configure(text_color='gray')
+FPS_entry.configure(text_color=("#404040", "#a9a9a9"))
 FPS_entry.bind("<FocusIn>", lambda event: handle_focus_in(FPS_entry, "60"))
 FPS_entry.bind("<FocusOut>", lambda event: handle_focus_out(FPS_entry, "60"))
 
