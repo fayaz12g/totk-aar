@@ -1,3 +1,6 @@
+8.6.2
+- pchtxt Scaling changes now no longer are enabled if the aspect ratio is 16:9
+
 8.6.1
 - Fix an issue where text fields have white text in light mode making it unreadable
 - Cleanup code in the compress script
