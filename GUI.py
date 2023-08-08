@@ -169,7 +169,7 @@ class PrintRedirector:
 def handle_focus_in(entry, default_text):
     if entry.get() == default_text:
         entry.delete(0, "end")
-        entry.configure(text_color='white')
+        entry.configure(text_color=("#000000", "#FFFFFF"))
 
 def handle_focus_out(entry, default_text):
     if entry.get() == "":
