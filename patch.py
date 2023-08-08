@@ -12,17 +12,17 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
         scaling_factor = float(ratio_value) / (16/9)
         scaling_factor = float(scaling_factor)
         stretch = "horizontal"
-        do_text_fix = "@enabled"
+        do_text_fix = "enabled"
     if float(ratio_value) < (16/9):
         scaling_factor = (16/9) / float(ratio_value)
         scaling_factor = float(scaling_factor)
         stretch = "vertical"
-        do_text_fix = "@enabled"
+        do_text_fix = "enabled"
     if float(ratio_value) == (16/9):
         scaling_factor = (16/9) / float(ratio_value)
         scaling_factor = float(scaling_factor)
         stretch = "vertical"
-        do_text_fix = "@disabled"
+        do_text_fix = "disabled"
         
     print(f"Ratio value is set to {ratio_value} and the scaling factor is {scaling_factor}.")
     hex_factor = functions.float2hex(scaling_factor)
