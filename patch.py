@@ -49,7 +49,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
             reduction_value = "00C40A8C"
             lod_value = "027D9448"
             if stretch == "horizontal":
-            text_fix = f'''// Text UI Fixes
+                text_fix = f'''// Text UI Fixes
 @enabled
 037745a0 {hex_factor}
 01a8f18c DD947394 
