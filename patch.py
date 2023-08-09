@@ -783,7 +783,6 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd4cc C0035FD6
 @stop'''
         patch_content = f'''@nsobid-{nsobidid}
-
 @flag print_values
 @flag offset_shift 0x100
 @{do_text_fix}
