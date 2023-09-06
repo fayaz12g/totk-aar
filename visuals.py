@@ -811,7 +811,7 @@ e // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multip
 
 // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multiplier)}x
 @{skyfix}
-02A43BF0 029d1510 {island_replace}
+02A43BF0 {island_replace}
 02A43BF8 BF000014
 02A43EF4 00083B1E
 02A43EF8 21083B1E
