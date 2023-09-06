@@ -38,7 +38,8 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
     visual_fixesb = visual_fixes[2]
     visual_fixesc = visual_fixes[3]
     visual_fixesd = visual_fixes[4]
-    version_variables = ["1.0.0", "1.1.0", "1.1.1", "1.1.2", "1.2.0"]
+    visual_fixesf = visual_fixes[5]
+    version_variables = ["1.0.0", "1.1.0", "1.1.1", "1.1.2", "1.2.0", "1.2.1"]
     for version_variable in version_variables:
         file_name = f"main-{version_variable}.pchtxt"
         file_path = os.path.join(patch_folder, file_name)
@@ -563,6 +564,133 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
             reduction_value = "00C4275c"
             hestu_value = "01EC1918"
             visual_fix = visual_fixesd
+            if stretch == "horizontal":
+                text_fix = f'''// Text UI Fixes
+@enabled
+036bd770 {hex_factor}
+01ad2174 ABAC6F94
+036bd420 A01B40BD
+036bd424 E0C31FF8
+036bd428 00000090
+036bd42c 017047BD
+036bd430 E0C35FF8
+036bd434 0008211E
+036bd438 A11F40BD
+036bd43c C0035FD6
+01ad6964 B79A6F94
+036bd440 802240BD
+036bd444 E0C31FF8
+036bd448 00000090
+036bd44c 017047BD
+036bd450 E0C35FF8
+036bd454 0008211E
+036bd458 812640BD
+036bd45c C0035FD6
+01ad156c 31AF6F94
+036bd230 E10B40BD
+036bd234 E0C31FF8
+036bd238 00000090
+036bd23c 007047BD
+036bd240 E0C35FF8
+036bd244 2108201E
+036bd248 E00F40BD
+036bd24c C0035FD6
+012d5ae0 0C9F8F94
+036bd710 000140BD
+036bd714 E0C31FF8
+036bd718 00000090
+036bd71c 017047BD
+036bd720 E0C35FF8
+036bd724 0008211E
+036bd728 010540BD
+036bd72c C0035FD6
+012d5ea8 829D8F94
+036bd4b0 000140BD
+036bd4b4 E0C31FF8
+036bd4b8 00000090
+036bd4bc 017047BD
+036bd4c0 E0C35FF8
+036bd4c4 0008211E
+036bd4c8 010540BD
+036bd4cc C0035FD6
+@stop'''
+            if stretch == "vertical":
+                text_fix = f'''// Text UI Fixes
+@{do_text_fix}
+036bd770 {hex_factor}
+@stop
+
+// NPC Marker Fix
+@{do_text_fix}
+01ad2174 ABAC6F94
+036bd420 A11F40BD
+036bd424 E0C31FF8
+036bd428 00000090
+036bd42c 007047BD
+036bd430 E0C35FF8
+036bd434 2108201E
+036bd438 A01B40BD
+036bd43c C0035FD6
+@stop
+
+// NPC Text Balloon Fix
+@{do_text_fix}
+01ad6964 B79A6F94
+036bd440 812640BD
+036bd444 E0C31FF8
+036bd448 00000090
+036bd44c 007047BD
+036bd450 E0C35FF8
+036bd454 2108201E
+036bd458 802240BD
+036bd45c C0035FD6
+@stop
+
+// Item Description Fix
+@{do_text_fix}
+01ad156c 31AF6F94
+036bd230 E00F40BD
+036bd234 E0C31FF8
+036bd238 00000090
+036bd23c 017047BD
+036bd240 E0C35FF8
+036bd244 0008211E
+036bd248 E10B40BD
+036bd24c C0035FD6
+@stop
+
+// Enemy Info Fix
+@{do_text_fix}
+012d5ae0 0C9F8F94
+036bd710 010540BD
+036bd714 E0C31FF8
+036bd718 00000090
+036bd71c 007047BD
+036bd720 E0C35FF8
+036bd724 2108201E
+036bd728 000140BD
+036bd72c C0035FD6
+@stop
+
+// Enemy Notice Fix
+@{do_text_fix}
+012d5ea8 829D8F94
+036bd4b0 010540BD
+036bd4b4 E0C31FF8
+036bd4b8 00000090
+036bd4bc 007047BD
+036bd4c0 E0C35FF8
+036bd4c4 2108201E
+036bd4c8 000140BD
+036bd4cc C0035FD6
+@stop'''
+                
+        elif version_variable == "1.2.1":
+            nsobidid = "9B4E43650501A4D4489B4BBFDB740F26AF3CF850"
+            replacement_value = "037f87fc"
+            inventory_value = "01A2871C"
+            hestu_value = "01A2871C"
+            visual_fix = visual_fixesf
             if stretch == "horizontal":
                 text_fix = f'''// Text UI Fixes
 @enabled

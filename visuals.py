@@ -763,10 +763,102 @@ e // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multip
 @stop
 '''
 
+    visuals1_2_1 = f'''// Disable Quality Reduction
+@{qualityreduction}
+00C7EB4C C0000014
+@stop
+
+// Improve the LOD (Level of Detail)
+@{lodimprove}
+027D2268 24000014
+@stop
+
+// Disable FXAA
+@{disablefxaa}
+00C7EB30 08008052
+@stop
+
+// Disable DOF Targeting
+@{disableDOF}
+00C5B128 C0035FD6
+@stop
+
+//// Disable FSR
+@{disablefsr}
+00C7EB40 08008052
+@stop
+
+// Anisotropic Filtering Fix (Not for 1.2.1)
+@{disableansiotropic}
+@stop
+
+// Disable Dynamic Resolution (Not for 1.2.1)
+@{disabledynamicres}
+@stop
+
+// Remove Lens Flare
+@{removelens}
+02A3C7B0 1F2003D5
+@stop
+
+// Force Trilinear Scaling (Not for 1.2.1)
+@{forectri}
+@stop
+
+// Sync Cutscene FPS to Game FPS (Not for 1.2.1)
+@{cutscene}
+@stop
+
+// Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multiplier)}x
+@{skyfix}
+02A43BF0 029d1510 {island_replace}
+02A43BF8 BF000014
+02A43EF4 00083B1E
+02A43EF8 21083B1E
+@stop
+
+// Increase the Camera Speed
+@{camspeed}
+03837390 0000A03F
+00D180F8 0990211E
+@stop
+
+// Set Internal Resolution to 1008p
+@{internalres}
+00CC4124 15000014
+@stop
+
+// Set the Static FPS to 30 (Not for 1.2.1)
+@{staticfps30}
+@stop
+
+// Set the Static FPS to 20 (Not for 1.2.1)
+@{staticfps20}
+@stop
+
+// Set the Static FPS to 60
+@{staticfps60}
+00E7EE98 21008052
+008F27FC 35008052
+008F286C 28008052
+008F2804 2C008052
+008F2750 EB031F2A
+019B01F4 1F2003D5
+019BBD38 1F2003D5
+@stop
+
+// Set the Shadow Resolution to {int(shadow_quality)}
+@{setshadowres}
+00CEC1CC {shadow1_replace}
+00CEC1D0 17000014
+@stop
+'''
+
     visual_fixes.append(visuals1_0_0)
     visual_fixes.append(visuals1_1_0)
     visual_fixes.append(visuals1_1_1)
     visual_fixes.append(visuals1_1_2)
     visual_fixes.append(visuals1_2_0)
+    visual_fixes.append(visuals1_2_1)
     
     return visual_fixes
