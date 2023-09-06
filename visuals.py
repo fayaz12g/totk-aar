@@ -789,11 +789,11 @@ e // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multip
 @stop
 
 // Anisotropic Filtering Fix (Not for 1.2.1)
-@{disableansiotropic}
+@disabled
 @stop
 
 // Disable Dynamic Resolution (Not for 1.2.1)
-@{disabledynamicres}
+@disabled
 @stop
 
 // Remove Lens Flare
@@ -802,11 +802,11 @@ e // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multip
 @stop
 
 // Force Trilinear Scaling (Not for 1.2.1)
-@{forectri}
+@disabled
 @stop
 
 // Sync Cutscene FPS to Game FPS (Not for 1.2.1)
-@{cutscene}
+@disabled
 @stop
 
 // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multiplier)}x
@@ -829,11 +829,11 @@ e // Fix the Rendering of Sky Islands When Using a Multiplier of {int(res_multip
 @stop
 
 // Set the Static FPS to 30 (Not for 1.2.1)
-@{staticfps30}
+@disabled
 @stop
 
 // Set the Static FPS to 20 (Not for 1.2.1)
-@{staticfps20}
+@disabled
 @stop
 
 // Set the Static FPS to 60

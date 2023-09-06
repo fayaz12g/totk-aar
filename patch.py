@@ -688,7 +688,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
         elif version_variable == "1.2.1":
             nsobidid = "9B4E43650501A4D4489B4BBFDB740F26AF3CF850"
             replacement_value = "00e66148"
-            inventory_value = "00e66148"
+            inventory_value = "@stop"
             hestu_value = "00e66148"
             visual_fix = visual_fixesf
             if stretch == "horizontal":
@@ -811,13 +811,28 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd4c8 000140BD
 036bd4cc C0035FD6
 @stop'''
-        patch_content = f'''@nsobid-{nsobidid}
+
+        if version_variable == "1.2.1":
+            patch_content = f'''@nsobid-{nsobidid}
 
 @flag print_values
 @flag offset_shift 0x100
 
 @enabled
-{replacement_value} {hex_value} // {functions.float2hex(ratio_value)}
+{replacement_value} {hex_value}
+@stop
+
+{visual_fix}
+
+// Generated using TOTK-AAR by Fayaz (github.com/fayaz12g/totk-aar)'''
+        else:
+            patch_content = f'''@nsobid-{nsobidid}
+
+@flag print_values
+@flag offset_shift 0x100
+
+@enabled
+{replacement_value} {functions.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
 @stop
