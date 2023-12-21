@@ -11,7 +11,7 @@ def download_extract_copy(controller_id, output_folder, mod_name):
     zip_url = f"https://github.com/fayaz12g/totk-controllers/raw/main/{controller_id}.zip"
 
     username = getpass.getuser()
-    directory_path = f"C:/Users/{username}/AppData/Roaming/totk-aar/controllers"
+    directory_path = f"C:/Users/{username}/AppData/Roaming/AnyAspectRatio/totkcontrollers"
     # Check if the directory exists
     if not os.path.exists(directory_path):
         # Create the directory if it doesn't exist
@@ -19,7 +19,7 @@ def download_extract_copy(controller_id, output_folder, mod_name):
         print(f"Directory {directory_path} created successfully.")
     else:
         print(f"Directory {directory_path} already exists.")
-    totk_folder = f"C:/Users/{username}/AppData/Roaming/totk-aar/controllers"
+    totk_folder = f"C:/Users/{username}/AppData/Roaming/AnyAspectRatio/totkcontrollers"
     zip_file_source = os.path.join(totk_folder, f"{controller_id}.zip")
 
     if not os.path.isfile(zip_file_source):
