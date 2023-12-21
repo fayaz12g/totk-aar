@@ -27,7 +27,7 @@ from repack import pack_folder_to_blarc
 #### Create Window ####
 #######################
 
-tool_version = "9.0.5"
+tool_version = "9.0.6"
 
 root = customtkinter.CTk()
 root.title(f"Fayaz's Settings {tool_version} for TLOZ: Tears of the Kingdom")
