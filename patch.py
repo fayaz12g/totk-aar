@@ -686,147 +686,152 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @stop'''
                 
         elif version_variable == "1.2.1":
-            nsobidid = "9B4E43650501A4D4489B4BBFDB740F26AF3CF850"
-            replacement_value = "00e66148"
-            inventory_value = "@stop"
-            hestu_value = "00e66148"
+            nsobidid = "9B4E43650501A4D4489B4BBFDB740F26AF3CF85"
+            replacement_value = "03816ab4"
+            inventory_value = "019b36f0"
+            hestu_value = "01ECdf68"
             visual_fix = visual_fixesf
             if stretch == "horizontal":
                 text_fix = f'''// Text UI Fixes
-@enabled
-036bd770 {hex_factor}
-01ad2174 ABAC6F94
-036bd420 A01B40BD
-036bd424 E0C31FF8
-036bd428 00000090
-036bd42c 017047BD
-036bd430 E0C35FF8
-036bd434 0008211E
-036bd438 A11F40BD
-036bd43c C0035FD6
-01ad6964 B79A6F94
-036bd440 802240BD
-036bd444 E0C31FF8
-036bd448 00000090
-036bd44c 017047BD
-036bd450 E0C35FF8
-036bd454 0008211E
-036bd458 812640BD
-036bd45c C0035FD6
-01ad156c 31AF6F94
-036bd230 E10B40BD
-036bd234 E0C31FF8
-036bd238 00000090
-036bd23c 007047BD
-036bd240 E0C35FF8
-036bd244 2108201E
-036bd248 E00F40BD
-036bd24c C0035FD6
-012d5ae0 0C9F8F94
-036bd710 000140BD
-036bd714 E0C31FF8
-036bd718 00000090
-036bd71c 017047BD
-036bd720 E0C35FF8
-036bd724 0008211E
-036bd728 010540BD
-036bd72c C0035FD6
-012d5ea8 829D8F94
-036bd4b0 000140BD
-036bd4b4 E0C31FF8
-036bd4b8 00000090
-036bd4bc 017047BD
-036bd4c0 E0C35FF8
-036bd4c4 0008211E
-036bd4c8 010540BD
-036bd4cc C0035FD6
-@stop'''
-            if stretch == "vertical":
-                text_fix = f'''// Text UI Fixes
 @{do_text_fix}
-036bd770 {hex_factor}
+036cc5a0 {hex_factor}
 @stop
 
 // NPC Marker Fix
 @{do_text_fix}
-01ad2174 ABAC6F94
-036bd420 A11F40BD
-036bd424 E0C31FF8
-036bd428 00000090
-036bd42c 007047BD
-036bd430 E0C35FF8
-036bd434 2108201E
-036bd438 A01B40BD
-036bd43c C0035FD6
+01add300 80BC6F94
+036cc500 A01B40BD
+036cc504 E0C31FF8
+036cc508 00000090
+036cc50c 01A045BD
+036cc510 E0C35FF8
+036cc514 0008211E
+036cc518 A11F40BD
+036cc51c C0035FD6
 @stop
 
 // NPC Text Balloon Fix
 @{do_text_fix}
-01ad6964 B79A6F94
-036bd440 812640BD
-036bd444 E0C31FF8
-036bd448 00000090
-036bd44c 007047BD
-036bd450 E0C35FF8
-036bd454 2108201E
-036bd458 802240BD
-036bd45c C0035FD6
+01ae1ae4 8FAA6F94
+036cc520 802240BD
+036cc524 E0C31FF8
+036cc528 00000090
+036cc52c 01A045BD
+036cc530 E0C35FF8
+036cc534 0008211E
+036cc538 812640BD
+036cc53c C0035FD6
 @stop
 
 // Item Description Fix
 @{do_text_fix}
-01ad156c 31AF6F94
-036bd230 E00F40BD
-036bd234 E0C31FF8
-036bd238 00000090
-036bd23c 017047BD
-036bd240 E0C35FF8
-036bd244 0008211E
-036bd248 E10B40BD
-036bd24c C0035FD6
+01adc6f8 92BF6F94
+036cc540 E10B40BD
+036cc544 E0C31FF8
+036cc548 00000090
+036cc54c 00A045BD
+036cc550 E0C35FF8
+036cc554 2108201E
+036cc558 E00F40BD
+036cc55c C0035FD6
 @stop
 
 // Enemy Info Fix
 @{do_text_fix}
-012d5ae0 0C9F8F94
-036bd710 010540BD
-036bd714 E0C31FF8
-036bd718 00000090
-036bd71c 007047BD
-036bd720 E0C35FF8
-036bd724 2108201E
-036bd728 000140BD
-036bd72c C0035FD6
+012c7bd4 63129094
+036cc560 000140BD
+036cc564 E0C31FF8
+036cc568 00000090
+036cc56c 01A045BD
+036cc570 E0C35FF8
+036cc574 0008211E
+036cc578 010540BD
+036cc57c C0035FD6
 @stop
 
 // Enemy Notice Fix
 @{do_text_fix}
-012d5ea8 829D8F94
-036bd4b0 010540BD
-036bd4b4 E0C31FF8
-036bd4b8 00000090
-036bd4bc 007047BD
-036bd4c0 E0C35FF8
-036bd4c4 2108201E
-036bd4c8 000140BD
-036bd4cc C0035FD6
+012c7fbc 71119094
+036cc580 000140BD
+036cc584 E0C31FF8
+036cc588 00000090
+036cc58c 01A045BD
+036cc590 E0C35FF8
+036cc594 0008211E
+036cc598 010540BD
+036cc59c C0035FD6
 @stop'''
+            if stretch == "vertical":
+                text_fix = f'''// Text UI Fixes
+@{do_text_fix}
+036cc5a0 {hex_factor}
 
-        if version_variable == "1.2.1":
-            patch_content = f'''@nsobid-{nsobidid}
-
-@flag print_values
-@flag offset_shift 0x100
-
-@enabled
-{replacement_value} {hex_value}
+// NPC Marker Fix
+@{do_text_fix}
+01add300 80BC6F94 // bl #0x1BEF200
+036cc500 A11F40BD // ldr s1, [x29, #0x1c]
+036cc504 E0C31FF8 // stur x0, [sp, #-4]
+036cc508 00000090 // adrp x0, #0
+036cc50c 00A045BD // ldr s0, [x0, #0x5a0]
+036cc510 E0C35FF8 // ldur x0, [sp, #-4]
+036cc514 2108201E // fmul s1, s1, s0
+036cc518 A01B40BD // ldr s0, [x29,#0x18]
+036cc51c C0035FD6 // ret
 @stop
 
-{visual_fix}
+// NPC Text Balloon Fix
+@{do_text_fix}
+01ae1ae4 8FAA6F94 // bl #0x1BEAA3C
+036cc520 812640BD // ldr s1, [x20, #0x24]
+036cc524 E0C31FF8 // stur x0, [sp, #-4]
+036cc528 00000090 // adrp x0, #0
+036cc52c 00A045BD // ldr s0, [x0, #0x5a0]
+036cc530 E0C35FF8 // ldur x0, [sp, #-4]
+036cc534 2108201E // fmul s1, s1, s0
+036cc538 802240BD // ldr s0, [x20, #0x20]
+036cc53c C0035FD6 // ret
+@stop
 
-// Generated using TOTK-AAR by Fayaz (github.com/fayaz12g/totk-aar)'''
-        else:
-            patch_content = f'''@nsobid-{nsobidid}
+// Item Description Fix
+@{do_text_fix}
+01adc6f8 92BF6F94 // bl #0x1BEFE48
+036cc540 E00F40BD // ldr s0, [sp, #0xc]
+036cc544 E0C31FF8 // stur x0, [sp, #-4]
+036cc548 00000090 // adrp x0, #0
+036cc54c 01A045BD // ldr s1, [x0, #0x5a0]
+036cc550 E0C35FF8 // ldur x0, [sp, #-4]
+036cc554 0008211E // fmul s0, s0, s1
+036cc558 E10B40BD // ldr s1, [sp, #0x8]
+036cc55c C0035FD6 // ret
+@stop
+
+// Enemy Info Fix
+@{do_text_fix}
+012c7bd4 63129094 // bl #0x240498C
+036cc560 010540BD // ldr s1, [x8, #0x4]
+036cc564 E0C31FF8 // stur x0, [sp, #-4]
+036cc568 00000090 // adrp x0, #0
+036cc56c 00A045BD // ldr s0, [x0, #0x5a0]
+036cc570 E0C35FF8 // ldur x0, [sp, #-4]
+036cc574 2108201E // fmul s1, s1, s0
+036cc578 000140BD // ldr s0, [x8]
+036cc57c C0035FD6 // ret
+@stop
+
+// Enemy Notice Fix
+@{do_text_fix}
+012c7fbc 71119094 // bl #0x24045C4
+036cc580 010540BD // ldr s1, [x8, #0x4]
+036cc584 E0C31FF8 // stur x0, [sp, #-4]
+036cc588 00000090 // adrp x0, #0
+036cc58c 00A045BD // ldr s0, [x0, #0x5a0]
+036cc590 E0C35FF8 // ldur x0, [sp, #-4]
+036cc594 2108201E // fmul s1, s1, s0
+036cc598 000140BD // ldr s0, [x8]
+036cc59c C0035FD6 // ret
+@stop'''
+
+        patch_content = f'''@nsobid-{nsobidid}
 
 @flag print_values
 @flag offset_shift 0x100
