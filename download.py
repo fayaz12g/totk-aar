@@ -8,7 +8,7 @@ def download_extract_copy(controller_id, output_folder, mod_name):
     import getpass
 
     # URL of the ZIP file
-    zip_url = f"https://github.com/fayaz12g/totk-controllers/raw/main/{controller_id}.zip"
+    zip_url = f"https://github.com/fayaz12g/aar-files/raw/main/totk/{controller_id}.zip"
 
     username = getpass.getuser()
     directory_path = f"C:/Users/{username}/AppData/Roaming/AnyAspectRatio/totkcontrollers"
