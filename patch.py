@@ -98,12 +98,12 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 03774594 0008211E
 03774598 010540BD
 0377459c C0035FD6
-@stop'''
+@disabled'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 @{do_text_fix}
 037745a0 {hex_factor}
-@stop
+@disabled
 
 // NPC Marker Fix
 @{do_text_fix}
@@ -116,7 +116,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 03774514 2108201E
 03774518 A01B40BD
 0377451c C0035FD6
-@stop
+@disabled
 
 // NPC Text Balloon Fix
 @{do_text_fix}
@@ -129,7 +129,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 03774534 2108201E
 03774538 802240BD
 0377453c C0035FD6
-@stop
+@disabled
 
 // Item Description Fix
 @{do_text_fix}
@@ -142,7 +142,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 03774554 2108201E
 03774558 E00B40BD
 0377455c C0035FD6
-@stop
+@disabled
 
 // Enemy Info Fix
 @{do_text_fix}
@@ -155,7 +155,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 03774574 2108201E
 03774578 000140BD
 0377457c C0035FD6
-@stop
+@disabled
 
 // Enemy Notice Fix
 @{do_text_fix}
@@ -168,7 +168,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 03774594 2108201E
 03774598 000140BD
 0377459c C0035FD6
-@stop'''
+@disabled'''
             replacement_value = "0377AC54"
             inventory_value = "01968C2C"
             hestu_value = "01E5EAE8"
@@ -226,12 +226,12 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d1114 0008211E
 036d1118 010540BD
 036d111c C0035FD6
-@stop'''
+@disabled'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 @{do_text_fix}
 036d1120 {hex_factor}
-@stop
+@disabled
 
 // NPC Marker Fix
 @{do_text_fix}
@@ -244,7 +244,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d1094 2108201E
 036d1098 A01B40BD
 036d109c C0035FD6
-@stop
+@disabled
 
 // NPC Text Balloon Fix
 @{do_text_fix}
@@ -257,7 +257,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d10b4 2108201E
 036d10b8 802240BD
 036d10bc C0035FD6
-@stop
+@disabled
 
 // Item Description Fix
 @{do_text_fix}
@@ -270,7 +270,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d10d4 0008211E
 036d10d8 E10B40BD
 036d10dc C0035FD6
-@stop
+@disabled
 
 // Enemy Info Fix
 @{do_text_fix}
@@ -283,7 +283,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d10f4 2108201E
 036d10f8 000140BD
 036d10fc C0035FD6
-@stop
+@disabled
 
 // Enemy Notice Fix
 @{do_text_fix}
@@ -296,7 +296,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d1114 2108201E
 036d1118 000140BD
 036d111c C0035FD6
-@stop'''  
+@disabled'''  
             replacement_value = "0381B344"
             inventory_value = "019C2260"
             hestu_value = "01ED8FA4"
@@ -357,12 +357,12 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d9f74 0008211E
 036d9f78 010540BD
 036d9f7c C0035FD6
-@stop'''
+@disabled'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 @{do_text_fix}
 036d9f80 {hex_factor}
-@stop
+@disabled
 
 // NPC Marker Fix
 @{do_text_fix}
@@ -375,7 +375,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d9ef4 2108201E
 036d9ef8 A01B40BD
 036d9efc C0035FD6
-@stop
+@disabled
 
 // NPC Text Balloon Fix
 @{do_text_fix}
@@ -388,7 +388,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d9f14 2108201E
 036d9f18 802240BD
 036d9f1c C0035FD6
-@stop
+@disabled
 
 // Item Description Fix
 @{do_text_fix}
@@ -401,7 +401,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d9f34 0008211E
 036d9f38 E10B40BD
 036d9f3c C0035FD6
-@stop
+@disabled
 
 // Enemy Info Fix
 @{do_text_fix}
@@ -414,7 +414,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d9f54 2108201E
 036d9f58 000140BD
 036d9f5c C0035FD6
-@stop
+@disabled
 
 // Enemy Notice Fix
 @{do_text_fix}
@@ -427,7 +427,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036d9f74 2108201E
 036d9f78 000140BD
 036d9f7c C0035FD6
-@stop'''  
+@disabled'''  
         elif version_variable == "1.1.2":
             nsobidid = "9A10ED9435C06733DA597D8094D9000AB5D3EE60"
             visual_fix = visual_fixesc
@@ -485,12 +485,12 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036c9b14 0008211E
 036c9b18 010540BD
 036c9b1c C0035FD6
-@stop'''
+@disabled'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 @{do_text_fix}
 036c9b20 {hex_factor}
-@stop
+@disabled
 
 // NPC Marker Fix
 @{do_text_fix}
@@ -503,7 +503,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036c9a94 2108201E
 036c9a98 A01B40BD
 036c9a9c C0035FD6
-@stop
+@disabled
 
 // NPC Text Balloon Fix
 @{do_text_fix}
@@ -516,7 +516,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036c9ab4 2108201E
 036c9ab8 802240BD
 036c9abc C0035FD6
-@stop
+@disabled
 
 // Item Description Fix
 @{do_text_fix}
@@ -529,7 +529,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036c9ad4 0008211E
 036c9ad8 E10B40BD
 036c9adc C0035FD6
-@stop
+@disabled
 
 // Enemy Info Fix
 @{do_text_fix}
@@ -542,7 +542,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036c9af4 2108201E
 036c9af8 000140BD
 036c9afc C0035FD6
-@stop
+@disabled
 
 // Enemy Notice Fix
 @{do_text_fix}
@@ -555,7 +555,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036c9b14 2108201E
 036c9b18 000140BD
 036c9b1c C0035FD6
-@stop'''   
+@disabled'''   
         elif version_variable == "1.2.0":
             nsobidid = "6F32C68DD3BC7D77AA714B80E92A096A737CDA77"
             replacement_value = "0380794c"
@@ -613,12 +613,12 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd4c4 0008211E
 036bd4c8 010540BD
 036bd4cc C0035FD6
-@stop'''
+@disabled'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 @{do_text_fix}
 036bd770 {hex_factor}
-@stop
+@disabled
 
 // NPC Marker Fix
 @{do_text_fix}
@@ -631,7 +631,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd434 2108201E
 036bd438 A01B40BD
 036bd43c C0035FD6
-@stop
+@disabled
 
 // NPC Text Balloon Fix
 @{do_text_fix}
@@ -644,7 +644,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd454 2108201E
 036bd458 802240BD
 036bd45c C0035FD6
-@stop
+@disabled
 
 // Item Description Fix
 @{do_text_fix}
@@ -657,7 +657,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd244 0008211E
 036bd248 E10B40BD
 036bd24c C0035FD6
-@stop
+@disabled
 
 // Enemy Info Fix
 @{do_text_fix}
@@ -670,7 +670,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd724 2108201E
 036bd728 000140BD
 036bd72c C0035FD6
-@stop
+@disabled
 
 // Enemy Notice Fix
 @{do_text_fix}
@@ -683,7 +683,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036bd4c4 2108201E
 036bd4c8 000140BD
 036bd4cc C0035FD6
-@stop'''
+@disabled'''
                 
         elif version_variable == "1.2.1":
             nsobidid = "9B4E43650501A4D4489B4BBFDB740F26AF3CF85"
@@ -695,7 +695,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
                 text_fix = f'''// Text UI Fixes
 @{do_text_fix}
 036cc5a0 {hex_factor}
-@stop
+@disabled
 
 // NPC Marker Fix
 @{do_text_fix}
@@ -708,7 +708,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc514 0008211E
 036cc518 A11F40BD
 036cc51c C0035FD6
-@stop
+@disabled
 
 // NPC Text Balloon Fix
 @{do_text_fix}
@@ -721,7 +721,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc534 0008211E
 036cc538 812640BD
 036cc53c C0035FD6
-@stop
+@disabled
 
 // Item Description Fix
 @{do_text_fix}
@@ -734,7 +734,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc554 2108201E
 036cc558 E00F40BD
 036cc55c C0035FD6
-@stop
+@disabled
 
 // Enemy Info Fix
 @{do_text_fix}
@@ -747,7 +747,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc574 0008211E
 036cc578 010540BD
 036cc57c C0035FD6
-@stop
+@disabled
 
 // Enemy Notice Fix
 @{do_text_fix}
@@ -760,7 +760,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc594 0008211E
 036cc598 010540BD
 036cc59c C0035FD6
-@stop'''
+@disabled'''
             if stretch == "vertical":
                 text_fix = f'''// Text UI Fixes
 @{do_text_fix}
@@ -777,7 +777,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc514 2108201E // fmul s1, s1, s0
 036cc518 A01B40BD // ldr s0, [x29,#0x18]
 036cc51c C0035FD6 // ret
-@stop
+@disabled
 
 // NPC Text Balloon Fix
 @{do_text_fix}
@@ -790,7 +790,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc534 2108201E // fmul s1, s1, s0
 036cc538 802240BD // ldr s0, [x20, #0x20]
 036cc53c C0035FD6 // ret
-@stop
+@disabled
 
 // Item Description Fix
 @{do_text_fix}
@@ -803,7 +803,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc554 0008211E // fmul s0, s0, s1
 036cc558 E10B40BD // ldr s1, [sp, #0x8]
 036cc55c C0035FD6 // ret
-@stop
+@disabled
 
 // Enemy Info Fix
 @{do_text_fix}
@@ -816,7 +816,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc574 2108201E // fmul s1, s1, s0
 036cc578 000140BD // ldr s0, [x8]
 036cc57c C0035FD6 // ret
-@stop
+@disabled
 
 // Enemy Notice Fix
 @{do_text_fix}
@@ -829,7 +829,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc594 2108201E // fmul s1, s1, s0
 036cc598 000140BD // ldr s0, [x8]
 036cc59c C0035FD6 // ret
-@stop'''
+@disabled'''
 
         patch_content = f'''@nsobid-{nsobidid}
 
@@ -840,7 +840,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 {replacement_value} {functions.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
-@stop
+@disabled
 
 {text_fix}
 
