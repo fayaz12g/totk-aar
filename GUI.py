@@ -28,11 +28,11 @@ import pyautogui
 #### Create Window ####
 #######################
 
-tool_version = "9.1.5"
+tool_version = "9.2.0"
 
 root = customtkinter.CTk()
 root.title(f"Fayaz's Settings {tool_version} for TLOZ: Tears of the Kingdom")
-root.geometry("500x720")
+root.geometry("540x760")
 
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("green")  
