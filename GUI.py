@@ -149,7 +149,7 @@ class PrintRedirector:
         self.text_widget = text_widget
         self.buffer = ""
         self.text_widget.configure(state='disabled')  # Disable user input
-        self.text_widget.tag_configure("custom_tag", background='lightgray', foreground='black')
+        # self.text_widget.configure("custom_tag", background='lightgray', foreground='black')
 
     def write(self, text):
         self.buffer += text
@@ -907,7 +907,7 @@ open_checkbox = customtkinter.CTkCheckBox(master=notebook.tab("Generate"), text=
 create_patch_button = customtkinter.CTkButton(master=notebook.tab("Generate"), text="Generate", command=create_patch)
 
 console_label= customtkinter.CTkLabel(master=notebook.tab("Generate"), text='Console:')
-scrolled_text = scrolledtext.ScrolledText(master=notebook.tab("Generate"), width=50, height=18, font=("Helvetica", 10))
+scrolled_text = customtkinter.CTkTextbox(master=notebook.tab("Generate"), width=400, height=300, font=("Futura", 15))
 
 progressbar = customtkinter.CTkProgressBar(master=notebook.tab("Generate"), orientation="horizontal")
 progressbar.configure(mode="determinate", determinate_speed=.01, progress_color="green", fg_color="lightgreen", height=6, width=400)
