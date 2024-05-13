@@ -846,8 +846,6 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @disabled
 
 {text_fix}
-
-{visual_fix}
 '''  
         patch_content = f'''@nsobid-{nsobidid}
 
@@ -855,6 +853,8 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @flag offset_shift 0x100
 
 {patch_patches}
+
+{visual_fix}
 
 // Generated using TOTK-AAR by Fayaz (github.com/fayaz12g/totk-aar)'''
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
