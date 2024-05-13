@@ -686,8 +686,8 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @disabled'''
                 
         elif version_variable == "1.2.1":
-            nsobidid = "9B4E43650501A4D4489B4BBFDB740F26AF3CF85"
-            replacement_value = "03816ab4"
+            nsobidid = "9B4E43650501A4D4489B4BBFDB740F26AF3CF850"
+            replacement_value = "00e66148"
             inventory_value = "019b36f0"
             hestu_value = "01ECdf68"
             visual_fix = visual_fixesf
@@ -837,7 +837,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 @flag offset_shift 0x100
 
 @enabled
-{replacement_value} {functions.float2hex(ratio_value)}
+{replacement_value} {hex_value}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
 @disabled
