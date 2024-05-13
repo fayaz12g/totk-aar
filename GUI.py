@@ -263,18 +263,18 @@ def create_full():
         username = getpass.getuser()
         gameid = "0100F2C0115B6000"
         if output_yuzu.get() is True:
-            input_folder = f"C:/Users/{username}/AppData/Roaming/yuzu/load/{gameid}"
+            output_folder = f"C:/Users/{username}/AppData/Roaming/yuzu/load/{gameid}"
             process_name = "yuzu.exe"
         if output_ryujinx.get() is True:
-            input_folder = f"C:/Users/{username}/AppData/Roaming/Ryujinx/mods/contents/{gameid}"
+            output_folder = f"C:/Users/{username}/AppData/Roaming/Ryujinx/mods/contents/{gameid}"
             process_name = "ryujinx.exe"
         if output_suyu.get() is True:
-            input_folder = f"C:/Users/{username}/AppData/Roaming/suyu/load/{gameid}"
+            output_folder = f"C:/Users/{username}/AppData/Roaming/suyu/load/{gameid}"
             process_name = "suyu.exe"
         else:
-            process_name = "yuzu.exe"
+            process_name = ""
 
-        if input_folder:
+        if output_folder:
             patch_folder = os.path.join(output_folder, mod_name, "exefs")
             try:
                 os.makedirs(output_folder, exist_ok=True)
@@ -289,11 +289,11 @@ def create_full():
         old_mod = os.path.join(output_folder, "AAR MOD")
 
         progressbar.set(.05)
-
-        if check_process_running(process_name):
-            progressbar.stop()
-            print(f"{process_name} is running. Please close it and try again.")
-            return
+        if process_name:
+            if check_process_running(process_name):
+                progressbar.stop()
+                print(f"{process_name} is running. Please close it and try again.")
+                return
 
         if os.path.exists(folder_to_delete):
             print("Old mod found, deleting.")
