@@ -274,7 +274,7 @@ def create_full():
         else:
             process_name = "yuzu.exe"
 
-        if output_folder:
+        if input_folder:
             patch_folder = os.path.join(output_folder, mod_name, "exefs")
             try:
                 os.makedirs(output_folder, exist_ok=True)
