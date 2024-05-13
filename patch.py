@@ -835,7 +835,7 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
             patch_patches = f'''
 @enabled
 {replacement_value} {hex_value}
-@stop
+@disabled
 '''
         else:
             patch_patches = f'''
