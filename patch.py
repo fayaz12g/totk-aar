@@ -831,18 +831,28 @@ def create_patch_files(patch_folder, ratio_value, visual_fixes):
 036cc59c C0035FD6 // ret
 @disabled'''
 
-        patch_content = f'''@nsobid-{nsobidid}
-
-@flag print_values
-@flag offset_shift 0x100
-
+        if version_variable == "1.2.1":
+            patch_patches = f'''
 @enabled
 {replacement_value} {hex_value}
+@disabled
+'''
+        else:
+            patch_patches = f'''
+@enabled
+{replacement_value} {functions.float2hex(ratio_value)}
 {inventory_value} {hex_value}
 {hestu_value} {hex_value}
 @disabled
 
 {text_fix}
+'''  
+        patch_content = f'''@nsobid-{nsobidid}
+
+@flag print_values
+@flag offset_shift 0x100
+
+{patch_patches}
 
 {visual_fix}
 
