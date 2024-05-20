@@ -265,6 +265,7 @@ def create_full():
         if output_yuzu.get() is True:
             output_folder = f"C:/Users/{username}/AppData/Roaming/yuzu/load/{gameid}"
             process_name = "yuzu.exe"
+            # if mac, output_folder = f"Library/ApplicationSupport/yuzu/load/{gameid}"
         if output_ryujinx.get() is True:
             output_folder = f"C:/Users/{username}/AppData/Roaming/Ryujinx/mods/contents/{gameid}"
             process_name = "ryujinx.exe"
