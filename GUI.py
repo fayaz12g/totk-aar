@@ -28,7 +28,7 @@ import pyautogui
 #### Create Window ####
 #######################
 
-tool_version = "9.2.1"
+tool_version = "9.2.2"
 
 root = customtkinter.CTk()
 root.title(f"Fayaz's Settings {tool_version} for TLOZ: Tears of the Kingdom")

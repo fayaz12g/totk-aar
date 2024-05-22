@@ -108,7 +108,7 @@ def create_visuals(do_camera, res_multiplier, lod_improve, remove_flare, staticf
         staticfps30 = "enabled"
     if staticfps == 20:
         staticfps20 = "enabled"
-    if shadow_quality > 0:
+    if int(shadow_quality) > 0:
         setshadowres = "enabled"
         
     visuals1_0_0 = f'''// Disable Quality Reduction
