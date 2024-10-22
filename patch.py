@@ -5,7 +5,7 @@ import functions
 import struct
 import math
 
-from functions import calculate_rounded_ratio, convert_asm_to_arm64_hex, float2hex
+from functions import *
 
 def create_patch_files(patch_folder, ratio_value, visual_fixes):
     if float(ratio_value) > (16/9):
